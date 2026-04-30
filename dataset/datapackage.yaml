@@ -1,0 +1,449 @@
+name: portal_emendas_estaduais
+owner_org: ''
+profile: data-package
+resources:
+  - description: Insira a descrição/explicação detalhada deste recurso.
+    dialect:
+      delimiter: ;
+    encoding: utf-8-sig
+    format: csv
+    hashing: md5
+    name: dadosgerais_2024
+    path: data/dadosgerais_2024.csv
+    profile: tabular-data-resource
+    schema:
+      fields:
+        - name: responsavel
+          type: string
+        - name: valor_impositivo_inicial_loa
+          type: string
+        - name: valor_utilizado
+          type: string
+        - name: valor_empenhado
+          type: string
+        - name: valor_liquidado
+          type: string
+        - name: valor_pago
+          type: string
+    scheme: file
+    title: Insira um título humanamente legível para este recurso.
+  - description: Insira a descrição/explicação detalhada deste recurso.
+    dialect:
+      delimiter: ;
+    encoding: utf-8-sig
+    format: csv
+    hashing: md5
+    name: dadosgerais_2025
+    path: data/dadosgerais_2025.csv
+    profile: tabular-data-resource
+    schema:
+      fields:
+        - name: responsavel
+          type: string
+        - name: valor_impositivo_inicial_loa
+          type: string
+        - name: valor_utilizado
+          type: string
+        - name: valor_empenhado
+          type: string
+        - name: valor_liquidado
+          type: string
+        - name: valor_pago
+          type: string
+    scheme: file
+    title: Insira um título humanamente legível para este recurso.
+  - description: Insira a descrição/explicação detalhada deste recurso.
+    dialect:
+      delimiter: ;
+    encoding: utf-8-sig
+    format: csv
+    hashing: md5
+    name: execucao_2024
+    path: data/execucao_2024.csv
+    profile: tabular-data-resource
+    schema:
+      fields:
+        - name: responsavel_nome
+          type: string
+        - name: uo
+          type: integer
+        - name: uo_descricao
+          type: string
+        - name: uo_sigla
+          type: string
+        - name: numero_indicacao
+          type: integer
+        - name: tipo_de_indicacao
+          type: string
+        - name: status_da_indicacao
+          type: string
+        - name: numero_inciso
+          type: integer
+        - name: numero_do_controle_de_execucao
+          type: integer
+        - name: no_empenho
+          type: string
+        - name: processo_de_compra
+          type: string
+        - name: registro_de_preco
+          type: string
+        - name: descricao_processo_de_compras
+          type: string
+        - name: no_processo_de_compra_planejamento_de_registro_de_precos
+          type: string
+        - name: status_do_processo_de_compra_registro_de_precos
+          type: string
+        - name: valor_indicacao
+          type: string
+        - name: valor_utilizado_controle
+          type: string
+        - name: valor_empenhado
+          type: string
+        - name: valor_liquidado
+          type: string
+        - name: valor_pago
+          type: string
+        - name: valor_executado
+          type: string
+        - name: justificativa
+          type: string
+        - name: classificacao_iot
+          type: string
+    scheme: file
+    title: Insira um título humanamente legível para este recurso.
+  - description: Insira a descrição/explicação detalhada deste recurso.
+    dialect:
+      delimiter: ;
+    encoding: utf-8-sig
+    format: csv
+    hashing: md5
+    name: execucao_2025
+    path: data/execucao_2025.csv
+    profile: tabular-data-resource
+    schema:
+      fields:
+        - name: responsavel_nome
+          type: string
+        - name: uo
+          type: integer
+        - name: uo_descricao
+          type: string
+        - name: uo_sigla
+          type: string
+        - name: numero_indicacao
+          type: integer
+        - name: tipo_de_indicacao
+          type: string
+        - name: status_da_indicacao
+          type: string
+        - name: numero_inciso
+          type: integer
+        - name: numero_do_controle_de_execucao
+          type: integer
+        - name: no_empenho
+          type: string
+        - name: processo_de_compra
+          type: string
+        - name: registro_de_preco
+          type: string
+        - name: descricao_processo_de_compras
+          type: any
+        - name: no_processo_de_compra_planejamento_de_registro_de_precos
+          type: any
+        - name: status_do_processo_de_compra_registro_de_precos
+          type: any
+        - name: valor_indicacao
+          type: string
+        - name: valor_utilizado_controle
+          type: string
+        - name: valor_empenhado
+          type: string
+        - name: valor_liquidado
+          type: string
+        - name: valor_pago
+          type: string
+        - name: valor_executado
+          type: any
+        - name: justificativa
+          type: any
+        - name: classificacao_iot
+          type: any
+    scheme: file
+    title: Insira um título humanamente legível para este recurso.
+  - description: Insira a descrição/explicação detalhada deste recurso.
+    dialect:
+      delimiter: ;
+    encoding: utf-8-sig
+    format: csv
+    hashing: md5
+    name: valores_indicados_2024
+    path: data/valores_indicados_2024.csv
+    profile: tabular-data-resource
+    schema:
+      fields:
+        - name: responsavel_nome
+          type: string
+        - name: partido
+          type: string
+        - name: bloco_bancada
+          type: string
+        - name: uo
+          type: integer
+        - name: uo_descricao
+          type: string
+        - name: uo_sigla
+          type: string
+        - name: numero_indicacao
+          type: integer
+        - name: tipo_de_indicacao
+          type: string
+        - name: numero_inciso
+          type: integer
+        - name: status_indicacao_descricao
+          type: string
+        - name: descricao_municipio
+          type: string
+        - name: nome_convenente_beneficiado
+          type: string
+        - name: numero_cnpj_convenente
+          type: string
+        - name: codigo_escola
+          type: any
+        - name: numero_da_acao
+          type: integer
+        - name: nome_da_acao
+          type: string
+        - name: nome_grupo_de_despesa
+          type: string
+        - name: descricao_genero
+          type: any
+        - name: descricao_categoria
+          type: any
+        - name: descricao_especificacao
+          type: any
+        - name: descricao_indicacao
+          type: any
+        - name: descricao_tipo_aplicacao
+          type: any
+        - name: valor_indicado
+          type: string
+        - name: justificativa_cancelamento_reprovacao
+          type: any
+        - name: valor_utilizado
+          type: string
+        - name: valor_empenhado
+          type: string
+        - name: valor_liquidado
+          type: string
+        - name: valor_pago
+          type: string
+        - name: saldo_a_pagar_rp
+          type: string
+        - name: rp_processado
+          type: string
+        - name: rp_nao_processado
+          type: string
+        - name: valor_executado_doacao
+          type: string
+        - name: numero_instrumento_juridico
+          type: string
+        - name: te_agencia
+          type: string
+        - name: te_conta_corrente
+          type: string
+        - name: numero_siafi
+          type: integer
+        - name: funcional_programatica_formatado
+          type: string
+        - name: categoria_economica_despesa_codigo
+          type: integer
+        - name: numero_empenho
+          type: string
+    scheme: file
+    title: Insira um título humanamente legível para este recurso.
+  - description: Insira a descrição/explicação detalhada deste recurso.
+    dialect:
+      delimiter: ;
+    encoding: utf-8-sig
+    format: csv
+    hashing: md5
+    name: valores_indicados_2025
+    path: data/valores_indicados_2025.csv
+    profile: tabular-data-resource
+    schema:
+      fields:
+        - name: responsavel_nome
+          type: string
+        - name: partido
+          type: string
+        - name: bloco_bancada
+          type: string
+        - name: uo
+          type: integer
+        - name: uo_descricao
+          type: string
+        - name: uo_sigla
+          type: string
+        - name: numero_indicacao
+          type: integer
+        - name: tipo_de_indicacao
+          type: string
+        - name: numero_inciso
+          type: integer
+        - name: status_indicacao_descricao
+          type: string
+        - name: descricao_municipio
+          type: string
+        - name: nome_convenente_beneficiado
+          type: string
+        - name: numero_cnpj_convenente
+          type: string
+        - name: codigo_escola
+          type: any
+        - name: numero_da_acao
+          type: integer
+        - name: nome_da_acao
+          type: string
+        - name: nome_grupo_de_despesa
+          type: string
+        - name: descricao_genero
+          type: any
+        - name: descricao_categoria
+          type: any
+        - name: descricao_especificacao
+          type: any
+        - name: descricao_tipo_aplicacao
+          type: string
+        - name: descricao_indicacao
+          type: string
+        - name: valor_indicado
+          type: string
+        - name: justificativa_cancelamento_reprovacao
+          type: any
+        - name: valor_utilizado
+          type: string
+        - name: valor_empenhado
+          type: string
+        - name: valor_liquidado
+          type: string
+        - name: valor_pago
+          type: string
+        - name: saldo_a_pagar_rp
+          type: geopoint
+        - name: rp_processado
+          type: geopoint
+        - name: rp_nao_processado
+          type: geopoint
+        - name: valor_executado_doacao
+          type: geopoint
+        - name: numero_instrumento_juridico
+          type: string
+        - name: agencia
+          type: string
+        - name: conta_corrente
+          type: string
+        - name: numero_siafi
+          type: string
+        - name: funcional_programatica_formatado
+          type: string
+        - name: categoria_economica_despesa_codigo
+          type: integer
+        - name: numero_empenho
+          type: string
+    scheme: file
+    title: Insira um título humanamente legível para este recurso.
+  - description: Insira a descrição/explicação detalhada deste recurso.
+    dialect:
+      delimiter: ;
+    encoding: utf-8-sig
+    format: csv
+    hashing: md5
+    name: valores_naorealizados_2024
+    path: data/valores_naorealizados_2024.csv
+    profile: tabular-data-resource
+    schema:
+      fields:
+        - name: responsavel_nome
+          type: string
+        - name: partido
+          type: string
+        - name: bloco_bancada
+          type: string
+        - name: uo_descricao
+          type: string
+        - name: numero_indicacao
+          type: integer
+        - name: tipo_de_indicacao
+          type: string
+        - name: valor_indicado
+          type: string
+        - name: valor_utilizado
+          type: string
+        - name: valor_empenhado
+          type: string
+        - name: valor_liquidado
+          type: string
+        - name: valor_pago
+          type: string
+        - name: saldo_a_pagar_rp
+          type: string
+        - name: rp_processado
+          type: string
+        - name: rp_nao_processado
+          type: string
+        - name: valor_executado_doacao
+          type: integer
+        - name: categoria_iot
+          type: string
+        - name: justificativa
+          type: string
+    scheme: file
+    title: Insira um título humanamente legível para este recurso.
+  - description: Insira a descrição/explicação detalhada deste recurso.
+    dialect:
+      delimiter: ;
+    encoding: utf-8-sig
+    format: csv
+    hashing: md5
+    name: valores_naorealizados_2025
+    path: data/valores_naorealizados_2025.csv
+    profile: tabular-data-resource
+    schema:
+      fields:
+        - name: responsavel_nome
+          type: string
+        - name: partido
+          type: string
+        - name: bloco_bancada
+          type: string
+        - name: uo_descricao
+          type: string
+        - name: numero_indicacao
+          type: integer
+        - name: tipo_de_indicacao
+          type: string
+        - name: valor_indicado
+          type: string
+        - name: valor_utilizado
+          type: string
+        - name: valor_empenhado
+          type: string
+        - name: valor_liquidado
+          type: string
+        - name: valor_pago
+          type: string
+        - name: saldo_a_pagar_rp
+          type: string
+        - name: rp_processado
+          type: string
+        - name: rp_nao_processado
+          type: string
+        - name: valor_executado_doacao
+          type: string
+        - name: categoria_iot
+          type: string
+        - name: justificativa
+          type: string
+    scheme: file
+    title: Insira um título humanamente legível para este recurso.
+title: Portal_emendas_estaduais
