@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Emendas Estaduais - Governo de Minas Gerais</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+
+    <style>
+        :root {
+            --primary-dark:     #1a3a5c;
+            --primary-darker:   #0f2a44;
+            --accent-red:       #b93c42;
+            --accent-bright:    #db233f;
+            --background-light: #f5f7fa;
+            --success-green:    #28a745;
+            --warning-yellow:   #ffc107;
+            --info-blue:        #17a2b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; overflow-x: hidden; margin: 0; padding: 0; height: auto; min-height: auto; }
+        body {
+            font-family: 'Montserrat', Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-light);
+            padding-bottom: 15px;
+            overflow-x: hidden;
+        }
+        body, button, input, select, textarea, span, div { font-family: 'Montserrat', sans-serif !important; }
+        .material-icons { font-family: 'Material Icons' !important; font-size: 14px; vertical-align: middle; }
+
+        .main-container { height: auto; min-height: auto; overflow: visible; position: relative; }
+        .container-fluid { width: 100%; max-width: 88% !important; padding: 0 40px; margin: 0 auto; }
+        .container { max-width: 85% !important; }
+        .dashboard-container { width: 100%; max-width: 100%; padding: 0 40px; margin: 0 auto; }
+        .tab-content, .tab-pane { width: 100%; height: auto; min-height: auto; overflow: visible; }
+        .table-container { height: auto; min-height: auto; overflow: visible; position: relative; }
+
+        .data-atualizacao-container { display: flex; justify-content: left; align-items: center; margin: 15px 0; }
+        .data-atualizacao-box {
+            background: transparent !important;
+            border-radius: 8px;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--primary-dark);
+            font-weight: 600;
+            box-shadow: none;
+        }
+        .data-atualizacao-box i { font-size: 14px; color: var(--accent-red); }
+
+        .filter-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            padding: 20px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .filter-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a3a5c;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+        }
+        .filter-label i { font-size: 14px; color: var(--accent-red); }
+        .form-control, .form-select {
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            padding: 10px 12px;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            height: auto;
+            width: 100%;
+        }
+        .form-control:focus, .form-select:focus { border-color: var(--accent-red); box-shadow: 0 0 0 2px rgba(185,60,66,0.15); }
+        .filters-row { display: flex; gap: 15px; width: 100%; flex-wrap: wrap; }
+        .filter-group { flex: 1; min-width: 150px; }
+        .botoes-abaixo { margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; }
+
+        .metric-card {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e5e9ef;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            overflow: hidden;
+            height: 100%;
+            transition: box-shadow 0.25s ease, transform 0.25s ease;
+        }
+        .metric-card:hover { box-shadow: 0 8px 24px rgba(26,58,92,0.13); transform: translateY(-2px); }
+        .metric-header {
+            background: #20445d;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .metric-body { padding: 12px 15px; }
+        .metric-value { font-size: 20px; font-weight: 700; color: #171c21; }
+        .metric-sublabel { font-size: 10px; color: #94a3b8; font-weight: 500; margin-top: 2px; }
+
+        .table-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-darker) 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .table-title { font-size: 13px; font-weight: 600; margin: 0; }
+        .table-badge {
+            background: #1a3a5c;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .table-fixed-header-container { position: relative; overflow: auto; width: 100%; max-height: 600px; }
+        .table-fixed-header-container table thead th {
+            background-color: #54697b !important;
+            color: white !important;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            font-weight: 600;
+            padding: 12px 10px;
+            font-size: 12px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .table { width: 100%; font-size: 13px; border-collapse: collapse; table-layout: auto; margin-bottom: 0; }
+        .table th, .table td { border: 1px solid #d6dee6; }
+        .table thead th {
+            background-color: #54697b !important;
+            color: white !important;
+            font-weight: 600;
+            font-size: 12px;
+            padding: 12px 10px;
+            text-transform: uppercase;
+            border: 1px solid #d6dee6;
+            cursor: pointer;
+            user-select: none;
+        }
+        .table thead th:hover { background-color: #3d5566 !important; }
+        .table tbody tr { background-color: #ffffff; }
+        .table tbody td { padding: 10px 10px; vertical-align: middle; border-bottom: 1px solid #f1f1f1; font-size: 12px; }
+        .table tbody tr:hover { background-color: rgba(41,67,90,0.04); }
+        .table-bordered { border: 1px solid #dee2e6; width: 100%; }
+        .table-bordered th, .table-bordered td { border: 1px solid #dee2e6; padding: 12px; vertical-align: top; }
+        .table-responsive { display: block; width: 100%; overflow-x: auto; }
+        .valor-monetario { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+        .sortable-header { cursor: pointer; position: relative; padding-right: 22px !important; }
+        .sortable-header:hover { background-color: #3d5566 !important; }
+        .sortable-header i { font-size: 13px; position: absolute; right: 5px; top: 50%; transform: translateY(-50%); opacity: 0.8; }
+
+        .btn-primary-custom, .btn-pesquisa {
+            background: linear-gradient(to right, #20445d, #20445d);
+            border: none;
+            padding: 0 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            height: 36px;
+            white-space: nowrap;
+        }
+        .btn-primary-custom:hover, .btn-pesquisa:hover {
+            background: linear-gradient(to right, var(--accent-red), #a32c32);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(185,60,66,0.2);
+            color: white;
+        }
+        .btn-secondary-custom {
+            background: white;
+            border: 2px solid var(--primary-darker);
+            color: var(--primary-darker);
+            padding: 0 16px;
+            font-weight: 600;
+            font-size: 13px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            height: 36px;
+            white-space: nowrap;
+            text-decoration: none !important;
+        }
+        .btn-secondary-custom:hover { background-color: #132837 !important; color: white !important; border-color: #132837 !important; }
+        .btn-export {
+            appearance: none;
+            -webkit-appearance: none;
+            background: transparent !important;
+            border: 1px solid #d6dee6;
+            color: #1a3a5c;
+            padding: 0 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            height: 32px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-export i { font-size: 14px !important; }
+        button.btn-export:hover, a.btn-export:hover { background-color: #1a3a5c !important; border-color: #1a3a5c !important; color: #ffffff !important; }
+        .btn-action {
+            padding: 4px;
+            border-radius: 7px;
+            border: 1.5px solid #1a3a5c;
+            background-color: #ffffff;
+            color: #1a3a5c;
+            width: 32px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .btn-action:hover { background-color: #1a3a5c; color: #ffffff; }
+        #btnTopo, .btn-topo {
+            background: #eeeff5;
+            color: #1a3a5c;
+            border: 1px solid #d6dee6;
+            border-radius: 12px;
+            padding: 0 16px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            height: 32px;
+        }
+        #btnTopo:hover, .btn-topo:hover { background-color: #1a3a5c; color: #ffffff; border-color: #1a3a5c; }
+
+        .share-dropdown { position: relative; display: inline-block; }
+        .share-options {
+            display: none; position: absolute; right: 0; top: 100%;
+            background-color: white; min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15); border-radius: 8px;
+            padding: 8px; z-index: 1000; border: 1px solid #dee2e6; margin-top: 5px;
+        }
+        .share-options.show { display: block; }
+        .share-options a {
+            display: flex; align-items: center; gap: 10px; padding: 8px 12px;
+            border-radius: 6px; font-size: 13px; color: var(--primary-dark);
+            transition: background 0.2s; cursor: pointer; text-decoration: none;
+        }
+        .share-options a:hover { background-color: var(--background-light); color: var(--accent-red); }
+        .share-options a i { font-size: 14px; width: 20px; text-align: center; }
+
+        .table-search-container {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            background: #ffffff;
+            border: 1px solid #d6dee6;
+            border-radius: 8px;
+            padding: 5px 10px;
+            height: 34px;
+        }
+        .table-search-container:hover { border-color: #1a3a5c; }
+        .table-search-input { border: none !important; outline: none; background: transparent; font-size: 12px; width: 180px; color: #1a3a5c; }
+        .table-search-input::placeholder { color: #94a3b8; }
+
+        .nav-tabs-container { background: transparent; padding: 10px 0; margin-top: 15px; margin-bottom: 15px; width: 100%; }
+        .nav-tabs { border: none !important; gap: 10px; width: 100%; flex-wrap: wrap; }
+        .nav-tabs .nav-link {
+            border: none !important;
+            background: #ffffff !important;
+            border-radius: 10px !important;
+            padding: 8px 18px !important;
+            font-weight: 500;
+            font-size: 14px;
+            color: #1a3a5c !important;
+            display: inline-flex !important;
+            align-items: center;
+            gap: 6px;
+            transition: all .25s ease;
+        }
+        .nav-tabs .nav-link:hover { background: #e6e9ed !important; }
+        .nav-tabs .nav-link.active { background: #234c63 !important; color: #fff !important; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .nav-tabs .material-icons { font-size: 14px !important; }
+
+        .modal-creative .modal-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-darker) 100%);
+            color: white !important;
+            padding: 15px 20px;
+            border-bottom: none;
+        }
+        .modal-creative .modal-header .modal-title { color: white !important; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+        .modal-creative .modal-header .btn-close { filter: brightness(0) invert(1); opacity: 1; }
+        .modal-creative .modal-header .btn-close:hover { opacity: 0.8; }
+        .info-card { background: #f8fafd; border-radius: 10px; padding: 16px; margin-bottom: 12px; border: 1px solid #e2e8f0; }
+        .info-label { font-size: 11px; text-transform: uppercase; color: #6c757d; font-weight: 600; margin-bottom: 4px; }
+        .info-value { font-size: 13px; font-weight: 600; color: var(--primary-dark); word-break: break-word; }
+        .info-value.highlight { font-size: 16px; color: var(--accent-red); }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 12px; }
+        .objeto-container { background: #f8fafd; border-radius: 8px; padding: 16px; border: 1px solid #e2e8f0; margin-top: 4px; }
+        .objeto-title { font-size: 13px; font-weight: 700; color: var(--primary-dark); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .objeto-text { font-size: 13px; line-height: 1.6; color: #495057; }
+
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px 20px;
+            background: white;
+            border-top: 1px solid #dee2e6;
+            width: 100%;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .pagination-info { font-size: 12px; color: #6c757d; }
+        .pagination .page-link { color: var(--primary-dark); border-color: #dee2e6; font-size: 13px; padding: 4px 10px; }
+        .pagination .page-link:hover { color: var(--accent-red); background-color: #f8f9fa; }
+        .pagination .page-item.active .page-link { background-color: var(--primary-dark); border-color: var(--primary-dark); color: white; }
+        .items-per-page {
+            height: 34px;
+            min-width: 80px;
+            border-radius: 8px;
+            border: 1px solid #d6dee6;
+            padding: 4px 28px 4px 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a3a5c;
+            background-color: #ffffff;
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='%231a3a5c' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 6px center;
+        }
+
+        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+        .toolbar-left { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .toolbar-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+        .card-stats {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
+            height: 100%;
+            border: 1px solid #e5e9ef;
+        }
+        .card-stats h4 { font-size: 15px; font-weight: 600; color: var(--primary-dark); }
+
+        .dicionario-tabela { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .dicionario-tabela th { background-color: #54697b; color: white; padding: 12px 10px; font-size: 12px; font-weight: 600; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.2); }
+        .dicionario-tabela td { padding: 10px; font-size: 12px; border: 1px solid #dee2e6; vertical-align: top; }
+        .dicionario-tabela tr:nth-child(even) { background-color: #f8f9fa; }
+        .dicionario-tabela tr:hover { background-color: rgba(41,67,90,0.05); }
+        .dicionario-secao td { background-color: var(--primary-darker) !important; color: white; font-weight: 700; border: 1px solid rgba(255,255,255,0.2); text-align: center; }
+
+        .toast-sucesso {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #e6f4ea;
+            color: #1e4620;
+            border-radius: 12px;
+            padding: 14px 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            z-index: 9999;
+            min-width: 280px;
+        }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px) translateX(-50%); } to { opacity: 1; transform: translateY(0) translateX(-50%); } }
+
+        .loading-overlay {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(26,58,92,0.15); z-index: 9998;
+            align-items: center; justify-content: center;
+        }
+        .loading-overlay.show { display: flex; }
+        .loading-box {
+            background: white; border-radius: 12px; padding: 30px 40px;
+            text-align: center; box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        .loading-box p { font-size: 13px; color: #1a3a5c; font-weight: 600; margin-top: 12px; margin-bottom: 0; }
+        .spinner-border { color: #1a3a5c; }
+
+        @media (max-width: 992px) { .container-fluid, .dashboard-container { padding: 0 15px; } }
+        @media (max-width: 768px) {
+            .filters-row { flex-direction: column; align-items: stretch; }
+            .filter-group { min-width: 100%; }
+            .nav-tabs { flex-direction: column; align-items: stretch; }
+            .nav-tabs .nav-link { justify-content: flex-start; }
+            .container-fluid, .dashboard-container { padding: 0 12px; }
+            .container { max-width: 100% !important; }
+            .table-search-input { width: 100% !important; }
+            .pagination-container { flex-direction: column; gap: 8px; }
+            .toolbar { flex-direction: column; align-items: flex-start; }
+        }
+
+        .tooltip-inner { background-color: #2f3b45 !important; color: #fff; font-size: 12px; padding: 6px 10px; border-radius: 6px; max-width: 250px; }
+        .fw-bold { font-weight: 700; }
+        h5 { font-size: 14px; color: var(--primary-dark); padding-bottom: 8px; font-weight: 700; }
+        code { font-size: 11px; background: #f0f4f8; padding: 2px 5px; border-radius: 3px; color: #1a3a5c; }
+
+        .badge-status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .badge-aprovado { background: #d4edda; color: #155724; }
+        .badge-cancelado { background: #f8d7da; color: #721c24; }
+        .badge-pendente { background: #fff3cd; color: #856404; }
+        .badge-default { background: #e2e8f0; color: #1a3a5c; }
+    </style>
+</head>
+<body>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-box">
+        <div class="spinner-border" role="status"></div>
+        <p id="loadingMsg">Carregando dados...</p>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="container-fluid dashboard-container">
+
+        <!-- MENU DE NAVEGAÇÃO -->
+        <div class="nav-tabs-container">
+            <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" id="tab1-tab" data-bs-toggle="tab" data-bs-target="#tab1">
+                        <i class="material-icons">bar_chart</i>Visão Geral
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="tab2-tab" data-bs-toggle="tab" data-bs-target="#tab2">
+                        <i class="material-icons">receipt</i>Execução
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="tab3-tab" data-bs-toggle="tab" data-bs-target="#tab3">
+                        <i class="material-icons">assignment_turned_in</i>Valores Indicados
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="tab4-tab" data-bs-toggle="tab" data-bs-target="#tab4">
+                        <i class="material-icons">block</i>Valores Não Realizados
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="tab5-tab" data-bs-toggle="tab" data-bs-target="#tab5">
+                        <i class="material-icons">download</i>Downloads
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- DATA DE ATUALIZAÇÃO -->
+        <div class="data-atualizacao-container">
+            <div class="data-atualizacao-box">
+                <i class="material-icons">event</i>
+                Data de atualização: <span id="data-atualizacao-header" style="margin-left:4px;">carregando...</span>
+            </div>
+        </div>
+
+        <div class="tab-content" id="dashboardTabsContent">
+
+            <!-- ===== TAB 1: VISÃO GERAL ===== -->
+            <div class="tab-pane fade show active" id="tab1" role="tabpanel">
+                <div class="filter-container">
+                    <div class="filters-row">
+                        <div class="filter-group">
+                            <label class="filter-label">Ano</label>
+                            <select class="form-select" id="anoDG"><option value="">Todos</option></select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Responsável</label>
+                            <input type="text" class="form-control" id="responsavelDG" placeholder="Nome do responsável...">
+                        </div>
+                    </div>
+                    <div class="botoes-abaixo">
+                        <button class="btn-pesquisa" id="aplicarFiltrosDG"><i class="material-icons me-2">search</i>Pesquisar</button>
+                        <button class="btn-secondary-custom" id="limparFiltrosDG"><i class="material-icons me-2">clear</i>Limpar Filtros</button>
+                    </div>
+                </div>
+
+                <div class="row mb-4" id="summaryCardsDG">
+                    <div class="col-12 text-center text-muted" style="font-size:13px;">Carregando dados...</div>
+                </div>
+
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <button class="btn-export" id="exportCSVDG"><i class="material-icons">description</i>CSV</button>
+                        <button class="btn-export" id="printDG"><i class="material-icons">print</i>PDF</button>
+                        <div class="share-dropdown">
+                            <button class="btn-export" onclick="toggleShare(1)"><i class="material-icons">share</i>Compartilhar</button>
+                            <div class="share-options" id="shareOptions1">
+                                <a href="#" onclick="copiarLink(event,1)"><i class="material-icons">link</i>Copiar Link</a>
+                                <a href="#" onclick="compartilharWhatsApp(event,1)"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>
+                                <a href="#" onclick="compartilharFacebook(event,1)"><i class="fa-brands fa-facebook"></i>Facebook</a>
+                                <a href="#" onclick="compartilharTwitter(event,1)"><i class="fa-brands fa-x-twitter"></i>Twitter/X</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="toolbar-right">
+                        <span class="table-badge" id="countDG">0 registros</span>
+                        <div class="table-search-container">
+                            <i class="material-icons" style="font-size:16px;color:#94a3b8;">search</i>
+                            <input type="text" id="searchDG" class="table-search-input" placeholder="Buscar registros...">
+                        </div>
+                        <select id="itemsPerPageDG" class="items-per-page">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50" selected>50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-fixed-header-container">
+                        <table class="table" id="tabelaDG">
+                            <thead>
+                                <tr>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',0)">Ano <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',1)">Responsável <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',2)">Valor LOA <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',3)">Valor Utilizado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',4)">Valor Empenhado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',5)">Valor Liquidado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',6)">Valor Pago <i class="material-icons">unfold_more</i></th>
+                                    <th style="text-align:center;width:60px;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaDGBody">
+                                <tr><td colspan="8" class="text-center text-muted">Carregando dados...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination-container" id="paginacaoDG"></div>
+                </div>
+                <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+                    <div id="btnTopo" onclick="voltarAoTopo()"><i class="material-icons">arrow_upward</i>Voltar ao topo</div>
+                </div>
+            </div>
+
+            <!-- ===== TAB 2: EXECUÇÃO ===== -->
+            <div class="tab-pane fade" id="tab2" role="tabpanel">
+                <div class="filter-container">
+                    <div class="filters-row">
+                        <div class="filter-group">
+                            <label class="filter-label">Ano</label>
+                            <select class="form-select" id="anoExec"><option value="">Todos</option></select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Responsável</label>
+                            <input type="text" class="form-control" id="responsavelExec" placeholder="Nome do responsável...">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">UO (Unidade Orçamentária)</label>
+                            <input type="text" class="form-control" id="uoExec" placeholder="Sigla ou descrição...">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Nº Indicação</label>
+                            <input type="text" class="form-control" id="numIndicacaoExec" placeholder="Ex: 12345">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Tipo de Indicação</label>
+                            <select class="form-select" id="tipoIndicacaoExec"><option value="">Todos</option></select>
+                        </div>
+                    </div>
+                    <div class="filters-row" style="margin-top:12px;">
+                        <div class="filter-group">
+                            <label class="filter-label">Status da Indicação</label>
+                            <select class="form-select" id="statusIndicacaoExec"><option value="">Todos</option></select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Nº Empenho</label>
+                            <input type="text" class="form-control" id="numEmpenhoExec" placeholder="Ex: 2024NE0001">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Processo de Compra</label>
+                            <input type="text" class="form-control" id="processoCompraExec" placeholder="Palavras-chave...">
+                        </div>
+                        <div class="filter-group" style="flex:2;"></div>
+                    </div>
+                    <div class="botoes-abaixo">
+                        <button class="btn-pesquisa" id="aplicarFiltrosExec"><i class="material-icons me-2">search</i>Pesquisar</button>
+                        <button class="btn-secondary-custom" id="limparFiltrosExec"><i class="material-icons me-2">clear</i>Limpar Filtros</button>
+                    </div>
+                </div>
+
+                <div class="row mb-4" id="summaryCardsExec">
+                    <div class="col-12 text-center text-muted" style="font-size:13px;">Carregando dados...</div>
+                </div>
+
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <button class="btn-export" id="exportCSVExec"><i class="material-icons">description</i>CSV</button>
+                        <button class="btn-export" id="printExec"><i class="material-icons">print</i>PDF</button>
+                        <div class="share-dropdown">
+                            <button class="btn-export" onclick="toggleShare(2)"><i class="material-icons">share</i>Compartilhar</button>
+                            <div class="share-options" id="shareOptions2">
+                                <a href="#" onclick="copiarLink(event,2)"><i class="material-icons">link</i>Copiar Link</a>
+                                <a href="#" onclick="compartilharWhatsApp(event,2)"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>
+                                <a href="#" onclick="compartilharFacebook(event,2)"><i class="fa-brands fa-facebook"></i>Facebook</a>
+                                <a href="#" onclick="compartilharTwitter(event,2)"><i class="fa-brands fa-x-twitter"></i>Twitter/X</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="toolbar-right">
+                        <span class="table-badge" id="countExec">0 registros</span>
+                        <div class="table-search-container">
+                            <i class="material-icons" style="font-size:16px;color:#94a3b8;">search</i>
+                            <input type="text" id="searchExec" class="table-search-input" placeholder="Buscar registros...">
+                        </div>
+                        <select id="itemsPerPageExec" class="items-per-page">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50" selected>50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-fixed-header-container">
+                        <table class="table" id="tabelaExec">
+                            <thead>
+                                <tr>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',0)">Ano <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',1)">Responsável <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',2)">UO <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',3)">Nº Indicação <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',4)">Tipo Indicação <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',5)">Status <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',6)">Nº Empenho <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',7)">Vl. Indicação <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',8)">Vl. Empenhado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',9)">Vl. Pago <i class="material-icons">unfold_more</i></th>
+                                    <th style="text-align:center;width:60px;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaExecBody">
+                                <tr><td colspan="11" class="text-center text-muted">Carregando dados...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination-container" id="paginacaoExec"></div>
+                </div>
+                <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+                    <div class="btn-topo" onclick="voltarAoTopo()"><i class="material-icons">arrow_upward</i>Voltar ao topo</div>
+                </div>
+            </div>
+
+            <!-- ===== TAB 3: VALORES INDICADOS ===== -->
+            <div class="tab-pane fade" id="tab3" role="tabpanel">
+                <div class="filter-container">
+                    <div class="filters-row">
+                        <div class="filter-group">
+                            <label class="filter-label">Ano</label>
+                            <select class="form-select" id="anoVI"><option value="">Todos</option></select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Responsável</label>
+                            <input type="text" class="form-control" id="responsavelVI" placeholder="Nome do responsável...">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Partido</label>
+                            <select class="form-select" id="partidoVI"><option value="">Todos</option></select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">UO</label>
+                            <input type="text" class="form-control" id="uoVI" placeholder="Sigla ou descrição...">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Nº Indicação</label>
+                            <input type="text" class="form-control" id="numIndicacaoVI" placeholder="Ex: 12345">
+                        </div>
+                    </div>
+                    <div class="filters-row" style="margin-top:12px;">
+                        <div class="filter-group">
+                            <label class="filter-label">Tipo de Indicação</label>
+                            <select class="form-select" id="tipoIndicacaoVI"><option value="">Todos</option></select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Município</label>
+                            <input type="text" class="form-control" id="municipioVI" placeholder="Nome do município...">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Convenente/Beneficiado</label>
+                            <input type="text" class="form-control" id="convenenteVI" placeholder="Nome do beneficiado...">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Descrição da Indicação</label>
+                            <input type="text" class="form-control" id="descricaoVI" placeholder="Palavras-chave...">
+                        </div>
+                    </div>
+                    <div class="botoes-abaixo">
+                        <button class="btn-pesquisa" id="aplicarFiltrosVI"><i class="material-icons me-2">search</i>Pesquisar</button>
+                        <button class="btn-secondary-custom" id="limparFiltrosVI"><i class="material-icons me-2">clear</i>Limpar Filtros</button>
+                    </div>
+                </div>
+
+                <div class="row mb-4" id="summaryCardsVI">
+                    <div class="col-12 text-center text-muted" style="font-size:13px;">Carregando dados...</div>
+                </div>
+
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <button class="btn-export" id="exportCSVVI"><i class="material-icons">description</i>CSV</button>
+                        <button class="btn-export" id="printVI"><i class="material-icons">print</i>PDF</button>
+                        <div class="share-dropdown">
+                            <button class="btn-export" onclick="toggleShare(3)"><i class="material-icons">share</i>Compartilhar</button>
+                            <div class="share-options" id="shareOptions3">
+                                <a href="#" onclick="copiarLink(event,3)"><i class="material-icons">link</i>Copiar Link</a>
+                                <a href="#" onclick="compartilharWhatsApp(event,3)"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>
+                                <a href="#" onclick="compartilharFacebook(event,3)"><i class="fa-brands fa-facebook"></i>Facebook</a>
+                                <a href="#" onclick="compartilharTwitter(event,3)"><i class="fa-brands fa-x-twitter"></i>Twitter/X</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="toolbar-right">
+                        <span class="table-badge" id="countVI">0 registros</span>
+                        <div class="table-search-container">
+                            <i class="material-icons" style="font-size:16px;color:#94a3b8;">search</i>
+                            <input type="text" id="searchVI" class="table-search-input" placeholder="Buscar registros...">
+                        </div>
+                        <select id="itemsPerPageVI" class="items-per-page">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50" selected>50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-fixed-header-container">
+                        <table class="table" id="tabelaVI">
+                            <thead>
+                                <tr>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',0)">Ano <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',1)">Responsável <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',2)">Partido <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',3)">UO <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',4)">Nº Indicação <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',5)">Tipo <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',6)">Município <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',7)">Convenente/Beneficiado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',8)">Vl. Indicado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',9)">Vl. Pago <i class="material-icons">unfold_more</i></th>
+                                    <th style="text-align:center;width:60px;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaVIBody">
+                                <tr><td colspan="11" class="text-center text-muted">Carregando dados...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination-container" id="paginacaoVI"></div>
+                </div>
+                <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+                    <div class="btn-topo" onclick="voltarAoTopo()"><i class="material-icons">arrow_upward</i>Voltar ao topo</div>
+                </div>
+            </div>
+
+            <!-- ===== TAB 4: VALORES NÃO REALIZADOS ===== -->
+            <div class="tab-pane fade" id="tab4" role="tabpanel">
+                <div class="filter-container">
+                    <div class="filters-row">
+                        <div class="filter-group">
+                            <label class="filter-label">Ano</label>
+                            <select class="form-select" id="anoNR"><option value="">Todos</option></select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Responsável</label>
+                            <input type="text" class="form-control" id="responsavelNR" placeholder="Nome do responsável...">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Partido</label>
+                            <select class="form-select" id="partidoNR"><option value="">Todos</option></select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Tipo de Indicação</label>
+                            <select class="form-select" id="tipoIndicacaoNR"><option value="">Todos</option></select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Categoria IOT</label>
+                            <select class="form-select" id="categoriaIotNR"><option value="">Todas</option></select>
+                        </div>
+                    </div>
+                    <div class="botoes-abaixo">
+                        <button class="btn-pesquisa" id="aplicarFiltrosNR"><i class="material-icons me-2">search</i>Pesquisar</button>
+                        <button class="btn-secondary-custom" id="limparFiltrosNR"><i class="material-icons me-2">clear</i>Limpar Filtros</button>
+                    </div>
+                </div>
+
+                <div class="row mb-4" id="summaryCardsNR">
+                    <div class="col-12 text-center text-muted" style="font-size:13px;">Carregando dados...</div>
+                </div>
+
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <button class="btn-export" id="exportCSVNR"><i class="material-icons">description</i>CSV</button>
+                        <button class="btn-export" id="printNR"><i class="material-icons">print</i>PDF</button>
+                        <div class="share-dropdown">
+                            <button class="btn-export" onclick="toggleShare(4)"><i class="material-icons">share</i>Compartilhar</button>
+                            <div class="share-options" id="shareOptions4">
+                                <a href="#" onclick="copiarLink(event,4)"><i class="material-icons">link</i>Copiar Link</a>
+                                <a href="#" onclick="compartilharWhatsApp(event,4)"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>
+                                <a href="#" onclick="compartilharFacebook(event,4)"><i class="fa-brands fa-facebook"></i>Facebook</a>
+                                <a href="#" onclick="compartilharTwitter(event,4)"><i class="fa-brands fa-x-twitter"></i>Twitter/X</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="toolbar-right">
+                        <span class="table-badge" id="countNR">0 registros</span>
+                        <div class="table-search-container">
+                            <i class="material-icons" style="font-size:16px;color:#94a3b8;">search</i>
+                            <input type="text" id="searchNR" class="table-search-input" placeholder="Buscar registros...">
+                        </div>
+                        <select id="itemsPerPageNR" class="items-per-page">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50" selected>50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-fixed-header-container">
+                        <table class="table" id="tabelaNR">
+                            <thead>
+                                <tr>
+                                    <th class="sortable-header" onclick="ordenarTabela('nr',0)">Ano <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('nr',1)">Responsável <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('nr',2)">Partido <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('nr',3)">UO <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('nr',4)">Nº Indicação <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('nr',5)">Tipo Indicação <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('nr',6)">Categoria IOT <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('nr',7)">Vl. Indicado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('nr',8)">Vl. Utilizado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('nr',9)">Vl. Pago <i class="material-icons">unfold_more</i></th>
+                                    <th style="text-align:center;width:60px;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaNRBody">
+                                <tr><td colspan="11" class="text-center text-muted">Carregando dados...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination-container" id="paginacaoNR"></div>
+                </div>
+                <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+                    <div class="btn-topo" onclick="voltarAoTopo()"><i class="material-icons">arrow_upward</i>Voltar ao topo</div>
+                </div>
+            </div>
+
+            <!-- ===== TAB 5: DOWNLOADS ===== -->
+            <div class="tab-pane fade" id="tab5" role="tabpanel">
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-3">
+                        <div class="card-stats">
+                            <h4 class="fw-bold mb-3">Portal de Dados Abertos</h4>
+                            <p style="font-size:13px;color:#6c757d;text-align:justify;">
+                                Acesse o conjunto completo de dados sobre emendas estaduais no Portal de Dados Abertos de Minas Gerais, documentado conforme especificações Frictionless Data para validação automática e reuso.
+                            </p>
+                            <div class="mt-4 text-end">
+                                <a href="https://dados.mg.gov.br/dataset/emendas_estaduais" target="_blank" class="btn-export text-decoration-none fw-bold d-inline-block px-4 py-2">
+                                    <i class="material-icons me-1">launch</i>Acessar Portal de Dados MG
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card-stats">
+                            <h4 class="fw-bold mb-3">Repositório GitHub</h4>
+                            <p style="font-size:13px;color:#6c757d;text-align:justify;">
+                                Acesse os arquivos CSV diretamente no repositório do GitHub com os dados de emendas estaduais, incluindo dados gerais, execução, valores indicados e valores não realizados.
+                            </p>
+                            <div class="mt-4 text-end">
+                                <a href="https://github.com/transparencia-mg/portal_emendas_estaduais" target="_blank" class="btn-export text-decoration-none fw-bold d-inline-block px-4 py-2">
+                                    <i class="material-icons me-1">launch</i>Acessar GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h5 class="mb-3">METADADOS — Estrutura de Dados</h5>
+                    <div class="table-responsive">
+                        <table class="dicionario-tabela">
+                            <thead><tr><th>Tabela</th><th>Campo</th><th>Descrição</th></tr></thead>
+                            <tbody>
+                                <tr class="dicionario-secao"><td colspan="3">DADOS GERAIS</td></tr>
+                                <tr><td>Dados Gerais</td><td>responsavel</td><td>Nome do parlamentar ou responsável pela emenda.</td></tr>
+                                <tr><td>Dados Gerais</td><td>valor_impositivo_inicial_loa</td><td>Valor impositivo inicial previsto na Lei Orçamentária Anual.</td></tr>
+                                <tr><td>Dados Gerais</td><td>valor_utilizado</td><td>Valor efetivamente utilizado da emenda.</td></tr>
+                                <tr><td>Dados Gerais</td><td>valor_empenhado</td><td>Valor empenhado para execução da emenda.</td></tr>
+                                <tr><td>Dados Gerais</td><td>valor_liquidado</td><td>Valor liquidado (serviço/bem efetivamente recebido).</td></tr>
+                                <tr><td>Dados Gerais</td><td>valor_pago</td><td>Valor efetivamente pago ao credor.</td></tr>
+                                <tr class="dicionario-secao"><td colspan="3">EXECUÇÃO</td></tr>
+                                <tr><td>Execução</td><td>responsavel_nome</td><td>Nome do parlamentar ou responsável.</td></tr>
+                                <tr><td>Execução</td><td>uo / uo_descricao / uo_sigla</td><td>Código, descrição e sigla da Unidade Orçamentária.</td></tr>
+                                <tr><td>Execução</td><td>numero_indicacao</td><td>Número de identificação da indicação parlamentar.</td></tr>
+                                <tr><td>Execução</td><td>tipo_de_indicacao</td><td>Classificação do tipo de indicação.</td></tr>
+                                <tr><td>Execução</td><td>status_da_indicacao</td><td>Situação atual da indicação no processo de execução.</td></tr>
+                                <tr><td>Execução</td><td>no_empenho</td><td>Número do empenho orçamentário.</td></tr>
+                                <tr><td>Execução</td><td>processo_de_compra</td><td>Identificação do processo licitatório ou de compra.</td></tr>
+                                <tr><td>Execução</td><td>valor_indicacao</td><td>Valor total da indicação.</td></tr>
+                                <tr><td>Execução</td><td>valor_empenhado</td><td>Valor empenhado no processo de execução.</td></tr>
+                                <tr><td>Execução</td><td>valor_liquidado</td><td>Valor liquidado no processo de execução.</td></tr>
+                                <tr><td>Execução</td><td>valor_pago</td><td>Valor pago ao credor/beneficiário.</td></tr>
+                                <tr><td>Execução</td><td>justificativa</td><td>Justificativa para o status ou situação da indicação.</td></tr>
+                                <tr class="dicionario-secao"><td colspan="3">VALORES INDICADOS</td></tr>
+                                <tr><td>Valores Indicados</td><td>responsavel_nome</td><td>Nome do parlamentar responsável pela indicação.</td></tr>
+                                <tr><td>Valores Indicados</td><td>partido / bloco_bancada</td><td>Partido político e bloco/bancada do parlamentar.</td></tr>
+                                <tr><td>Valores Indicados</td><td>descricao_municipio</td><td>Município beneficiado pela indicação.</td></tr>
+                                <tr><td>Valores Indicados</td><td>nome_convenente_beneficiado</td><td>Nome do convenente ou entidade beneficiada.</td></tr>
+                                <tr><td>Valores Indicados</td><td>numero_cnpj_convenente</td><td>CNPJ do convenente beneficiado.</td></tr>
+                                <tr><td>Valores Indicados</td><td>descricao_indicacao</td><td>Texto descritivo do objeto da indicação.</td></tr>
+                                <tr><td>Valores Indicados</td><td>valor_indicado</td><td>Valor total indicado pelo parlamentar.</td></tr>
+                                <tr><td>Valores Indicados</td><td>numero_siafi</td><td>Código SIAFI do instrumento de repasse.</td></tr>
+                                <tr class="dicionario-secao"><td colspan="3">VALORES NÃO REALIZADOS</td></tr>
+                                <tr><td>Não Realizados</td><td>responsavel_nome</td><td>Nome do parlamentar responsável.</td></tr>
+                                <tr><td>Não Realizados</td><td>uo_descricao</td><td>Descrição da Unidade Orçamentária.</td></tr>
+                                <tr><td>Não Realizados</td><td>numero_indicacao</td><td>Número da indicação parlamentar não realizada.</td></tr>
+                                <tr><td>Não Realizados</td><td>categoria_iot</td><td>Categoria IOT (Instrumento, Objeto, Tipo) da indicação.</td></tr>
+                                <tr><td>Não Realizados</td><td>justificativa</td><td>Justificativa para a não realização da indicação.</td></tr>
+                                <tr><td>Não Realizados</td><td>valor_indicado</td><td>Valor que foi indicado mas não realizado.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+                    <div class="btn-topo" onclick="voltarAoTopo()"><i class="material-icons">arrow_upward</i>Voltar ao topo</div>
+                </div>
+            </div>
+
+        </div><!-- /tab-content -->
+    </div>
+</div>
+
+<!-- MODAL DE DETALHES -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content modal-creative">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">
+                    <i class="material-icons me-2">description</i>Detalhes do Registro
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="detalhesConteudo"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary-custom" data-bs-dismiss="modal"><i class="material-icons">close</i>Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div id="toastSucesso" class="toast-sucesso">
+    <div style="display:flex;align-items:center;gap:10px;">
+        <i class="material-icons" style="color:#28a745;font-size:18px;">check_circle</i>
+        <span style="font-size:13px;">Link copiado para a área de transferência!</span>
+    </div>
+    <span style="cursor:pointer;margin-left:12px;font-size:13px;" onclick="document.getElementById('toastSucesso').style.display='none'">✖</span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ============================================================
+// CONFIGURAÇÕES
+// ============================================================
+const ANOS = [2022, 2023, 2024, 2025];
+const GITHUB_RAW = 'https://raw.githubusercontent.com/transparencia-mg/portal_emendas_estaduais/main/dataset/data/';
+const GITHUB_API  = 'https://api.github.com/repos/transparencia-mg/portal_emendas_estaduais/commits?path=dataset/data&per_page=1';
+
+// ============================================================
+// ESTADO GLOBAL
+// ============================================================
+let dadosGerais = [], execucaoData = [], valoresIndicados = [], valoresNaoRealizados = [];
+let filteredDG = [], filteredExec = [], filteredVI = [], filteredNR = [];
+
+let currentPage  = { dg:1, exec:1, vi:1, nr:1 };
+let itemsPerPage = { dg:50, exec:50, vi:50, nr:50 };
+let currentSearch = { dg:'', exec:'', vi:'', nr:'' };
+let sortConfig = {
+    dg:   { column:0, direction:'asc' },
+    exec: { column:0, direction:'asc' },
+    vi:   { column:0, direction:'asc' },
+    nr:   { column:0, direction:'asc' }
+};
+
+// ============================================================
+// UTILITÁRIOS
+// ============================================================
+function fmt(v) {
+    if (!v && v !== 0) return '-';
+    if (typeof v === 'string') v = parseFloat(v.replace(/\./g,'').replace(',','.'));
+    if (isNaN(v)) return '-';
+    return new Intl.NumberFormat('pt-BR', { style:'currency', currency:'BRL' }).format(v);
+}
+
+function parseValor(v) {
+    if (!v) return 0;
+    if (typeof v === 'number') return v;
+    return parseFloat(v.toString().replace(/\./g,'').replace(',','.')) || 0;
+}
+
+function trunc(str, n) {
+    if (!str) return '-';
+    return str.length > n ? str.substring(0, n) + '...' : str;
+}
+
+function badgeStatus(status) {
+    if (!status) return '-';
+    const s = status.toLowerCase();
+    let cls = 'badge-default';
+    if (s.includes('aprovad') || s.includes('execut') || s.includes('pago') || s.includes('liquid')) cls = 'badge-aprovado';
+    else if (s.includes('cancel') || s.includes('reprov') || s.includes('impedid')) cls = 'badge-cancelado';
+    else if (s.includes('pendent') || s.includes('aguard') || s.includes('andamento')) cls = 'badge-pendente';
+    return `<span class="badge-status ${cls}">${status}</span>`;
+}
+
+// ============================================================
+// DATA DE ATUALIZAÇÃO
+// ============================================================
+async function setupAtualizacao() {
+    const el = document.getElementById('data-atualizacao-header');
+    if (!el) return;
+    try {
+        const r = await fetch(GITHUB_API);
+        if (!r.ok) throw new Error();
+        const commits = await r.json();
+        if (commits?.length > 0) {
+            el.textContent = new Date(commits[0].commit.committer.date).toLocaleDateString('pt-BR');
+            return;
+        }
+    } catch(e) {}
+    el.textContent = new Date().toLocaleDateString('pt-BR');
+}
+
+// ============================================================
+// CARGA DE DADOS
+// ============================================================
+function setLoading(show, msg) {
+    const el = document.getElementById('loadingOverlay');
+    if (el) el.classList.toggle('show', show);
+    const msgEl = document.getElementById('loadingMsg');
+    if (msgEl && msg) msgEl.textContent = msg;
+}
+
+function carregarCSV(url) {
+    return new Promise(resolve => {
+        Papa.parse(url, {
+            download: true,
+            header: true,
+            delimiter: ';',
+            skipEmptyLines: true,
+            complete: r => resolve(r.data.filter(row => Object.values(row).some(v => v))),
+            error: () => resolve([])
+        });
+    });
+}
+
+async function carregarTodosDados() {
+    setLoading(true, 'Carregando dados gerais...');
+    const promises = [];
+
+    // Dados Gerais
+    for (const ano of ANOS) promises.push(carregarCSV(`${GITHUB_RAW}dadosgerais_${ano}.csv`).then(rows => rows.map(r => mapDG(r, ano))));
+    // Execução
+    for (const ano of ANOS) promises.push(carregarCSV(`${GITHUB_RAW}execucao_${ano}.csv`).then(rows => rows.map(r => mapExec(r, ano))));
+    // Valores Indicados
+    for (const ano of ANOS) promises.push(carregarCSV(`${GITHUB_RAW}valores_indicados_${ano}.csv`).then(rows => rows.map(r => mapVI(r, ano))));
+    // Valores Não Realizados
+    for (const ano of ANOS) promises.push(carregarCSV(`${GITHUB_RAW}valores_naorealizados_${ano}.csv`).then(rows => rows.map(r => mapNR(r, ano))));
+
+    setLoading(true, 'Processando dados...');
+    const results = await Promise.all(promises);
+
+    dadosGerais        = results.slice(0,4).flat();
+    execucaoData       = results.slice(4,8).flat();
+    valoresIndicados   = results.slice(8,12).flat();
+    valoresNaoRealizados = results.slice(12,16).flat();
+
+    filteredDG   = [...dadosGerais];
+    filteredExec = [...execucaoData];
+    filteredVI   = [...valoresIndicados];
+    filteredNR   = [...valoresNaoRealizados];
+
+    populaFiltros();
+    updateDashboard('dg');
+    updateDashboard('exec');
+    updateDashboard('vi');
+    updateDashboard('nr');
+    setLoading(false);
+}
+
+function mapDG(row, ano) {
+    return {
+        _ano: ano,
+        responsavel: row.responsavel || '',
+        valor_loa: parseValor(row.valor_impositivo_inicial_loa),
+        valor_utilizado: parseValor(row.valor_utilizado),
+        valor_empenhado: parseValor(row.valor_empenhado),
+        valor_liquidado: parseValor(row.valor_liquidado),
+        valor_pago: parseValor(row.valor_pago),
+        _raw: row
+    };
+}
+
+function mapExec(row, ano) {
+    return {
+        _ano: ano,
+        responsavel: row.responsavel_nome || '',
+        uo: row.uo || '',
+        uo_descricao: row.uo_descricao || '',
+        uo_sigla: row.uo_sigla || '',
+        numero_indicacao: row.numero_indicacao || '',
+        tipo_de_indicacao: row.tipo_de_indicacao || '',
+        status_da_indicacao: row.status_da_indicacao || '',
+        numero_inciso: row.numero_inciso || '',
+        numero_controle: row.numero_do_controle_de_execucao || '',
+        no_empenho: row.no_empenho || '',
+        processo_compra: row.processo_de_compra || '',
+        registro_preco: row.registro_de_preco || '',
+        descricao_processo: row.descricao_processo_de_compras || '',
+        status_processo: row.status_do_processo_de_compra_registro_de_precos || '',
+        valor_indicacao: parseValor(row.valor_indicacao),
+        valor_utilizado: parseValor(row.valor_utilizado_controle),
+        valor_empenhado: parseValor(row.valor_empenhado),
+        valor_liquidado: parseValor(row.valor_liquidado),
+        valor_pago: parseValor(row.valor_pago),
+        valor_executado: parseValor(row.valor_executado),
+        justificativa: row.justificativa || '',
+        classificacao_iot: row.classificacao_iot || '',
+        _raw: row
+    };
+}
+
+function mapVI(row, ano) {
+    return {
+        _ano: ano,
+        responsavel: row.responsavel_nome || '',
+        partido: row.partido || '',
+        bloco_bancada: row.bloco_bancada || '',
+        uo: row.uo || '',
+        uo_descricao: row.uo_descricao || '',
+        uo_sigla: row.uo_sigla || '',
+        numero_indicacao: row.numero_indicacao || '',
+        tipo_de_indicacao: row.tipo_de_indicacao || '',
+        numero_inciso: row.numero_inciso || '',
+        status: row.status_indicacao_descricao || '',
+        municipio: row.descricao_municipio || '',
+        convenente: row.nome_convenente_beneficiado || '',
+        cnpj_convenente: row.numero_cnpj_convenente || '',
+        codigo_escola: row.codigo_escola || '',
+        numero_acao: row.numero_da_acao || '',
+        nome_acao: row.nome_da_acao || '',
+        grupo_despesa: row.nome_grupo_de_despesa || '',
+        descricao_indicacao: row.descricao_indicacao || '',
+        justificativa_cancelamento: row.justificativa_cancelamento_reprovacao || '',
+        valor_indicado: parseValor(row.valor_indicado),
+        valor_utilizado: parseValor(row.valor_utilizado),
+        valor_empenhado: parseValor(row.valor_empenhado),
+        valor_liquidado: parseValor(row.valor_liquidado),
+        valor_pago: parseValor(row.valor_pago),
+        saldo_rp: parseValor(row.saldo_a_pagar_rp),
+        rp_processado: parseValor(row.rp_processado),
+        rp_nao_processado: parseValor(row.rp_nao_processado),
+        valor_executado_doacao: parseValor(row.valor_executado_doacao),
+        numero_instrumento: row.numero_instrumento_juridico || '',
+        numero_siafi: row.numero_siafi || '',
+        funcional_programatica: row.funcional_programatica_formatado || '',
+        numero_empenho: row.numero_empenho || '',
+        _raw: row
+    };
+}
+
+function mapNR(row, ano) {
+    return {
+        _ano: ano,
+        responsavel: row.responsavel_nome || '',
+        partido: row.partido || '',
+        bloco_bancada: row.bloco_bancada || '',
+        uo_descricao: row.uo_descricao || '',
+        numero_indicacao: row.numero_indicacao || '',
+        tipo_de_indicacao: row.tipo_de_indicacao || '',
+        valor_indicado: parseValor(row.valor_indicado),
+        valor_utilizado: parseValor(row.valor_utilizado),
+        valor_empenhado: parseValor(row.valor_empenhado),
+        valor_liquidado: parseValor(row.valor_liquidado),
+        valor_pago: parseValor(row.valor_pago),
+        saldo_rp: parseValor(row.saldo_a_pagar_rp),
+        rp_processado: parseValor(row.rp_processado),
+        rp_nao_processado: parseValor(row.rp_nao_processado),
+        valor_executado_doacao: parseValor(row.valor_executado_doacao),
+        categoria_iot: row.categoria_iot || '',
+        justificativa: row.justificativa || '',
+        _raw: row
+    };
+}
+
+// ============================================================
+// POPULAÇÃO DE FILTROS
+// ============================================================
+function populaFiltros() {
+    // Anos
+    const populaAnos = (id, data) => {
+        const anos = [...new Set(data.map(d => d._ano))].sort((a,b)=>b-a);
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = '<option value="">Todos</option>' + anos.map(a=>`<option value="${a}">${a}</option>`).join('');
+        return anos;
+    };
+    const anosDG   = populaAnos('anoDG', dadosGerais);
+    const anosExec = populaAnos('anoExec', execucaoData);
+    const anosVI   = populaAnos('anoVI', valoresIndicados);
+    const anosNR   = populaAnos('anoNR', valoresNaoRealizados);
+
+    // Pre-seleciona ano mais recente
+    const setAno = (id, anos, data, filtered) => {
+        const el = document.getElementById(id);
+        if (el && anos.length) { el.value = anos[0]; return data.filter(d => d._ano == anos[0]); }
+        return data;
+    };
+    filteredDG   = setAno('anoDG',   anosDG,   dadosGerais, filteredDG);
+    filteredExec = setAno('anoExec', anosExec, execucaoData, filteredExec);
+    filteredVI   = setAno('anoVI',   anosVI,   valoresIndicados, filteredVI);
+    filteredNR   = setAno('anoNR',   anosNR,   valoresNaoRealizados, filteredNR);
+
+    // Partidos
+    const populaSelect = (id, data, key) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const vals = [...new Set(data.map(d => d[key]).filter(Boolean))].sort();
+        el.innerHTML = '<option value="">Todos</option>' + vals.map(v=>`<option value="${v}">${v}</option>`).join('');
+    };
+    populaSelect('partidoVI', valoresIndicados, 'partido');
+    populaSelect('partidoNR', valoresNaoRealizados, 'partido');
+    populaSelect('tipoIndicacaoExec', execucaoData, 'tipo_de_indicacao');
+    populaSelect('statusIndicacaoExec', execucaoData, 'status_da_indicacao');
+    populaSelect('tipoIndicacaoVI', valoresIndicados, 'tipo_de_indicacao');
+    populaSelect('tipoIndicacaoNR', valoresNaoRealizados, 'tipo_de_indicacao');
+    populaSelect('categoriaIotNR', valoresNaoRealizados, 'categoria_iot');
+}
+
+// ============================================================
+// FILTRAR / LIMPAR
+// ============================================================
+function aplicarFiltros(dash) {
+    const g = id => (document.getElementById(id)?.value || '').toLowerCase();
+    const gv = id => document.getElementById(id)?.value || '';
+
+    if (dash === 'dg') {
+        const ano = gv('anoDG'), resp = g('responsavelDG');
+        filteredDG = dadosGerais.filter(d => {
+            if (ano && d._ano != ano) return false;
+            if (resp && !d.responsavel.toLowerCase().includes(resp)) return false;
+            return true;
+        });
+    } else if (dash === 'exec') {
+        const ano = gv('anoExec'), resp = g('responsavelExec'), uo = g('uoExec'),
+              ni = g('numIndicacaoExec'), tipo = gv('tipoIndicacaoExec'),
+              status = gv('statusIndicacaoExec'), emp = g('numEmpenhoExec'), proc = g('processoCompraExec');
+        filteredExec = execucaoData.filter(d => {
+            if (ano && d._ano != ano) return false;
+            if (resp && !d.responsavel.toLowerCase().includes(resp)) return false;
+            if (uo && !(d.uo_descricao+d.uo_sigla).toLowerCase().includes(uo)) return false;
+            if (ni && !d.numero_indicacao.toLowerCase().includes(ni)) return false;
+            if (tipo && d.tipo_de_indicacao !== tipo) return false;
+            if (status && d.status_da_indicacao !== status) return false;
+            if (emp && !d.no_empenho.toLowerCase().includes(emp)) return false;
+            if (proc && !d.processo_compra.toLowerCase().includes(proc)) return false;
+            return true;
+        });
+    } else if (dash === 'vi') {
+        const ano = gv('anoVI'), resp = g('responsavelVI'), partido = gv('partidoVI'),
+              uo = g('uoVI'), ni = g('numIndicacaoVI'), tipo = gv('tipoIndicacaoVI'),
+              mun = g('municipioVI'), conv = g('convenenteVI'), desc = g('descricaoVI');
+        filteredVI = valoresIndicados.filter(d => {
+            if (ano && d._ano != ano) return false;
+            if (resp && !d.responsavel.toLowerCase().includes(resp)) return false;
+            if (partido && d.partido !== partido) return false;
+            if (uo && !(d.uo_descricao+d.uo_sigla).toLowerCase().includes(uo)) return false;
+            if (ni && !d.numero_indicacao.toLowerCase().includes(ni)) return false;
+            if (tipo && d.tipo_de_indicacao !== tipo) return false;
+            if (mun && !d.municipio.toLowerCase().includes(mun)) return false;
+            if (conv && !d.convenente.toLowerCase().includes(conv)) return false;
+            if (desc && !d.descricao_indicacao.toLowerCase().includes(desc)) return false;
+            return true;
+        });
+    } else if (dash === 'nr') {
+        const ano = gv('anoNR'), resp = g('responsavelNR'), partido = gv('partidoNR'),
+              tipo = gv('tipoIndicacaoNR'), cat = gv('categoriaIotNR');
+        filteredNR = valoresNaoRealizados.filter(d => {
+            if (ano && d._ano != ano) return false;
+            if (resp && !d.responsavel.toLowerCase().includes(resp)) return false;
+            if (partido && d.partido !== partido) return false;
+            if (tipo && d.tipo_de_indicacao !== tipo) return false;
+            if (cat && d.categoria_iot !== cat) return false;
+            return true;
+        });
+    }
+    currentPage[dash] = 1;
+    ordenarDados(dash);
+    updateDashboard(dash);
+    iframeUpdateHeight();
+}
+
+function limparFiltros(dash) {
+    const ids = {
+        dg:   ['anoDG','responsavelDG','searchDG'],
+        exec: ['anoExec','responsavelExec','uoExec','numIndicacaoExec','tipoIndicacaoExec','statusIndicacaoExec','numEmpenhoExec','processoCompraExec','searchExec'],
+        vi:   ['anoVI','responsavelVI','partidoVI','uoVI','numIndicacaoVI','tipoIndicacaoVI','municipioVI','convenenteVI','descricaoVI','searchVI'],
+        nr:   ['anoNR','responsavelNR','partidoNR','tipoIndicacaoNR','categoriaIotNR','searchNR']
+    };
+    ids[dash].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    currentSearch[dash] = '';
+    const map = { dg: dadosGerais, exec: execucaoData, vi: valoresIndicados, nr: valoresNaoRealizados };
+    if (dash==='dg') filteredDG = [...dadosGerais];
+    else if (dash==='exec') filteredExec = [...execucaoData];
+    else if (dash==='vi') filteredVI = [...valoresIndicados];
+    else if (dash==='nr') filteredNR = [...valoresNaoRealizados];
+    currentPage[dash] = 1;
+    ordenarDados(dash);
+    updateDashboard(dash);
+    iframeUpdateHeight();
+}
+
+function filtrarTabela(dash) {
+    const term = currentSearch[dash];
+    const base = dash==='dg' ? dadosGerais : (dash==='exec' ? execucaoData : (dash==='vi' ? valoresIndicados : valoresNaoRealizados));
+    const result = term ? base.filter(item => Object.values(item).some(v => v && v.toString().toLowerCase().includes(term))) : [...base];
+    if (dash==='dg') filteredDG = result;
+    else if (dash==='exec') filteredExec = result;
+    else if (dash==='vi') filteredVI = result;
+    else if (dash==='nr') filteredNR = result;
+    currentPage[dash] = 1;
+    ordenarDados(dash);
+    updateDashboard(dash);
+    iframeUpdateHeight();
+}
+
+// ============================================================
+// ORDENAÇÃO
+// ============================================================
+const COLS = {
+    dg:   ['_ano','responsavel','valor_loa','valor_utilizado','valor_empenhado','valor_liquidado','valor_pago'],
+    exec: ['_ano','responsavel','uo_sigla','numero_indicacao','tipo_de_indicacao','status_da_indicacao','no_empenho','valor_indicacao','valor_empenhado','valor_pago'],
+    vi:   ['_ano','responsavel','partido','uo_sigla','numero_indicacao','tipo_de_indicacao','municipio','convenente','valor_indicado','valor_pago'],
+    nr:   ['_ano','responsavel','partido','uo_descricao','numero_indicacao','tipo_de_indicacao','categoria_iot','valor_indicado','valor_utilizado','valor_pago']
+};
+
+function ordenarTabela(dash, col) {
+    const c = sortConfig[dash];
+    c.direction = (c.column === col && c.direction === 'asc') ? 'desc' : 'asc';
+    c.column = col;
+    ordenarDados(dash);
+    renderTabela(dash);
+    iframeUpdateHeight();
+}
+
+function ordenarDados(dash) {
+    const c = sortConfig[dash];
+    const prop = COLS[dash][c.column];
+    const data = dash==='dg' ? filteredDG : (dash==='exec' ? filteredExec : (dash==='vi' ? filteredVI : filteredNR));
+    data.sort((a, b) => {
+        let vA = a[prop], vB = b[prop];
+        if (typeof vA === 'number') return c.direction==='asc' ? vA-vB : vB-vA;
+        vA = (vA||'').toString().toLowerCase();
+        vB = (vB||'').toString().toLowerCase();
+        return c.direction==='asc' ? vA.localeCompare(vB) : vB.localeCompare(vA);
+    });
+}
+
+// ============================================================
+// UPDATE DASHBOARDS
+// ============================================================
+function updateDashboard(dash) {
+    updateCards(dash);
+    renderTabela(dash);
+}
+
+function updateCards(dash) {
+    const map = { dg: 'summaryCardsDG', exec: 'summaryCardsExec', vi: 'summaryCardsVI', nr: 'summaryCardsNR' };
+    const el = document.getElementById(map[dash]);
+    if (!el) return;
+
+    const data = dash==='dg' ? filteredDG : (dash==='exec' ? filteredExec : (dash==='vi' ? filteredVI : filteredNR));
+    if (!data.length) { el.innerHTML = '<div class="col-12 text-center text-muted">Nenhum dado encontrado.</div>'; return; }
+
+    let html = '';
+    if (dash === 'dg') {
+        const totalLOA  = data.reduce((s,i) => s+i.valor_loa, 0);
+        const totalEmp  = data.reduce((s,i) => s+i.valor_empenhado, 0);
+        const totalPago = data.reduce((s,i) => s+i.valor_pago, 0);
+        const taxa = totalEmp ? ((totalPago/totalEmp)*100).toFixed(1) : 0;
+        html = `
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Responsáveis <i class="material-icons" data-bs-toggle="tooltip" title="Qtd de responsáveis distintos">info_outline</i></div><div class="metric-body"><div class="metric-value">${new Set(data.map(d=>d.responsavel)).size.toLocaleString('pt-BR')}</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor LOA <i class="material-icons" data-bs-toggle="tooltip" title="Valor impositivo inicial LOA">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalLOA)}</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Empenhado <i class="material-icons" data-bs-toggle="tooltip" title="Total empenhado">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalEmp)}</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Pago <i class="material-icons" data-bs-toggle="tooltip" title="Total pago">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalPago)}</div><div class="metric-sublabel">Taxa execução: ${taxa}%</div></div></div></div>`;
+    } else if (dash === 'exec') {
+        const totalInd  = data.reduce((s,i) => s+i.valor_indicacao, 0);
+        const totalEmp  = data.reduce((s,i) => s+i.valor_empenhado, 0);
+        const totalPago = data.reduce((s,i) => s+i.valor_pago, 0);
+        const taxa = totalEmp ? ((totalPago/totalEmp)*100).toFixed(1) : 0;
+        html = `
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Total de Registros <i class="material-icons" data-bs-toggle="tooltip" title="Quantidade de indicações">info_outline</i></div><div class="metric-body"><div class="metric-value">${data.length.toLocaleString('pt-BR')}</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Indicado <i class="material-icons" data-bs-toggle="tooltip" title="Total indicado">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalInd)}</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Empenhado <i class="material-icons" data-bs-toggle="tooltip" title="Total empenhado">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalEmp)}</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Taxa de Execução <i class="material-icons" data-bs-toggle="tooltip" title="Percentual pago/empenhado">info_outline</i></div><div class="metric-body"><div class="metric-value">${taxa}%</div><div class="metric-sublabel">Pago: ${fmt(totalPago)}</div></div></div></div>`;
+    } else if (dash === 'vi') {
+        const totalInd  = data.reduce((s,i) => s+i.valor_indicado, 0);
+        const totalPago = data.reduce((s,i) => s+i.valor_pago, 0);
+        const munis = new Set(data.map(d=>d.municipio).filter(Boolean)).size;
+        const benef = new Set(data.map(d=>d.convenente).filter(Boolean)).size;
+        html = `
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Total de Indicações <i class="material-icons" data-bs-toggle="tooltip" title="Qtd de indicações">info_outline</i></div><div class="metric-body"><div class="metric-value">${data.length.toLocaleString('pt-BR')}</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Indicado <i class="material-icons" data-bs-toggle="tooltip" title="Total indicado">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalInd)}</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Municípios Atendidos <i class="material-icons" data-bs-toggle="tooltip" title="Municípios distintos">info_outline</i></div><div class="metric-body"><div class="metric-value">${munis.toLocaleString('pt-BR')}</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Pago <i class="material-icons" data-bs-toggle="tooltip" title="Total pago">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalPago)}</div><div class="metric-sublabel">${benef} beneficiários</div></div></div></div>`;
+    } else if (dash === 'nr') {
+        const totalInd  = data.reduce((s,i) => s+i.valor_indicado, 0);
+        const categorias = new Set(data.map(d=>d.categoria_iot).filter(Boolean)).size;
+        html = `
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Total de Registros <i class="material-icons" data-bs-toggle="tooltip" title="Qtd de registros não realizados">info_outline</i></div><div class="metric-body"><div class="metric-value">${data.length.toLocaleString('pt-BR')}</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Indicado <i class="material-icons" data-bs-toggle="tooltip" title="Valor não realizado">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalInd)}</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Responsáveis <i class="material-icons" data-bs-toggle="tooltip" title="Parlamentares com não realizados">info_outline</i></div><div class="metric-body"><div class="metric-value">${new Set(data.map(d=>d.responsavel)).size.toLocaleString('pt-BR')}</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Categorias IOT <i class="material-icons" data-bs-toggle="tooltip" title="Categorias IOT distintas">info_outline</i></div><div class="metric-body"><div class="metric-value">${categorias}</div></div></div></div>`;
+    }
+    el.innerHTML = html;
+    setTimeout(() => document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => new bootstrap.Tooltip(el)), 100);
+}
+
+// ============================================================
+// RENDERIZAÇÃO DE TABELAS
+// ============================================================
+function renderTabela(dash) {
+    const bodyIds = { dg:'tabelaDGBody', exec:'tabelaExecBody', vi:'tabelaVIBody', nr:'tabelaNRBody' };
+    const countIds = { dg:'countDG', exec:'countExec', vi:'countVI', nr:'countNR' };
+    const paginIds = { dg:'paginacaoDG', exec:'paginacaoExec', vi:'paginacaoVI', nr:'paginacaoNR' };
+
+    const tbody   = document.getElementById(bodyIds[dash]);
+    const countEl = document.getElementById(countIds[dash]);
+    const data    = dash==='dg' ? filteredDG : (dash==='exec' ? filteredExec : (dash==='vi' ? filteredVI : filteredNR));
+    const cols    = dash==='dg' ? 8 : 11;
+
+    if (!data.length) {
+        if (tbody) tbody.innerHTML = `<tr><td colspan="${cols}" class="text-center text-muted">Nenhum registro encontrado.</td></tr>`;
+        if (countEl) countEl.textContent = '0 registros';
+        renderPaginacao(paginIds[dash], dash, 0, 1, itemsPerPage[dash]); return;
+    }
+
+    const start = (currentPage[dash]-1) * itemsPerPage[dash];
+    const slice = data.slice(start, start + itemsPerPage[dash]);
+
+    let rows = '';
+    if (dash === 'dg') {
+        rows = slice.map(d => `<tr>
+            <td>${d._ano}</td>
+            <td>${trunc(d.responsavel,45)}</td>
+            <td class="valor-monetario">${fmt(d.valor_loa)}</td>
+            <td class="valor-monetario">${fmt(d.valor_utilizado)}</td>
+            <td class="valor-monetario">${fmt(d.valor_empenhado)}</td>
+            <td class="valor-monetario">${fmt(d.valor_liquidado)}</td>
+            <td class="valor-monetario">${fmt(d.valor_pago)}</td>
+            <td style="text-align:center;"><button class="btn-action" onclick='mostrarDetalhes("dg",${JSON.stringify(d).replace(/'/g,"\\'")})'  title="Ver Detalhes"><i class="material-icons">visibility</i></button></td>
+        </tr>`).join('');
+    } else if (dash === 'exec') {
+        rows = slice.map(d => `<tr>
+            <td>${d._ano}</td>
+            <td>${trunc(d.responsavel,35)}</td>
+            <td title="${d.uo_descricao}">${d.uo_sigla||d.uo||'-'}</td>
+            <td>${d.numero_indicacao||'-'}</td>
+            <td>${trunc(d.tipo_de_indicacao,20)}</td>
+            <td>${badgeStatus(d.status_da_indicacao)}</td>
+            <td>${d.no_empenho||'-'}</td>
+            <td class="valor-monetario">${fmt(d.valor_indicacao)}</td>
+            <td class="valor-monetario">${fmt(d.valor_empenhado)}</td>
+            <td class="valor-monetario">${fmt(d.valor_pago)}</td>
+            <td style="text-align:center;"><button class="btn-action" onclick='mostrarDetalhes("exec",${JSON.stringify(d).replace(/'/g,"\\'")})'  title="Ver Detalhes"><i class="material-icons">visibility</i></button></td>
+        </tr>`).join('');
+    } else if (dash === 'vi') {
+        rows = slice.map(d => `<tr>
+            <td>${d._ano}</td>
+            <td>${trunc(d.responsavel,30)}</td>
+            <td>${d.partido||'-'}</td>
+            <td title="${d.uo_descricao}">${d.uo_sigla||d.uo||'-'}</td>
+            <td>${d.numero_indicacao||'-'}</td>
+            <td>${trunc(d.tipo_de_indicacao,18)}</td>
+            <td>${trunc(d.municipio,20)}</td>
+            <td>${trunc(d.convenente,30)}</td>
+            <td class="valor-monetario">${fmt(d.valor_indicado)}</td>
+            <td class="valor-monetario">${fmt(d.valor_pago)}</td>
+            <td style="text-align:center;"><button class="btn-action" onclick='mostrarDetalhes("vi",${JSON.stringify(d).replace(/'/g,"\\'")})'  title="Ver Detalhes"><i class="material-icons">visibility</i></button></td>
+        </tr>`).join('');
+    } else if (dash === 'nr') {
+        rows = slice.map(d => `<tr>
+            <td>${d._ano}</td>
+            <td>${trunc(d.responsavel,30)}</td>
+            <td>${d.partido||'-'}</td>
+            <td>${trunc(d.uo_descricao,25)}</td>
+            <td>${d.numero_indicacao||'-'}</td>
+            <td>${trunc(d.tipo_de_indicacao,18)}</td>
+            <td>${trunc(d.categoria_iot,20)}</td>
+            <td class="valor-monetario">${fmt(d.valor_indicado)}</td>
+            <td class="valor-monetario">${fmt(d.valor_utilizado)}</td>
+            <td class="valor-monetario">${fmt(d.valor_pago)}</td>
+            <td style="text-align:center;"><button class="btn-action" onclick='mostrarDetalhes("nr",${JSON.stringify(d).replace(/'/g,"\\'")})'  title="Ver Detalhes"><i class="material-icons">visibility</i></button></td>
+        </tr>`).join('');
+    }
+
+    if (tbody) tbody.innerHTML = rows;
+    if (countEl) countEl.textContent = `${data.length.toLocaleString()} registros`;
+    renderPaginacao(paginIds[dash], dash, data.length, currentPage[dash], itemsPerPage[dash]);
+}
+
+// ============================================================
+// MODAL DE DETALHES
+// ============================================================
+window.mostrarDetalhes = function(dash, item) {
+    let titulo = '', conteudo = '';
+
+    if (dash === 'dg') {
+        titulo = `<i class="material-icons me-2">bar_chart</i>Visão Geral — ${item.responsavel||'N/D'} (${item._ano})`;
+        conteudo = `
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Responsável</div><div class="info-value highlight">${item.responsavel||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Ano</div><div class="info-value highlight">${item._ano||'-'}</div></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Valor LOA (Impositivo Inicial)</div><div class="info-value">${fmt(item.valor_loa)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Utilizado</div><div class="info-value">${fmt(item.valor_utilizado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Empenhado</div><div class="info-value">${fmt(item.valor_empenhado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Liquidado</div><div class="info-value">${fmt(item.valor_liquidado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Pago</div><div class="info-value">${fmt(item.valor_pago)}</div></div>
+            </div>`;
+    } else if (dash === 'exec') {
+        titulo = `<i class="material-icons me-2">receipt</i>Execução — Nº ${item.numero_indicacao||'N/D'} (${item._ano})`;
+        conteudo = `
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Responsável</div><div class="info-value highlight">${item.responsavel||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Unidade Orçamentária</div><div class="info-value">${item.uo_sigla||item.uo||'-'} — ${item.uo_descricao||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Nº Indicação</div><div class="info-value highlight">${item.numero_indicacao||'-'}</div></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Tipo de Indicação</div><div class="info-value">${item.tipo_de_indicacao||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Status da Indicação</div><div class="info-value">${badgeStatus(item.status_da_indicacao)}</div></div>
+                <div class="info-card"><div class="info-label">Nº Inciso</div><div class="info-value">${item.numero_inciso||'-'}</div></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Nº Empenho</div><div class="info-value">${item.no_empenho||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Processo de Compra</div><div class="info-value">${item.processo_compra||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Status do Processo</div><div class="info-value">${item.status_processo||'-'}</div></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Valor Indicação</div><div class="info-value">${fmt(item.valor_indicacao)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Utilizado</div><div class="info-value">${fmt(item.valor_utilizado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Empenhado</div><div class="info-value">${fmt(item.valor_empenhado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Liquidado</div><div class="info-value">${fmt(item.valor_liquidado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Pago</div><div class="info-value">${fmt(item.valor_pago)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Executado</div><div class="info-value">${fmt(item.valor_executado)}</div></div>
+            </div>
+            ${item.descricao_processo ? `<div class="objeto-container"><div class="objeto-title"><i class="material-icons">subject</i>DESCRIÇÃO DO PROCESSO DE COMPRAS</div><div class="objeto-text">${item.descricao_processo}</div></div>` : ''}
+            ${item.classificacao_iot ? `<div class="objeto-container" style="margin-top:10px;"><div class="objeto-title"><i class="material-icons">label</i>CLASSIFICAÇÃO IOT</div><div class="objeto-text">${item.classificacao_iot}</div></div>` : ''}
+            ${item.justificativa ? `<div class="objeto-container" style="margin-top:10px;"><div class="objeto-title"><i class="material-icons">info</i>JUSTIFICATIVA</div><div class="objeto-text">${item.justificativa}</div></div>` : ''}`;
+    } else if (dash === 'vi') {
+        titulo = `<i class="material-icons me-2">assignment_turned_in</i>Valor Indicado — ${item.numero_indicacao||'N/D'} (${item._ano})`;
+        conteudo = `
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Responsável</div><div class="info-value highlight">${item.responsavel||'-'}</div><div class="info-label" style="margin-top:8px;">Partido</div><div class="info-value">${item.partido||'-'}</div><div class="info-label" style="margin-top:8px;">Bloco/Bancada</div><div class="info-value">${item.bloco_bancada||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Unidade Orçamentária</div><div class="info-value">${item.uo_sigla||item.uo||'-'}</div><div class="info-label" style="margin-top:8px;">Descrição UO</div><div class="info-value">${item.uo_descricao||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Nº Indicação</div><div class="info-value highlight">${item.numero_indicacao||'-'}</div><div class="info-label" style="margin-top:8px;">Tipo de Indicação</div><div class="info-value">${item.tipo_de_indicacao||'-'}</div><div class="info-label" style="margin-top:8px;">Status</div><div class="info-value">${badgeStatus(item.status)}</div></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Município</div><div class="info-value">${item.municipio||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Convenente/Beneficiado</div><div class="info-value">${item.convenente||'-'}</div><div class="info-label" style="margin-top:8px;">CNPJ</div><div class="info-value">${item.cnpj_convenente||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Nº SIAFI</div><div class="info-value">${item.numero_siafi||'-'}</div><div class="info-label" style="margin-top:8px;">Nº Empenho</div><div class="info-value">${item.numero_empenho||'-'}</div></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Valor Indicado</div><div class="info-value">${fmt(item.valor_indicado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Utilizado</div><div class="info-value">${fmt(item.valor_utilizado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Empenhado</div><div class="info-value">${fmt(item.valor_empenhado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Liquidado</div><div class="info-value">${fmt(item.valor_liquidado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Pago</div><div class="info-value">${fmt(item.valor_pago)}</div></div>
+                <div class="info-card"><div class="info-label">Saldo a Pagar (RP)</div><div class="info-value">${fmt(item.saldo_rp)}</div></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Nome da Ação</div><div class="info-value">${item.nome_acao||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Grupo de Despesa</div><div class="info-value">${item.grupo_despesa||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Funcional Programática</div><div class="info-value" style="font-size:11px;">${item.funcional_programatica||'-'}</div></div>
+            </div>
+            ${item.descricao_indicacao ? `<div class="objeto-container"><div class="objeto-title"><i class="material-icons">subject</i>DESCRIÇÃO DA INDICAÇÃO</div><div class="objeto-text">${item.descricao_indicacao}</div></div>` : ''}
+            ${item.justificativa_cancelamento ? `<div class="objeto-container" style="margin-top:10px;"><div class="objeto-title"><i class="material-icons">warning</i>JUSTIFICATIVA DE CANCELAMENTO/REPROVAÇÃO</div><div class="objeto-text">${item.justificativa_cancelamento}</div></div>` : ''}`;
+    } else if (dash === 'nr') {
+        titulo = `<i class="material-icons me-2">block</i>Não Realizado — ${item.numero_indicacao||'N/D'} (${item._ano})`;
+        conteudo = `
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Responsável</div><div class="info-value highlight">${item.responsavel||'-'}</div><div class="info-label" style="margin-top:8px;">Partido</div><div class="info-value">${item.partido||'-'}</div><div class="info-label" style="margin-top:8px;">Bloco/Bancada</div><div class="info-value">${item.bloco_bancada||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Unidade Orçamentária</div><div class="info-value">${item.uo_descricao||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Nº Indicação</div><div class="info-value highlight">${item.numero_indicacao||'-'}</div><div class="info-label" style="margin-top:8px;">Tipo de Indicação</div><div class="info-value">${item.tipo_de_indicacao||'-'}</div><div class="info-label" style="margin-top:8px;">Categoria IOT</div><div class="info-value">${item.categoria_iot||'-'}</div></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Valor Indicado</div><div class="info-value">${fmt(item.valor_indicado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Utilizado</div><div class="info-value">${fmt(item.valor_utilizado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Empenhado</div><div class="info-value">${fmt(item.valor_empenhado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Liquidado</div><div class="info-value">${fmt(item.valor_liquidado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Pago</div><div class="info-value">${fmt(item.valor_pago)}</div></div>
+                <div class="info-card"><div class="info-label">Saldo a Pagar (RP)</div><div class="info-value">${fmt(item.saldo_rp)}</div></div>
+            </div>
+            ${item.justificativa ? `<div class="objeto-container"><div class="objeto-title"><i class="material-icons">info</i>JUSTIFICATIVA</div><div class="objeto-text">${item.justificativa}</div></div>` : ''}`;
+    }
+
+    document.getElementById('detailModalLabel').innerHTML = titulo;
+    document.getElementById('detalhesConteudo').innerHTML = conteudo;
+    new bootstrap.Modal(document.getElementById('detailModal')).show();
+};
+
+// ============================================================
+// PAGINAÇÃO
+// ============================================================
+function renderPaginacao(containerId, dash, total, pg, perPage) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    if (!total) { el.innerHTML = ''; return; }
+    const totalPages = Math.ceil(total / perPage);
+    const ini = (pg-1)*perPage + 1, fim = Math.min(pg*perPage, total);
+    let p2i = Math.max(1, pg-2), p2f = Math.min(totalPages, p2i+4);
+    let pgs = '';
+    for (let i=p2i; i<=p2f; i++) pgs += `<li class="page-item ${i===pg?'active':''}"><a class="page-link" href="#" onclick="mudarPagina('${dash}',${i});return false;">${i}</a></li>`;
+    el.innerHTML = `<div class="d-flex align-items-center justify-content-center gap-3 w-100 flex-wrap">
+        <div class="pagination-info">${ini}–${fim} de ${total.toLocaleString()} registros</div>
+        <nav><ul class="pagination mb-0">
+            <li class="page-item ${pg===1?'disabled':''}"><a class="page-link" href="#" onclick="mudarPagina('${dash}',${pg-1});return false;">«</a></li>
+            ${pgs}
+            <li class="page-item ${pg===totalPages?'disabled':''}"><a class="page-link" href="#" onclick="mudarPagina('${dash}',${pg+1});return false;">»</a></li>
+        </ul></nav>
+        <select class="items-per-page" onchange="alterarItensPorPagina('${dash}',this.value)">
+            <option value="10" ${perPage==10?'selected':''}>10</option>
+            <option value="25" ${perPage==25?'selected':''}>25</option>
+            <option value="50" ${perPage==50?'selected':''}>50</option>
+            <option value="100" ${perPage==100?'selected':''}>100</option>
+        </select>
+    </div>`;
+}
+
+window.mudarPagina = function(dash, pg) {
+    const data = dash==='dg' ? filteredDG : (dash==='exec' ? filteredExec : (dash==='vi' ? filteredVI : filteredNR));
+    const max = Math.ceil(data.length / itemsPerPage[dash]);
+    if (pg < 1 || pg > max) return;
+    currentPage[dash] = pg;
+    renderTabela(dash);
+    iframeUpdateHeight();
+};
+
+window.alterarItensPorPagina = function(dash, v) {
+    itemsPerPage[dash] = parseInt(v);
+    currentPage[dash] = 1;
+    renderTabela(dash);
+    iframeUpdateHeight();
+};
+
+// ============================================================
+// EXPORTAR CSV
+// ============================================================
+function exportarCSV(dash) {
+    let cabs, linhas;
+    if (dash === 'dg') {
+        cabs = ['Ano','Responsável','Valor LOA','Valor Utilizado','Valor Empenhado','Valor Liquidado','Valor Pago'];
+        linhas = filteredDG.map(d => [d._ano,d.responsavel,fmt(d.valor_loa),fmt(d.valor_utilizado),fmt(d.valor_empenhado),fmt(d.valor_liquidado),fmt(d.valor_pago)].map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(';'));
+    } else if (dash === 'exec') {
+        cabs = ['Ano','Responsável','UO','Nº Indicação','Tipo Indicação','Status','Nº Empenho','Vl. Indicação','Vl. Empenhado','Vl. Liquidado','Vl. Pago','Justificativa'];
+        linhas = filteredExec.map(d => [d._ano,d.responsavel,d.uo_sigla,d.numero_indicacao,d.tipo_de_indicacao,d.status_da_indicacao,d.no_empenho,fmt(d.valor_indicacao),fmt(d.valor_empenhado),fmt(d.valor_liquidado),fmt(d.valor_pago),(d.justificativa||'').replace(/\n/g,' ')].map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(';'));
+    } else if (dash === 'vi') {
+        cabs = ['Ano','Responsável','Partido','UO','Nº Indicação','Tipo','Município','Convenente','CNPJ','Vl. Indicado','Vl. Pago','SIAFI','Nº Empenho'];
+        linhas = filteredVI.map(d => [d._ano,d.responsavel,d.partido,d.uo_sigla,d.numero_indicacao,d.tipo_de_indicacao,d.municipio,d.convenente,d.cnpj_convenente,fmt(d.valor_indicado),fmt(d.valor_pago),d.numero_siafi,d.numero_empenho].map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(';'));
+    } else {
+        cabs = ['Ano','Responsável','Partido','UO','Nº Indicação','Tipo','Categoria IOT','Vl. Indicado','Vl. Utilizado','Vl. Pago','Justificativa'];
+        linhas = filteredNR.map(d => [d._ano,d.responsavel,d.partido,d.uo_descricao,d.numero_indicacao,d.tipo_de_indicacao,d.categoria_iot,fmt(d.valor_indicado),fmt(d.valor_utilizado),fmt(d.valor_pago),(d.justificativa||'').replace(/\n/g,' ')].map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(';'));
+    }
+    const csv = [cabs.join(';'), ...linhas].join('\n');
+    const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `emendas_estaduais_${dash}_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+}
+
+// ============================================================
+// EXPORTAR PDF
+// ============================================================
+function exportarPDF(dash) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation:'landscape' });
+    let head, body, titulo;
+    if (dash === 'dg') {
+        titulo = 'Emendas Estaduais — Visão Geral';
+        head = [['Ano','Responsável','Vl. LOA','Vl. Utilizado','Vl. Empenhado','Vl. Liquidado','Vl. Pago']];
+        body = filteredDG.slice(0,500).map(d => [d._ano,trunc(d.responsavel,30),fmt(d.valor_loa),fmt(d.valor_utilizado),fmt(d.valor_empenhado),fmt(d.valor_liquidado),fmt(d.valor_pago)]);
+    } else if (dash === 'exec') {
+        titulo = 'Emendas Estaduais — Execução';
+        head = [['Ano','Responsável','UO','Nº Indicação','Tipo','Status','Empenho','Vl. Indicação','Vl. Pago']];
+        body = filteredExec.slice(0,500).map(d => [d._ano,trunc(d.responsavel,25),d.uo_sigla,d.numero_indicacao,trunc(d.tipo_de_indicacao,18),trunc(d.status_da_indicacao,15),d.no_empenho,fmt(d.valor_indicacao),fmt(d.valor_pago)]);
+    } else if (dash === 'vi') {
+        titulo = 'Emendas Estaduais — Valores Indicados';
+        head = [['Ano','Responsável','Partido','UO','Nº Indic.','Município','Convenente','Vl. Indicado','Vl. Pago']];
+        body = filteredVI.slice(0,500).map(d => [d._ano,trunc(d.responsavel,25),d.partido,d.uo_sigla,d.numero_indicacao,trunc(d.municipio,18),trunc(d.convenente,22),fmt(d.valor_indicado),fmt(d.valor_pago)]);
+    } else {
+        titulo = 'Emendas Estaduais — Valores Não Realizados';
+        head = [['Ano','Responsável','Partido','UO','Nº Indic.','Tipo','Cat. IOT','Vl. Indicado','Vl. Pago']];
+        body = filteredNR.slice(0,500).map(d => [d._ano,trunc(d.responsavel,25),d.partido,trunc(d.uo_descricao,20),d.numero_indicacao,trunc(d.tipo_de_indicacao,18),trunc(d.categoria_iot,18),fmt(d.valor_indicado),fmt(d.valor_pago)]);
+    }
+    doc.autoTable({
+        head, body,
+        headStyles: { fillColor: [32,68,93] },
+        styles: { fontSize: 7 },
+        didDrawPage: () => {
+            doc.setFontSize(10);
+            doc.text(titulo, 14, 10);
+            doc.text(`Emitido em: ${new Date().toLocaleString('pt-BR')}`, 14, doc.internal.pageSize.height - 5);
+        }
+    });
+    doc.save(`emendas_estaduais_${dash}.pdf`);
+}
+
+// ============================================================
+// COMPARTILHAMENTO
+// ============================================================
+function toggleShare(id) {
+    document.querySelectorAll('.share-options').forEach(o => o.classList.remove('show'));
+    document.getElementById(`shareOptions${id}`)?.classList.toggle('show');
+}
+function copiarLink(e, id) {
+    e.preventDefault();
+    navigator.clipboard.writeText(window.location.href).then(() => {
+        const t = document.getElementById('toastSucesso');
+        if (t) { t.style.display='flex'; t.style.animation='none'; t.offsetHeight; t.style.animation='fadeInUp 0.3s ease'; setTimeout(()=>{ t.style.display='none'; },3000); }
+    });
+    document.getElementById(`shareOptions${id}`)?.classList.remove('show');
+}
+function compartilharFacebook(e,id) { e.preventDefault(); window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(location.href)}`,'_blank'); document.getElementById(`shareOptions${id}`)?.classList.remove('show'); }
+function compartilharTwitter(e,id)  { e.preventDefault(); window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(location.href)}&text=${encodeURIComponent('Emendas Estaduais - Governo de Minas Gerais')}`,'_blank'); document.getElementById(`shareOptions${id}`)?.classList.remove('show'); }
+function compartilharWhatsApp(e,id) { e.preventDefault(); window.open(`https://wa.me/?text=${encodeURIComponent('Emendas Estaduais - Governo de Minas Gerais '+location.href)}`,'_blank'); document.getElementById(`shareOptions${id}`)?.classList.remove('show'); }
+
+function voltarAoTopo() {
+    window.scrollTo({ top:0, behavior:'smooth' });
+    document.documentElement.scrollTo({ top:0, behavior:'smooth' });
+    document.body.scrollTo({ top:0, behavior:'smooth' });
+    if (window.parent !== window) {
+        try { window.parent.scrollTo({ top:0, behavior:'smooth' }); } catch(e) {}
+        try { window.parent.postMessage({ type:'scrollToTop', scrollTop:true }, '*'); } catch(e) {}
+    }
+}
+
+function iframeUpdateHeight() {
+    const h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) + 10;
+    try { window.parent.postMessage({ iframeHeight:h, iframeResize:true, type:'resize' }, '*'); } catch(e) {}
+}
+
+// ============================================================
+// EVENT LISTENERS
+// ============================================================
+function setupEventListeners() {
+    // DG
+    document.getElementById('aplicarFiltrosDG')?.addEventListener('click', () => aplicarFiltros('dg'));
+    document.getElementById('limparFiltrosDG')?.addEventListener('click',   () => limparFiltros('dg'));
+    document.getElementById('searchDG')?.addEventListener('input', e => { currentSearch.dg = e.target.value.toLowerCase(); filtrarTabela('dg'); });
+    document.getElementById('itemsPerPageDG')?.addEventListener('change', function() { alterarItensPorPagina('dg', this.value); });
+    document.getElementById('exportCSVDG')?.addEventListener('click', () => exportarCSV('dg'));
+    document.getElementById('printDG')?.addEventListener('click',     () => exportarPDF('dg'));
+    // Exec
+    document.getElementById('aplicarFiltrosExec')?.addEventListener('click', () => aplicarFiltros('exec'));
+    document.getElementById('limparFiltrosExec')?.addEventListener('click',   () => limparFiltros('exec'));
+    document.getElementById('searchExec')?.addEventListener('input', e => { currentSearch.exec = e.target.value.toLowerCase(); filtrarTabela('exec'); });
+    document.getElementById('itemsPerPageExec')?.addEventListener('change', function() { alterarItensPorPagina('exec', this.value); });
+    document.getElementById('exportCSVExec')?.addEventListener('click', () => exportarCSV('exec'));
+    document.getElementById('printExec')?.addEventListener('click',     () => exportarPDF('exec'));
+    // VI
+    document.getElementById('aplicarFiltrosVI')?.addEventListener('click', () => aplicarFiltros('vi'));
+    document.getElementById('limparFiltrosVI')?.addEventListener('click',   () => limparFiltros('vi'));
+    document.getElementById('searchVI')?.addEventListener('input', e => { currentSearch.vi = e.target.value.toLowerCase(); filtrarTabela('vi'); });
+    document.getElementById('itemsPerPageVI')?.addEventListener('change', function() { alterarItensPorPagina('vi', this.value); });
+    document.getElementById('exportCSVVI')?.addEventListener('click', () => exportarCSV('vi'));
+    document.getElementById('printVI')?.addEventListener('click',     () => exportarPDF('vi'));
+    // NR
+    document.getElementById('aplicarFiltrosNR')?.addEventListener('click', () => aplicarFiltros('nr'));
+    document.getElementById('limparFiltrosNR')?.addEventListener('click',   () => limparFiltros('nr'));
+    document.getElementById('searchNR')?.addEventListener('input', e => { currentSearch.nr = e.target.value.toLowerCase(); filtrarTabela('nr'); });
+    document.getElementById('itemsPerPageNR')?.addEventListener('change', function() { alterarItensPorPagina('nr', this.value); });
+    document.getElementById('exportCSVNR')?.addEventListener('click', () => exportarCSV('nr'));
+    document.getElementById('printNR')?.addEventListener('click',     () => exportarPDF('nr'));
+
+    document.addEventListener('click', e => {
+        if (!e.target.closest('.share-dropdown')) document.querySelectorAll('.share-options').forEach(o => o.classList.remove('show'));
+    });
+    document.querySelectorAll('[data-bs-toggle="tab"]').forEach(btn => {
+        btn.addEventListener('shown.bs.tab', () => setTimeout(iframeUpdateHeight, 100));
+    });
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+    setupAtualizacao();
+    carregarTodosDados();
+    setupEventListeners();
+    setTimeout(iframeUpdateHeight, 1000);
+});
+
+if (window.ResizeObserver) new ResizeObserver(iframeUpdateHeight).observe(document.body);
+else { window.addEventListener('resize', iframeUpdateHeight); setInterval(iframeUpdateHeight, 3000); }
+setInterval(iframeUpdateHeight, 3000);
+</script>
+</body>
+</html>
