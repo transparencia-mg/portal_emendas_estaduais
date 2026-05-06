@@ -13,6 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
     <style>
         :root {
@@ -163,12 +164,18 @@
         }
         .table thead th:hover { background-color: #3d5566 !important; }
         .table tbody tr { background-color: #ffffff; }
-        .table tbody td { padding: 10px 10px; vertical-align: middle; border-bottom: 1px solid #f1f1f1; font-size: 12px; }
+        .table tbody td { padding: 10px 10px; vertical-align: middle; border-bottom: 1px solid #f1f1f1; font-size: 12px; font-family: 'Montserrat', sans-serif !important; }
         .table tbody tr:hover { background-color: rgba(41,67,90,0.04); }
         .table-bordered { border: 1px solid #dee2e6; width: 100%; }
         .table-bordered th, .table-bordered td { border: 1px solid #dee2e6; padding: 12px; vertical-align: top; }
         .table-responsive { display: block; width: 100%; overflow-x: auto; }
-        .valor-monetario { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+        .valor-monetario { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; font-family: 'Montserrat', sans-serif !important; font-size: 12px; }
+
+        /* Linha clicável na Visão Geral */
+        .row-clickable { cursor: pointer; }
+        .row-clickable:hover { background-color: rgba(185,60,66,0.06) !important; }
+        .row-clickable td:first-child { position: relative; }
+        .row-clickable td.td-link { color: var(--accent-red); font-weight: 600; text-decoration: underline; text-decoration-style: dotted; }
 
         .sortable-header { cursor: pointer; position: relative; padding-right: 22px !important; }
         .sortable-header:hover { background-color: #3d5566 !important; }
@@ -325,13 +332,20 @@
         .modal-creative .modal-header .btn-close { filter: brightness(0) invert(1); opacity: 1; }
         .modal-creative .modal-header .btn-close:hover { opacity: 0.8; }
         .info-card { background: #f8fafd; border-radius: 10px; padding: 16px; margin-bottom: 12px; border: 1px solid #e2e8f0; }
-        .info-label { font-size: 11px; text-transform: uppercase; color: #6c757d; font-weight: 600; margin-bottom: 4px; }
-        .info-value { font-size: 13px; font-weight: 600; color: var(--primary-dark); word-break: break-word; }
+        .info-label { font-size: 11px; text-transform: uppercase; color: #6c757d; font-weight: 600; margin-bottom: 4px; font-family: 'Montserrat', sans-serif !important; }
+        .info-value { font-size: 13px; font-weight: 600; color: var(--primary-dark); word-break: break-word; font-family: 'Montserrat', sans-serif !important; }
         .info-value.highlight { font-size: 16px; color: var(--accent-red); }
         .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 12px; }
         .objeto-container { background: #f8fafd; border-radius: 8px; padding: 16px; border: 1px solid #e2e8f0; margin-top: 4px; }
         .objeto-title { font-size: 13px; font-weight: 700; color: var(--primary-dark); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
         .objeto-text { font-size: 13px; line-height: 1.6; color: #495057; }
+
+        /* Modal sections */
+        .modal-section { background: #f0f4f8; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; border-left: 4px solid var(--primary-dark); }
+        .modal-section-title { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--primary-dark); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; letter-spacing: 0.5px; }
+        .modal-section.section-nr { border-left-color: var(--accent-red); }
+        .modal-section.section-exec { border-left-color: var(--info-blue); }
+        .modal-section.section-vi { border-left-color: var(--success-green); }
 
         .pagination-container {
             display: flex;
@@ -380,6 +394,44 @@
             border: 1px solid #e5e9ef;
         }
         .card-stats h4 { font-size: 15px; font-weight: 600; color: var(--primary-dark); }
+
+        /* Gerenciador de colunas */
+        .col-manager-dropdown { position: relative; display: inline-block; }
+        .col-manager-panel {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: white;
+            min-width: 240px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border-radius: 10px;
+            padding: 12px;
+            z-index: 1100;
+            border: 1px solid #dee2e6;
+            margin-top: 5px;
+            max-height: 340px;
+            overflow-y: auto;
+        }
+        .col-manager-panel.show { display: block; }
+        .col-manager-panel .col-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+            color: var(--primary-dark);
+            font-weight: 500;
+        }
+        .col-manager-panel .col-item:hover { background: var(--background-light); }
+        .col-manager-panel .col-item input[type=checkbox] { accent-color: var(--primary-dark); width: 14px; height: 14px; cursor: pointer; }
+        .col-manager-title { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #6c757d; padding: 0 8px 8px; border-bottom: 1px solid #e9ecef; margin-bottom: 8px; letter-spacing: 0.5px; }
+
+        .badge-realizado { background: #d4edda; color: #155724; display: inline-block; padding: 3px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; white-space: nowrap; }
+        .badge-naorealizados { background: #f8d7da; color: #721c24; display: inline-block; padding: 3px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; white-space: nowrap; }
 
         .dicionario-tabela { width: 100%; border-collapse: collapse; margin-top: 20px; }
         .dicionario-tabela th { background-color: #54697b; color: white; padding: 12px 10px; font-size: 12px; font-weight: 600; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.2); }
@@ -451,6 +503,27 @@
         .badge-cancelado { background: #f8d7da; color: #721c24; }
         .badge-pendente { background: #fff3cd; color: #856404; }
         .badge-default { background: #e2e8f0; color: #1a3a5c; }
+
+        .chart-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+            border: 1px solid #e5e9ef;
+            padding: 14px 16px 10px;
+            margin-bottom: 20px;
+        }
+        .chart-card h6 {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #1a3a5c;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .chart-card h6 i { color: var(--accent-red); font-size: 14px; }
     </style>
 </head>
 <body>
@@ -475,22 +548,17 @@
                     </button>
                 </li>
                 <li class="nav-item">
+                    <button class="nav-link" id="tab3-tab" data-bs-toggle="tab" data-bs-target="#tab3">
+                        <i class="material-icons">assignment</i>Consulta de Indicações
+                    </button>
+                </li>
+                <li class="nav-item">
                     <button class="nav-link" id="tab2-tab" data-bs-toggle="tab" data-bs-target="#tab2">
                         <i class="material-icons">receipt</i>Execução
                     </button>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link" id="tab3-tab" data-bs-toggle="tab" data-bs-target="#tab3">
-                        <i class="material-icons">assignment_turned_in</i>Valores Indicados
-                    </button>
-                </li>
-                <li class="nav-item">
                     <button class="nav-link" id="tab4-tab" data-bs-toggle="tab" data-bs-target="#tab4">
-                        <i class="material-icons">block</i>Valores Não Realizados
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link" id="tab5-tab" data-bs-toggle="tab" data-bs-target="#tab5">
                         <i class="material-icons">download</i>Downloads
                     </button>
                 </li>
@@ -521,13 +589,30 @@
                         </div>
                     </div>
                     <div class="botoes-abaixo">
-                        <button class="btn-pesquisa" id="aplicarFiltrosDG"><i class="material-icons me-2">search</i>Pesquisar</button>
+                        <button class="btn-pesquisa" id="aplicarFiltrosDG"><i class="material-icons me-2">refresh</i>Atualizar Filtros</button>
                         <button class="btn-secondary-custom" id="limparFiltrosDG"><i class="material-icons me-2">clear</i>Limpar Filtros</button>
                     </div>
                 </div>
 
                 <div class="row mb-4" id="summaryCardsDG">
                     <div class="col-12 text-center text-muted" style="font-size:13px;">Carregando dados...</div>
+                </div>
+
+
+                <!-- GRÁFICOS VISÃO GERAL -->
+                <div class="row mb-3" id="graficosVG">
+                    <div class="col-md-6 mb-3">
+                        <div class="chart-card">
+                            <h6><i class="material-icons">bar_chart</i>Evolução Anual — Valor LOA (Impositivo)</h6>
+                            <canvas id="chartLOA" style="max-height:160px;"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="chart-card">
+                            <h6><i class="material-icons">payments</i>Evolução Anual — Valor Pago</h6>
+                            <canvas id="chartPago" style="max-height:160px;"></canvas>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="toolbar">
@@ -543,8 +628,15 @@
                                 <a href="#" onclick="compartilharTwitter(event,1)"><i class="fa-brands fa-x-twitter"></i>Twitter/X</a>
                             </div>
                         </div>
+                        <div class="col-manager-dropdown">
+                            <button class="btn-export" onclick="toggleColManager('dg')"><i class="material-icons">view_column</i>Colunas</button>
+                            <div class="col-manager-panel" id="colManagerDG">
+                                <div class="col-manager-title">Exibir / Ocultar Colunas</div>
+                            </div>
+                        </div>
                     </div>
                     <div class="toolbar-right">
+                        <span style="font-size:11px;color:#94a3b8;font-style:italic;"><i class="material-icons" style="font-size:12px;">touch_app</i> Clique na linha para ver indicações</span>
                         <span class="table-badge" id="countDG">0 registros</span>
                         <div class="table-search-container">
                             <i class="material-icons" style="font-size:16px;color:#94a3b8;">search</i>
@@ -563,15 +655,15 @@
                     <div class="table-fixed-header-container">
                         <table class="table" id="tabelaDG">
                             <thead>
-                                <tr>
-                                    <th class="sortable-header" onclick="ordenarTabela('dg',0)">Ano <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('dg',1)">Responsável <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('dg',2)">Valor LOA <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('dg',3)">Valor Utilizado <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('dg',4)">Valor Empenhado <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('dg',5)">Valor Liquidado <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('dg',6)">Valor Pago <i class="material-icons">unfold_more</i></th>
-                                    <th style="text-align:center;width:60px;">Ações</th>
+                                <tr id="tabelaDGHead">
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',0)" data-col="0">Ano <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',1)" data-col="1">Responsável <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',2)" data-col="2">Valor LOA <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',3)" data-col="3">Valor Utilizado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',4)" data-col="4">Valor Empenhado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',5)" data-col="5">Valor Liquidado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',6)" data-col="6">Valor Pago <i class="material-icons">unfold_more</i></th>
+                                    <th style="text-align:center;width:60px;" data-col="7">Ações</th>
                                 </tr>
                             </thead>
                             <tbody id="tabelaDGBody">
@@ -627,7 +719,7 @@
                         <div class="filter-group" style="flex:2;"></div>
                     </div>
                     <div class="botoes-abaixo">
-                        <button class="btn-pesquisa" id="aplicarFiltrosExec"><i class="material-icons me-2">search</i>Pesquisar</button>
+                        <button class="btn-pesquisa" id="aplicarFiltrosExec"><i class="material-icons me-2">refresh</i>Atualizar Filtros</button>
                         <button class="btn-secondary-custom" id="limparFiltrosExec"><i class="material-icons me-2">clear</i>Limpar Filtros</button>
                     </div>
                 </div>
@@ -647,6 +739,12 @@
                                 <a href="#" onclick="compartilharWhatsApp(event,2)"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>
                                 <a href="#" onclick="compartilharFacebook(event,2)"><i class="fa-brands fa-facebook"></i>Facebook</a>
                                 <a href="#" onclick="compartilharTwitter(event,2)"><i class="fa-brands fa-x-twitter"></i>Twitter/X</a>
+                            </div>
+                        </div>
+                        <div class="col-manager-dropdown">
+                            <button class="btn-export" onclick="toggleColManager('exec')"><i class="material-icons">view_column</i>Colunas</button>
+                            <div class="col-manager-panel" id="colManagerExec">
+                                <div class="col-manager-title">Exibir / Ocultar Colunas</div>
                             </div>
                         </div>
                     </div>
@@ -669,22 +767,27 @@
                     <div class="table-fixed-header-container">
                         <table class="table" id="tabelaExec">
                             <thead>
-                                <tr>
-                                    <th class="sortable-header" onclick="ordenarTabela('exec',0)">Ano <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('exec',1)">Responsável <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('exec',2)">UO <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('exec',3)">Nº Indicação <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('exec',4)">Tipo Indicação <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('exec',5)">Status <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('exec',6)">Nº Empenho <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('exec',7)">Vl. Indicação <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('exec',8)">Vl. Empenhado <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('exec',9)">Vl. Pago <i class="material-icons">unfold_more</i></th>
-                                    <th style="text-align:center;width:60px;">Ações</th>
+                                <tr id="tabelaExecHead">
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',0)" data-col="0">Responsável <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',1)" data-col="1">UO - Descrição <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',2)" data-col="2">Nº Indicação <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',3)" data-col="3">Tipo Indicação <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',4)" data-col="4">Nº SIAFI <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',5)" data-col="5">Nº Empenho <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',6)" data-col="6">Proc. Compra <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',7)" data-col="7">Reg. Preço <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',8)" data-col="8">Desc. Proc. Compra <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',9)" data-col="9">Status Proc. <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',10)" data-col="10">Vl. Indicação <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',11)" data-col="11">Vl. Executado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',12)" data-col="12">Vl. Empenhado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',13)" data-col="13">Vl. Liquidado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('exec',14)" data-col="14">Vl. Pago <i class="material-icons">unfold_more</i></th>
+                                    <th style="text-align:center;width:60px;" data-col="15">Ações</th>
                                 </tr>
                             </thead>
                             <tbody id="tabelaExecBody">
-                                <tr><td colspan="11" class="text-center text-muted">Carregando dados...</td></tr>
+                                <tr><td colspan="16" class="text-center text-muted">Carregando dados...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -695,7 +798,7 @@
                 </div>
             </div>
 
-            <!-- ===== TAB 3: VALORES INDICADOS ===== -->
+            <!-- ===== TAB 3: CONSULTA DE INDICAÇÕES (fusão VI + NR) ===== -->
             <div class="tab-pane fade" id="tab3" role="tabpanel">
                 <div class="filter-container">
                     <div class="filters-row">
@@ -712,6 +815,14 @@
                             <select class="form-select" id="partidoVI"><option value="">Todos</option></select>
                         </div>
                         <div class="filter-group">
+                            <label class="filter-label">Situação</label>
+                            <select class="form-select" id="situacaoVI">
+                                <option value="">Todas</option>
+                                <option value="Realizado">Realizado</option>
+                                <option value="Não Realizado">Não Realizado</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
                             <label class="filter-label">UO</label>
                             <input type="text" class="form-control" id="uoVI" placeholder="Sigla ou descrição...">
                         </div>
@@ -724,6 +835,10 @@
                         <div class="filter-group">
                             <label class="filter-label">Tipo de Indicação</label>
                             <select class="form-select" id="tipoIndicacaoVI"><option value="">Todos</option></select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Nº SIAFI</label>
+                            <input type="text" class="form-control" id="numSiafiVI" placeholder="Ex: 9461574">
                         </div>
                         <div class="filter-group">
                             <label class="filter-label">Município</label>
@@ -739,7 +854,7 @@
                         </div>
                     </div>
                     <div class="botoes-abaixo">
-                        <button class="btn-pesquisa" id="aplicarFiltrosVI"><i class="material-icons me-2">search</i>Pesquisar</button>
+                        <button class="btn-pesquisa" id="aplicarFiltrosVI"><i class="material-icons me-2">refresh</i>Atualizar Filtros</button>
                         <button class="btn-secondary-custom" id="limparFiltrosVI"><i class="material-icons me-2">clear</i>Limpar Filtros</button>
                     </div>
                 </div>
@@ -759,6 +874,12 @@
                                 <a href="#" onclick="compartilharWhatsApp(event,3)"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>
                                 <a href="#" onclick="compartilharFacebook(event,3)"><i class="fa-brands fa-facebook"></i>Facebook</a>
                                 <a href="#" onclick="compartilharTwitter(event,3)"><i class="fa-brands fa-x-twitter"></i>Twitter/X</a>
+                            </div>
+                        </div>
+                        <div class="col-manager-dropdown">
+                            <button class="btn-export" onclick="toggleColManager('vi')"><i class="material-icons">view_column</i>Colunas</button>
+                            <div class="col-manager-panel" id="colManagerVI">
+                                <div class="col-manager-title">Exibir / Ocultar Colunas</div>
                             </div>
                         </div>
                     </div>
@@ -781,22 +902,25 @@
                     <div class="table-fixed-header-container">
                         <table class="table" id="tabelaVI">
                             <thead>
-                                <tr>
-                                    <th class="sortable-header" onclick="ordenarTabela('vi',0)">Ano <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('vi',1)">Responsável <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('vi',2)">Partido <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('vi',3)">UO <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('vi',4)">Nº Indicação <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('vi',5)">Tipo <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('vi',6)">Município <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('vi',7)">Convenente/Beneficiado <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('vi',8)">Vl. Indicado <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('vi',9)">Vl. Pago <i class="material-icons">unfold_more</i></th>
-                                    <th style="text-align:center;width:60px;">Ações</th>
+                                <tr id="tabelaVIHead">
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',0)" data-col="0">Responsável <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',1)" data-col="1">Partido <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',2)" data-col="2">Bloco/Bancada <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',3)" data-col="3">UO - Descrição <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',4)" data-col="4">Nº Indicação <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',5)" data-col="5">Tipo Indicação <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',6)" data-col="6">Nº SIAFI <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',7)" data-col="7">Situação <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',8)" data-col="8">Vl. Indicado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',9)" data-col="9">Vl. Utilizado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',10)" data-col="10">Vl. Empenhado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',11)" data-col="11">Vl. Liquidado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',12)" data-col="12">Vl. Pago <i class="material-icons">unfold_more</i></th>
+                                    <th style="text-align:center;width:60px;" data-col="13">Ações</th>
                                 </tr>
                             </thead>
                             <tbody id="tabelaVIBody">
-                                <tr><td colspan="11" class="text-center text-muted">Carregando dados...</td></tr>
+                                <tr><td colspan="14" class="text-center text-muted">Carregando dados...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -807,106 +931,12 @@
                 </div>
             </div>
 
-            <!-- ===== TAB 4: VALORES NÃO REALIZADOS ===== -->
+            <!-- ===== TAB 4: DOWNLOADS ===== -->
             <div class="tab-pane fade" id="tab4" role="tabpanel">
-                <div class="filter-container">
-                    <div class="filters-row">
-                        <div class="filter-group">
-                            <label class="filter-label">Ano</label>
-                            <select class="form-select" id="anoNR"><option value="">Todos</option></select>
-                        </div>
-                        <div class="filter-group">
-                            <label class="filter-label">Responsável</label>
-                            <input type="text" class="form-control" id="responsavelNR" placeholder="Nome do responsável...">
-                        </div>
-                        <div class="filter-group">
-                            <label class="filter-label">Partido</label>
-                            <select class="form-select" id="partidoNR"><option value="">Todos</option></select>
-                        </div>
-                        <div class="filter-group">
-                            <label class="filter-label">Tipo de Indicação</label>
-                            <select class="form-select" id="tipoIndicacaoNR"><option value="">Todos</option></select>
-                        </div>
-                        <div class="filter-group">
-                            <label class="filter-label">Categoria IOT</label>
-                            <select class="form-select" id="categoriaIotNR"><option value="">Todas</option></select>
-                        </div>
-                    </div>
-                    <div class="botoes-abaixo">
-                        <button class="btn-pesquisa" id="aplicarFiltrosNR"><i class="material-icons me-2">search</i>Pesquisar</button>
-                        <button class="btn-secondary-custom" id="limparFiltrosNR"><i class="material-icons me-2">clear</i>Limpar Filtros</button>
-                    </div>
-                </div>
-
-                <div class="row mb-4" id="summaryCardsNR">
-                    <div class="col-12 text-center text-muted" style="font-size:13px;">Carregando dados...</div>
-                </div>
-
-                <div class="toolbar">
-                    <div class="toolbar-left">
-                        <button class="btn-export" id="exportCSVNR"><i class="material-icons">description</i>CSV</button>
-                        <button class="btn-export" id="printNR"><i class="material-icons">print</i>PDF</button>
-                        <div class="share-dropdown">
-                            <button class="btn-export" onclick="toggleShare(4)"><i class="material-icons">share</i>Compartilhar</button>
-                            <div class="share-options" id="shareOptions4">
-                                <a href="#" onclick="copiarLink(event,4)"><i class="material-icons">link</i>Copiar Link</a>
-                                <a href="#" onclick="compartilharWhatsApp(event,4)"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>
-                                <a href="#" onclick="compartilharFacebook(event,4)"><i class="fa-brands fa-facebook"></i>Facebook</a>
-                                <a href="#" onclick="compartilharTwitter(event,4)"><i class="fa-brands fa-x-twitter"></i>Twitter/X</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="toolbar-right">
-                        <span class="table-badge" id="countNR">0 registros</span>
-                        <div class="table-search-container">
-                            <i class="material-icons" style="font-size:16px;color:#94a3b8;">search</i>
-                            <input type="text" id="searchNR" class="table-search-input" placeholder="Buscar registros...">
-                        </div>
-                        <select id="itemsPerPageNR" class="items-per-page">
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50" selected>50</option>
-                            <option value="100">100</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="table-container">
-                    <div class="table-fixed-header-container">
-                        <table class="table" id="tabelaNR">
-                            <thead>
-                                <tr>
-                                    <th class="sortable-header" onclick="ordenarTabela('nr',0)">Ano <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('nr',1)">Responsável <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('nr',2)">Partido <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('nr',3)">UO <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('nr',4)">Nº Indicação <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('nr',5)">Tipo Indicação <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('nr',6)">Categoria IOT <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('nr',7)">Vl. Indicado <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('nr',8)">Vl. Utilizado <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('nr',9)">Vl. Pago <i class="material-icons">unfold_more</i></th>
-                                    <th style="text-align:center;width:60px;">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabelaNRBody">
-                                <tr><td colspan="11" class="text-center text-muted">Carregando dados...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="pagination-container" id="paginacaoNR"></div>
-                </div>
-                <div style="display:flex;justify-content:flex-end;margin-top:10px;">
-                    <div class="btn-topo" onclick="voltarAoTopo()"><i class="material-icons">arrow_upward</i>Voltar ao topo</div>
-                </div>
-            </div>
-
-            <!-- ===== TAB 5: DOWNLOADS ===== -->
-            <div class="tab-pane fade" id="tab5" role="tabpanel">
                 <div class="row mb-4">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <div class="card-stats">
-                            <h4 class="fw-bold mb-3">Portal de Dados Abertos</h4>
+                            <h4 class="fw-bold mb-3"><i class="material-icons me-2" style="color:var(--accent-red);">storage</i>Portal de Dados Abertos</h4>
                             <p style="font-size:13px;color:#6c757d;text-align:justify;">
                                 Acesse o conjunto completo de dados sobre emendas estaduais no Portal de Dados Abertos de Minas Gerais, documentado conforme especificações Frictionless Data para validação automática e reuso.
                             </p>
@@ -917,9 +947,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <div class="card-stats">
-                            <h4 class="fw-bold mb-3">Repositório GitHub</h4>
+                            <h4 class="fw-bold mb-3"><i class="material-icons me-2" style="color:var(--accent-red);">account_balance</i>Portal das Emendas Estaduais</h4>
+                            <p style="font-size:13px;color:#6c757d;text-align:justify;">
+                                Acesse o portal oficial de transparência das emendas estaduais do Governo de Minas Gerais com informações detalhadas sobre a execução orçamentária.
+                            </p>
+                            <div class="mt-4 text-end">
+                                <a href="https://www.emendas.mg.gov.br/transparencia/" target="_blank" class="btn-export text-decoration-none fw-bold d-inline-block px-4 py-2">
+                                    <i class="material-icons me-1">launch</i>Acessar Portal Emendas MG
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card-stats">
+                            <h4 class="fw-bold mb-3"><i class="material-icons me-2" style="color:var(--accent-red);">code</i>Repositório GitHub</h4>
                             <p style="font-size:13px;color:#6c757d;text-align:justify;">
                                 Acesse os arquivos CSV diretamente no repositório do GitHub com os dados de emendas estaduais, incluindo dados gerais, execução, valores indicados e valores não realizados.
                             </p>
@@ -953,27 +996,25 @@
                                 <tr><td>Execução</td><td>status_da_indicacao</td><td>Situação atual da indicação no processo de execução.</td></tr>
                                 <tr><td>Execução</td><td>no_empenho</td><td>Número do empenho orçamentário.</td></tr>
                                 <tr><td>Execução</td><td>processo_de_compra</td><td>Identificação do processo licitatório ou de compra.</td></tr>
+                                <tr><td>Execução</td><td>numero_siafi</td><td>Número SIAFI do instrumento.</td></tr>
+                                <tr><td>Execução</td><td>registro_de_preco</td><td>Identificação do registro de preço associado.</td></tr>
                                 <tr><td>Execução</td><td>valor_indicacao</td><td>Valor total da indicação.</td></tr>
+                                <tr><td>Execução</td><td>valor_executado</td><td>Valor executado no processo.</td></tr>
                                 <tr><td>Execução</td><td>valor_empenhado</td><td>Valor empenhado no processo de execução.</td></tr>
                                 <tr><td>Execução</td><td>valor_liquidado</td><td>Valor liquidado no processo de execução.</td></tr>
                                 <tr><td>Execução</td><td>valor_pago</td><td>Valor pago ao credor/beneficiário.</td></tr>
-                                <tr><td>Execução</td><td>justificativa</td><td>Justificativa para o status ou situação da indicação.</td></tr>
-                                <tr class="dicionario-secao"><td colspan="3">VALORES INDICADOS</td></tr>
-                                <tr><td>Valores Indicados</td><td>responsavel_nome</td><td>Nome do parlamentar responsável pela indicação.</td></tr>
-                                <tr><td>Valores Indicados</td><td>partido / bloco_bancada</td><td>Partido político e bloco/bancada do parlamentar.</td></tr>
-                                <tr><td>Valores Indicados</td><td>descricao_municipio</td><td>Município beneficiado pela indicação.</td></tr>
-                                <tr><td>Valores Indicados</td><td>nome_convenente_beneficiado</td><td>Nome do convenente ou entidade beneficiada.</td></tr>
-                                <tr><td>Valores Indicados</td><td>numero_cnpj_convenente</td><td>CNPJ do convenente beneficiado.</td></tr>
-                                <tr><td>Valores Indicados</td><td>descricao_indicacao</td><td>Texto descritivo do objeto da indicação.</td></tr>
-                                <tr><td>Valores Indicados</td><td>valor_indicado</td><td>Valor total indicado pelo parlamentar.</td></tr>
-                                <tr><td>Valores Indicados</td><td>numero_siafi</td><td>Código SIAFI do instrumento de repasse.</td></tr>
-                                <tr class="dicionario-secao"><td colspan="3">VALORES NÃO REALIZADOS</td></tr>
-                                <tr><td>Não Realizados</td><td>responsavel_nome</td><td>Nome do parlamentar responsável.</td></tr>
-                                <tr><td>Não Realizados</td><td>uo_descricao</td><td>Descrição da Unidade Orçamentária.</td></tr>
-                                <tr><td>Não Realizados</td><td>numero_indicacao</td><td>Número da indicação parlamentar não realizada.</td></tr>
-                                <tr><td>Não Realizados</td><td>categoria_iot</td><td>Categoria IOT (Instrumento, Objeto, Tipo) da indicação.</td></tr>
-                                <tr><td>Não Realizados</td><td>justificativa</td><td>Justificativa para a não realização da indicação.</td></tr>
-                                <tr><td>Não Realizados</td><td>valor_indicado</td><td>Valor que foi indicado mas não realizado.</td></tr>
+                                <tr class="dicionario-secao"><td colspan="3">CONSULTA DE INDICAÇÕES (Valores Indicados + Não Realizados)</td></tr>
+                                <tr><td>Indicações</td><td>responsavel_nome</td><td>Nome do parlamentar responsável pela indicação.</td></tr>
+                                <tr><td>Indicações</td><td>partido / bloco_bancada</td><td>Partido político e bloco/bancada do parlamentar.</td></tr>
+                                <tr><td>Indicações</td><td>uo_descricao</td><td>Descrição da Unidade Orçamentária.</td></tr>
+                                <tr><td>Indicações</td><td>numero_indicacao</td><td>Número de identificação da indicação parlamentar.</td></tr>
+                                <tr><td>Indicações</td><td>tipo_de_indicacao</td><td>Classificação do tipo de indicação.</td></tr>
+                                <tr><td>Indicações</td><td>situacao</td><td>Situação da indicação: Realizado ou Não Realizado.</td></tr>
+                                <tr><td>Indicações</td><td>valor_indicado</td><td>Valor total indicado pelo parlamentar.</td></tr>
+                                <tr><td>Indicações</td><td>valor_utilizado</td><td>Valor utilizado/executado.</td></tr>
+                                <tr><td>Indicações</td><td>valor_empenhado</td><td>Valor empenhado.</td></tr>
+                                <tr><td>Indicações</td><td>valor_liquidado</td><td>Valor liquidado.</td></tr>
+                                <tr><td>Indicações</td><td>valor_pago</td><td>Valor pago ao credor.</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -1027,16 +1068,37 @@ const GITHUB_API  = 'https://api.github.com/repos/transparencia-mg/portal_emenda
 // ESTADO GLOBAL
 // ============================================================
 let dadosGerais = [], execucaoData = [], valoresIndicados = [], valoresNaoRealizados = [];
-let filteredDG = [], filteredExec = [], filteredVI = [], filteredNR = [];
+let filteredDG = [], filteredExec = [], filteredVI = [];
+// VI agora é a fusão de valoresIndicados (com situacao='Realizado') + valoresNaoRealizados (situacao='Não Realizado')
+let dadosIndicacoesUnificados = [];
 
-let currentPage  = { dg:1, exec:1, vi:1, nr:1 };
-let itemsPerPage = { dg:50, exec:50, vi:50, nr:50 };
-let currentSearch = { dg:'', exec:'', vi:'', nr:'' };
+let currentPage  = { dg:1, exec:1, vi:1 };
+let itemsPerPage = { dg:50, exec:50, vi:50 };
+let currentSearch = { dg:'', exec:'', vi:'' };
 let sortConfig = {
     dg:   { column:0, direction:'asc' },
     exec: { column:0, direction:'asc' },
-    vi:   { column:0, direction:'asc' },
-    nr:   { column:0, direction:'asc' }
+    vi:   { column:0, direction:'asc' }
+};
+
+// Colunas visíveis por aba (índices das colunas, true=visível)
+let colVisibility = {
+    dg: [true, true, true, true, true, true, true, true],
+    exec: [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true],
+    vi: [true, true, true, true, true, true, true, true, true, true, true, true, true, true]
+};
+
+const COL_LABELS = {
+    dg:   ['Ano','Responsável','Valor LOA','Valor Utilizado','Valor Empenhado','Valor Liquidado','Valor Pago','Ações'],
+    exec: ['Responsável','UO - Descrição','Nº Indicação','Tipo Indicação','Nº SIAFI','Nº Empenho','Proc. Compra','Reg. Preço','Desc. Proc. Compra','Status Proc.','Vl. Indicação','Vl. Executado','Vl. Empenhado','Vl. Liquidado','Vl. Pago','Ações'],
+    vi:   ['Responsável','Partido','Bloco/Bancada','UO - Descrição','Nº Indicação','Tipo Indicação','Nº SIAFI','Situação','Vl. Indicado','Vl. Utilizado','Vl. Empenhado','Vl. Liquidado','Vl. Pago','Ações']
+};
+
+// Colunas que não podem ser ocultadas
+const COL_FIXED = {
+    dg: [1, 7],   // Responsável e Ações sempre visíveis
+    exec: [0, 2, 15],
+    vi: [0, 4, 13]
 };
 
 // ============================================================
@@ -1060,6 +1122,14 @@ function trunc(str, n) {
     return str.length > n ? str.substring(0, n) + '...' : str;
 }
 
+function fmtSiafi(v) {
+    if (!v && v !== 0) return '-';
+    const s = v.toString().trim();
+    if (!s || s === '-') return '-';
+    // Remove trailing ,0 or .0 (e.g. "9461574,0" → "9461574")
+    return s.replace(/[,.]0+$/, '');
+}
+
 function badgeStatus(status) {
     if (!status) return '-';
     const s = status.toLowerCase();
@@ -1068,6 +1138,12 @@ function badgeStatus(status) {
     else if (s.includes('cancel') || s.includes('reprov') || s.includes('impedid')) cls = 'badge-cancelado';
     else if (s.includes('pendent') || s.includes('aguard') || s.includes('andamento')) cls = 'badge-pendente';
     return `<span class="badge-status ${cls}">${status}</span>`;
+}
+
+function badgeSituacao(situacao) {
+    if (!situacao) return '-';
+    if (situacao === 'Realizado') return `<span class="badge-realizado">✔ Realizado</span>`;
+    return `<span class="badge-naorealizados">✘ Não Realizado</span>`;
 }
 
 // ============================================================
@@ -1115,33 +1191,34 @@ async function carregarTodosDados() {
     setLoading(true, 'Carregando dados gerais...');
     const promises = [];
 
-    // Dados Gerais
     for (const ano of ANOS) promises.push(carregarCSV(`${GITHUB_RAW}dadosgerais_${ano}.csv`).then(rows => rows.map(r => mapDG(r, ano))));
-    // Execução
     for (const ano of ANOS) promises.push(carregarCSV(`${GITHUB_RAW}execucao_${ano}.csv`).then(rows => rows.map(r => mapExec(r, ano))));
-    // Valores Indicados
     for (const ano of ANOS) promises.push(carregarCSV(`${GITHUB_RAW}valores_indicados_${ano}.csv`).then(rows => rows.map(r => mapVI(r, ano))));
-    // Valores Não Realizados
     for (const ano of ANOS) promises.push(carregarCSV(`${GITHUB_RAW}valores_naorealizados_${ano}.csv`).then(rows => rows.map(r => mapNR(r, ano))));
 
     setLoading(true, 'Processando dados...');
     const results = await Promise.all(promises);
 
-    dadosGerais        = results.slice(0,4).flat();
-    execucaoData       = results.slice(4,8).flat();
-    valoresIndicados   = results.slice(8,12).flat();
-    valoresNaoRealizados = results.slice(12,16).flat();
+    dadosGerais           = results.slice(0,4).flat();
+    execucaoData          = results.slice(4,8).flat();
+    valoresIndicados      = results.slice(8,12).flat();
+    valoresNaoRealizados  = results.slice(12,16).flat();
+
+    // Unificar VI + NR com campo situacao
+    dadosIndicacoesUnificados = [
+        ...valoresIndicados.map(d => ({ ...d, situacao: 'Realizado', _fonte: 'vi' })),
+        ...valoresNaoRealizados.map(d => ({ ...d, situacao: 'Não Realizado', _fonte: 'nr' }))
+    ];
 
     filteredDG   = [...dadosGerais];
     filteredExec = [...execucaoData];
-    filteredVI   = [...valoresIndicados];
-    filteredNR   = [...valoresNaoRealizados];
+    filteredVI   = [...dadosIndicacoesUnificados];
 
     populaFiltros();
+    inicializarColManagers();
     updateDashboard('dg');
     updateDashboard('exec');
     updateDashboard('vi');
-    updateDashboard('nr');
     setLoading(false);
 }
 
@@ -1171,9 +1248,11 @@ function mapExec(row, ano) {
         numero_inciso: row.numero_inciso || '',
         numero_controle: row.numero_do_controle_de_execucao || '',
         no_empenho: row.no_empenho || '',
+        numero_siafi: (row.numero_siafi || '').toString().replace(/[,.]0+$/, ''),
         processo_compra: row.processo_de_compra || '',
         registro_preco: row.registro_de_preco || '',
         descricao_processo: row.descricao_processo_de_compras || '',
+        numero_processo_compra: row.numero_processo_de_compra_planejamento_de_registro_de_precos || '',
         status_processo: row.status_do_processo_de_compra_registro_de_precos || '',
         valor_indicacao: parseValor(row.valor_indicacao),
         valor_utilizado: parseValor(row.valor_utilizado_controle),
@@ -1219,9 +1298,16 @@ function mapVI(row, ano) {
         rp_nao_processado: parseValor(row.rp_nao_processado),
         valor_executado_doacao: parseValor(row.valor_executado_doacao),
         numero_instrumento: row.numero_instrumento_juridico || '',
-        numero_siafi: row.numero_siafi || '',
+        agencia: row.agencia || '',
+        conta_corrente: row.conta_corrente || '',
+        numero_siafi: (row.numero_siafi || '').toString().replace(/[,.]0+$/, ''),
         funcional_programatica: row.funcional_programatica_formatado || '',
+        categoria_economica_codigo: row['categoria_economica_despesa_-_codigo'] || row.categoria_economica_despesa_codigo || '',
         numero_empenho: row.numero_empenho || '',
+        descricao_genero: row.descricao_genero || '',
+        descricao_categoria: row.descricao_categoria || '',
+        descricao_especificacao: row.descricao_especificacao || '',
+        descricao_tipo_aplicacao: row.descricao_tipo_aplicacao || '',
         _raw: row
     };
 }
@@ -1233,6 +1319,8 @@ function mapNR(row, ano) {
         partido: row.partido || '',
         bloco_bancada: row.bloco_bancada || '',
         uo_descricao: row.uo_descricao || '',
+        uo_sigla: '',
+        uo: '',
         numero_indicacao: row.numero_indicacao || '',
         tipo_de_indicacao: row.tipo_de_indicacao || '',
         valor_indicado: parseValor(row.valor_indicado),
@@ -1246,6 +1334,15 @@ function mapNR(row, ano) {
         valor_executado_doacao: parseValor(row.valor_executado_doacao),
         categoria_iot: row.categoria_iot || '',
         justificativa: row.justificativa || '',
+        // campos não existentes no NR, defaults
+        municipio: '',
+        convenente: '',
+        cnpj_convenente: '',
+        descricao_indicacao: '',
+        numero_siafi: '',
+        numero_empenho: '',
+        status: '',
+        funcional_programatica: '',
         _raw: row
     };
 }
@@ -1254,7 +1351,6 @@ function mapNR(row, ano) {
 // POPULAÇÃO DE FILTROS
 // ============================================================
 function populaFiltros() {
-    // Anos
     const populaAnos = (id, data) => {
         const anos = [...new Set(data.map(d => d._ano))].sort((a,b)=>b-a);
         const el = document.getElementById(id);
@@ -1263,34 +1359,78 @@ function populaFiltros() {
     };
     const anosDG   = populaAnos('anoDG', dadosGerais);
     const anosExec = populaAnos('anoExec', execucaoData);
-    const anosVI   = populaAnos('anoVI', valoresIndicados);
-    const anosNR   = populaAnos('anoNR', valoresNaoRealizados);
+    const anosVI   = populaAnos('anoVI', dadosIndicacoesUnificados);
 
-    // Pre-seleciona ano mais recente
-    const setAno = (id, anos, data, filtered) => {
+    const setAno = (id, anos, data, filteredRef) => {
         const el = document.getElementById(id);
         if (el && anos.length) { el.value = anos[0]; return data.filter(d => d._ano == anos[0]); }
         return data;
     };
     filteredDG   = setAno('anoDG',   anosDG,   dadosGerais, filteredDG);
     filteredExec = setAno('anoExec', anosExec, execucaoData, filteredExec);
-    filteredVI   = setAno('anoVI',   anosVI,   valoresIndicados, filteredVI);
-    filteredNR   = setAno('anoNR',   anosNR,   valoresNaoRealizados, filteredNR);
+    filteredVI   = setAno('anoVI',   anosVI,   dadosIndicacoesUnificados, filteredVI);
 
-    // Partidos
     const populaSelect = (id, data, key) => {
         const el = document.getElementById(id);
         if (!el) return;
         const vals = [...new Set(data.map(d => d[key]).filter(Boolean))].sort();
         el.innerHTML = '<option value="">Todos</option>' + vals.map(v=>`<option value="${v}">${v}</option>`).join('');
     };
-    populaSelect('partidoVI', valoresIndicados, 'partido');
-    populaSelect('partidoNR', valoresNaoRealizados, 'partido');
+    populaSelect('partidoVI', dadosIndicacoesUnificados, 'partido');
     populaSelect('tipoIndicacaoExec', execucaoData, 'tipo_de_indicacao');
     populaSelect('statusIndicacaoExec', execucaoData, 'status_da_indicacao');
-    populaSelect('tipoIndicacaoVI', valoresIndicados, 'tipo_de_indicacao');
-    populaSelect('tipoIndicacaoNR', valoresNaoRealizados, 'tipo_de_indicacao');
-    populaSelect('categoriaIotNR', valoresNaoRealizados, 'categoria_iot');
+    populaSelect('tipoIndicacaoVI', dadosIndicacoesUnificados, 'tipo_de_indicacao');
+}
+
+// ============================================================
+// GERENCIADOR DE COLUNAS
+// ============================================================
+function inicializarColManagers() {
+    ['dg','exec','vi'].forEach(dash => {
+        const panel = document.getElementById('colManager' + dash.charAt(0).toUpperCase() + dash.slice(1));
+        if (!panel) return;
+        const labels = COL_LABELS[dash];
+        const fixed  = COL_FIXED[dash] || [];
+        let html = '<div class="col-manager-title">Exibir / Ocultar Colunas</div>';
+        labels.forEach((label, i) => {
+            const isFixed = fixed.includes(i);
+            html += `<label class="col-item">
+                <input type="checkbox" ${colVisibility[dash][i] ? 'checked' : ''} ${isFixed ? 'disabled' : ''} 
+                    onchange="toggleColuna('${dash}',${i},this.checked)">
+                ${label}${isFixed ? ' <small style="color:#94a3b8;">(fixo)</small>' : ''}
+            </label>`;
+        });
+        // preserve existing title div
+        panel.innerHTML = html;
+    });
+}
+
+window.toggleColManager = function(dash) {
+    const id = 'colManager' + dash.charAt(0).toUpperCase() + dash.slice(1);
+    document.querySelectorAll('.col-manager-panel').forEach(p => { if (p.id !== id) p.classList.remove('show'); });
+    document.getElementById(id)?.classList.toggle('show');
+};
+
+window.toggleColuna = function(dash, idx, visible) {
+    colVisibility[dash][idx] = visible;
+    aplicarVisibilidadeColunas(dash);
+};
+
+function aplicarVisibilidadeColunas(dash) {
+    const tableIds = { dg: 'tabelaDG', exec: 'tabelaExec', vi: 'tabelaVI' };
+    const table = document.getElementById(tableIds[dash]);
+    if (!table) return;
+    const vis = colVisibility[dash];
+    // Header
+    table.querySelectorAll('thead th').forEach((th, i) => {
+        th.style.display = vis[i] === false ? 'none' : '';
+    });
+    // Rows
+    table.querySelectorAll('tbody tr').forEach(tr => {
+        tr.querySelectorAll('td').forEach((td, i) => {
+            td.style.display = vis[i] === false ? 'none' : '';
+        });
+    });
 }
 
 // ============================================================
@@ -1324,29 +1464,21 @@ function aplicarFiltros(dash) {
         });
     } else if (dash === 'vi') {
         const ano = gv('anoVI'), resp = g('responsavelVI'), partido = gv('partidoVI'),
-              uo = g('uoVI'), ni = g('numIndicacaoVI'), tipo = gv('tipoIndicacaoVI'),
-              mun = g('municipioVI'), conv = g('convenenteVI'), desc = g('descricaoVI');
-        filteredVI = valoresIndicados.filter(d => {
+              sit = gv('situacaoVI'), uo = g('uoVI'), ni = g('numIndicacaoVI'),
+              tipo = gv('tipoIndicacaoVI'), siafi = g('numSiafiVI'), mun = g('municipioVI'),
+              conv = g('convenenteVI'), desc = g('descricaoVI');
+        filteredVI = dadosIndicacoesUnificados.filter(d => {
             if (ano && d._ano != ano) return false;
             if (resp && !d.responsavel.toLowerCase().includes(resp)) return false;
             if (partido && d.partido !== partido) return false;
-            if (uo && !(d.uo_descricao+d.uo_sigla).toLowerCase().includes(uo)) return false;
+            if (sit && d.situacao !== sit) return false;
+            if (uo && !(d.uo_descricao+''+d.uo_sigla).toLowerCase().includes(uo)) return false;
             if (ni && !d.numero_indicacao.toLowerCase().includes(ni)) return false;
             if (tipo && d.tipo_de_indicacao !== tipo) return false;
-            if (mun && !d.municipio.toLowerCase().includes(mun)) return false;
-            if (conv && !d.convenente.toLowerCase().includes(conv)) return false;
-            if (desc && !d.descricao_indicacao.toLowerCase().includes(desc)) return false;
-            return true;
-        });
-    } else if (dash === 'nr') {
-        const ano = gv('anoNR'), resp = g('responsavelNR'), partido = gv('partidoNR'),
-              tipo = gv('tipoIndicacaoNR'), cat = gv('categoriaIotNR');
-        filteredNR = valoresNaoRealizados.filter(d => {
-            if (ano && d._ano != ano) return false;
-            if (resp && !d.responsavel.toLowerCase().includes(resp)) return false;
-            if (partido && d.partido !== partido) return false;
-            if (tipo && d.tipo_de_indicacao !== tipo) return false;
-            if (cat && d.categoria_iot !== cat) return false;
+            if (siafi && !(d.numero_siafi||'').toLowerCase().includes(siafi)) return false;
+            if (mun && !(d.municipio||'').toLowerCase().includes(mun)) return false;
+            if (conv && !(d.convenente||'').toLowerCase().includes(conv)) return false;
+            if (desc && !(d.descricao_indicacao||'').toLowerCase().includes(desc)) return false;
             return true;
         });
     }
@@ -1360,16 +1492,13 @@ function limparFiltros(dash) {
     const ids = {
         dg:   ['anoDG','responsavelDG','searchDG'],
         exec: ['anoExec','responsavelExec','uoExec','numIndicacaoExec','tipoIndicacaoExec','statusIndicacaoExec','numEmpenhoExec','processoCompraExec','searchExec'],
-        vi:   ['anoVI','responsavelVI','partidoVI','uoVI','numIndicacaoVI','tipoIndicacaoVI','municipioVI','convenenteVI','descricaoVI','searchVI'],
-        nr:   ['anoNR','responsavelNR','partidoNR','tipoIndicacaoNR','categoriaIotNR','searchNR']
+        vi:   ['anoVI','responsavelVI','partidoVI','situacaoVI','uoVI','numIndicacaoVI','tipoIndicacaoVI','numSiafiVI','municipioVI','convenenteVI','descricaoVI','searchVI']
     };
     ids[dash].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
     currentSearch[dash] = '';
-    const map = { dg: dadosGerais, exec: execucaoData, vi: valoresIndicados, nr: valoresNaoRealizados };
     if (dash==='dg') filteredDG = [...dadosGerais];
     else if (dash==='exec') filteredExec = [...execucaoData];
-    else if (dash==='vi') filteredVI = [...valoresIndicados];
-    else if (dash==='nr') filteredNR = [...valoresNaoRealizados];
+    else if (dash==='vi') filteredVI = [...dadosIndicacoesUnificados];
     currentPage[dash] = 1;
     ordenarDados(dash);
     updateDashboard(dash);
@@ -1378,12 +1507,11 @@ function limparFiltros(dash) {
 
 function filtrarTabela(dash) {
     const term = currentSearch[dash];
-    const base = dash==='dg' ? dadosGerais : (dash==='exec' ? execucaoData : (dash==='vi' ? valoresIndicados : valoresNaoRealizados));
+    const base = dash==='dg' ? dadosGerais : (dash==='exec' ? execucaoData : dadosIndicacoesUnificados);
     const result = term ? base.filter(item => Object.values(item).some(v => v && v.toString().toLowerCase().includes(term))) : [...base];
     if (dash==='dg') filteredDG = result;
     else if (dash==='exec') filteredExec = result;
     else if (dash==='vi') filteredVI = result;
-    else if (dash==='nr') filteredNR = result;
     currentPage[dash] = 1;
     ordenarDados(dash);
     updateDashboard(dash);
@@ -1395,9 +1523,8 @@ function filtrarTabela(dash) {
 // ============================================================
 const COLS = {
     dg:   ['_ano','responsavel','valor_loa','valor_utilizado','valor_empenhado','valor_liquidado','valor_pago'],
-    exec: ['_ano','responsavel','uo_sigla','numero_indicacao','tipo_de_indicacao','status_da_indicacao','no_empenho','valor_indicacao','valor_empenhado','valor_pago'],
-    vi:   ['_ano','responsavel','partido','uo_sigla','numero_indicacao','tipo_de_indicacao','municipio','convenente','valor_indicado','valor_pago'],
-    nr:   ['_ano','responsavel','partido','uo_descricao','numero_indicacao','tipo_de_indicacao','categoria_iot','valor_indicado','valor_utilizado','valor_pago']
+    exec: ['responsavel','uo_descricao','numero_indicacao','tipo_de_indicacao','numero_siafi','no_empenho','processo_compra','registro_preco','descricao_processo','status_processo','valor_indicacao','valor_executado','valor_empenhado','valor_liquidado','valor_pago'],
+    vi:   ['responsavel','partido','bloco_bancada','uo_descricao','numero_indicacao','tipo_de_indicacao','numero_siafi','situacao','valor_indicado','valor_utilizado','valor_empenhado','valor_liquidado','valor_pago']
 };
 
 function ordenarTabela(dash, col) {
@@ -1412,7 +1539,8 @@ function ordenarTabela(dash, col) {
 function ordenarDados(dash) {
     const c = sortConfig[dash];
     const prop = COLS[dash][c.column];
-    const data = dash==='dg' ? filteredDG : (dash==='exec' ? filteredExec : (dash==='vi' ? filteredVI : filteredNR));
+    const data = dash==='dg' ? filteredDG : (dash==='exec' ? filteredExec : filteredVI);
+    if (!prop) return;
     data.sort((a, b) => {
         let vA = a[prop], vB = b[prop];
         if (typeof vA === 'number') return c.direction==='asc' ? vA-vB : vB-vA;
@@ -1428,14 +1556,15 @@ function ordenarDados(dash) {
 function updateDashboard(dash) {
     updateCards(dash);
     renderTabela(dash);
+    if (dash === 'dg') renderGraficosVG();
 }
 
 function updateCards(dash) {
-    const map = { dg: 'summaryCardsDG', exec: 'summaryCardsExec', vi: 'summaryCardsVI', nr: 'summaryCardsNR' };
+    const map = { dg: 'summaryCardsDG', exec: 'summaryCardsExec', vi: 'summaryCardsVI' };
     const el = document.getElementById(map[dash]);
     if (!el) return;
 
-    const data = dash==='dg' ? filteredDG : (dash==='exec' ? filteredExec : (dash==='vi' ? filteredVI : filteredNR));
+    const data = dash==='dg' ? filteredDG : (dash==='exec' ? filteredExec : filteredVI);
     if (!data.length) { el.innerHTML = '<div class="col-12 text-center text-muted">Nenhum dado encontrado.</div>'; return; }
 
     let html = '';
@@ -1462,41 +1591,78 @@ function updateCards(dash) {
     } else if (dash === 'vi') {
         const totalInd  = data.reduce((s,i) => s+i.valor_indicado, 0);
         const totalPago = data.reduce((s,i) => s+i.valor_pago, 0);
-        const munis = new Set(data.map(d=>d.municipio).filter(Boolean)).size;
-        const benef = new Set(data.map(d=>d.convenente).filter(Boolean)).size;
+        const realizados = data.filter(d => d.situacao === 'Realizado').length;
+        const naoRealizados = data.filter(d => d.situacao === 'Não Realizado').length;
         html = `
-            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Total de Indicações <i class="material-icons" data-bs-toggle="tooltip" title="Qtd de indicações">info_outline</i></div><div class="metric-body"><div class="metric-value">${data.length.toLocaleString('pt-BR')}</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Total de Indicações <i class="material-icons" data-bs-toggle="tooltip" title="Qtd de indicações">info_outline</i></div><div class="metric-body"><div class="metric-value">${data.length.toLocaleString('pt-BR')}</div><div class="metric-sublabel"><span style="color:#155724;">✔ ${realizados.toLocaleString()}</span> realizadas · <span style="color:#721c24;">✘ ${naoRealizados.toLocaleString()}</span> não realizadas</div></div></div></div>
             <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Indicado <i class="material-icons" data-bs-toggle="tooltip" title="Total indicado">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalInd)}</div></div></div></div>
-            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Municípios Atendidos <i class="material-icons" data-bs-toggle="tooltip" title="Municípios distintos">info_outline</i></div><div class="metric-body"><div class="metric-value">${munis.toLocaleString('pt-BR')}</div></div></div></div>
-            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Pago <i class="material-icons" data-bs-toggle="tooltip" title="Total pago">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalPago)}</div><div class="metric-sublabel">${benef} beneficiários</div></div></div></div>`;
-    } else if (dash === 'nr') {
-        const totalInd  = data.reduce((s,i) => s+i.valor_indicado, 0);
-        const categorias = new Set(data.map(d=>d.categoria_iot).filter(Boolean)).size;
-        html = `
-            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Total de Registros <i class="material-icons" data-bs-toggle="tooltip" title="Qtd de registros não realizados">info_outline</i></div><div class="metric-body"><div class="metric-value">${data.length.toLocaleString('pt-BR')}</div></div></div></div>
-            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Indicado <i class="material-icons" data-bs-toggle="tooltip" title="Valor não realizado">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalInd)}</div></div></div></div>
-            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Responsáveis <i class="material-icons" data-bs-toggle="tooltip" title="Parlamentares com não realizados">info_outline</i></div><div class="metric-body"><div class="metric-value">${new Set(data.map(d=>d.responsavel)).size.toLocaleString('pt-BR')}</div></div></div></div>
-            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Categorias IOT <i class="material-icons" data-bs-toggle="tooltip" title="Categorias IOT distintas">info_outline</i></div><div class="metric-body"><div class="metric-value">${categorias}</div></div></div></div>`;
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Realizados <i class="material-icons" data-bs-toggle="tooltip" title="Total com situação Realizado">info_outline</i></div><div class="metric-body"><div class="metric-value">${realizados.toLocaleString('pt-BR')}</div><div class="metric-sublabel">${((realizados/data.length)*100).toFixed(1)}% do total</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Pago <i class="material-icons" data-bs-toggle="tooltip" title="Total pago">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalPago)}</div></div></div></div>`;
     }
     el.innerHTML = html;
     setTimeout(() => document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => new bootstrap.Tooltip(el)), 100);
 }
 
 // ============================================================
+// GRÁFICOS VISÃO GERAL
+// ============================================================
+let chartLOAInstance = null, chartPagoInstance = null;
+
+function renderGraficosVG() {
+    const anos = [...new Set(dadosGerais.map(d => d._ano))].sort((a,b)=>a-b);
+    const loaPorAno  = anos.map(a => dadosGerais.filter(d=>d._ano===a).reduce((s,d)=>s+d.valor_loa,0));
+    const pagoPorAno = anos.map(a => dadosGerais.filter(d=>d._ano===a).reduce((s,d)=>s+d.valor_pago,0));
+
+    const fmtM = v => {
+        if (v >= 1e9) return 'R$ ' + (v/1e9).toFixed(1).replace('.',',') + ' bi';
+        if (v >= 1e6) return 'R$ ' + (v/1e6).toFixed(0) + ' mi';
+        return 'R$ ' + (v/1e3).toFixed(0) + ' mil';
+    };
+
+    const makeOpts = (label, color, data) => ({
+        type: 'bar',
+        data: {
+            labels: anos.map(String),
+            datasets: [{ label, data, backgroundColor: color + 'bb', borderColor: color, borderWidth: 2, borderRadius: 5 }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: { callbacks: { label: ctx => ' ' + fmtM(ctx.parsed.y) } }
+            },
+            scales: {
+                y: { ticks: { font:{size:10,family:'Montserrat'}, callback: v => fmtM(v) }, grid: { color:'#f0f4f8' } },
+                x: { ticks: { font:{size:11,family:'Montserrat',weight:'600'} }, grid: { display:false } }
+            }
+        }
+    });
+
+    const ctxLOA  = document.getElementById('chartLOA');
+    const ctxPago = document.getElementById('chartPago');
+    if (!ctxLOA || !ctxPago || !anos.length) return;
+    if (chartLOAInstance)  { chartLOAInstance.destroy();  chartLOAInstance  = null; }
+    if (chartPagoInstance) { chartPagoInstance.destroy(); chartPagoInstance = null; }
+    chartLOAInstance  = new Chart(ctxLOA,  makeOpts('Valor LOA',  '#1a3a5c', loaPorAno));
+    chartPagoInstance = new Chart(ctxPago, makeOpts('Valor Pago', '#b93c42', pagoPorAno));
+}
+
+// ============================================================
 // RENDERIZAÇÃO DE TABELAS
 // ============================================================
 function renderTabela(dash) {
-    const bodyIds = { dg:'tabelaDGBody', exec:'tabelaExecBody', vi:'tabelaVIBody', nr:'tabelaNRBody' };
-    const countIds = { dg:'countDG', exec:'countExec', vi:'countVI', nr:'countNR' };
-    const paginIds = { dg:'paginacaoDG', exec:'paginacaoExec', vi:'paginacaoVI', nr:'paginacaoNR' };
+    const bodyIds = { dg:'tabelaDGBody', exec:'tabelaExecBody', vi:'tabelaVIBody' };
+    const countIds = { dg:'countDG', exec:'countExec', vi:'countVI' };
+    const paginIds = { dg:'paginacaoDG', exec:'paginacaoExec', vi:'paginacaoVI' };
 
     const tbody   = document.getElementById(bodyIds[dash]);
     const countEl = document.getElementById(countIds[dash]);
-    const data    = dash==='dg' ? filteredDG : (dash==='exec' ? filteredExec : (dash==='vi' ? filteredVI : filteredNR));
-    const cols    = dash==='dg' ? 8 : 11;
+    const data    = dash==='dg' ? filteredDG : (dash==='exec' ? filteredExec : filteredVI);
+    const colCount = dash==='dg' ? 8 : (dash==='exec' ? 16 : 14);
 
     if (!data.length) {
-        if (tbody) tbody.innerHTML = `<tr><td colspan="${cols}" class="text-center text-muted">Nenhum registro encontrado.</td></tr>`;
+        if (tbody) tbody.innerHTML = `<tr><td colspan="${colCount}" class="text-center text-muted">Nenhum registro encontrado.</td></tr>`;
         if (countEl) countEl.textContent = '0 registros';
         renderPaginacao(paginIds[dash], dash, 0, 1, itemsPerPage[dash]); return;
     }
@@ -1506,68 +1672,236 @@ function renderTabela(dash) {
 
     let rows = '';
     if (dash === 'dg') {
+        rows = slice.map(d => {
+            const dJSON = JSON.stringify(d).replace(/'/g,"\\'");
+            return `<tr class="row-clickable" onclick="navegarParaIndicacoes('${d.responsavel.replace(/'/g,"\\'")}', ${d._ano})" title="Clique para ver indicações de ${trunc(d.responsavel,30)} em ${d._ano}">
+                <td>${d._ano}</td>
+                <td class="td-link">${trunc(d.responsavel,45)}</td>
+                <td class="valor-monetario">${fmt(d.valor_loa)}</td>
+                <td class="valor-monetario">${fmt(d.valor_utilizado)}</td>
+                <td class="valor-monetario">${fmt(d.valor_empenhado)}</td>
+                <td class="valor-monetario">${fmt(d.valor_liquidado)}</td>
+                <td class="valor-monetario">${fmt(d.valor_pago)}</td>
+                <td style="text-align:center;" onclick="event.stopPropagation()"><button class="btn-action" onclick='mostrarDetalhes("dg",${dJSON})' title="Ver Detalhes"><i class="material-icons">visibility</i></button></td>
+            </tr>`;
+        }).join('');
+    } else if (dash === 'exec') {
         rows = slice.map(d => `<tr>
-            <td>${d._ano}</td>
-            <td>${trunc(d.responsavel,45)}</td>
-            <td class="valor-monetario">${fmt(d.valor_loa)}</td>
+            <td>${trunc(d.responsavel,30)}</td>
+            <td title="${d.uo_descricao}">${trunc(d.uo_descricao||d.uo_sigla||d.uo,30)}</td>
+            <td>${d.numero_indicacao||'-'}</td>
+            <td>${trunc(d.tipo_de_indicacao,18)}</td>
+            <td>${fmtSiafi(d.numero_siafi)}</td>
+            <td>${d.no_empenho||'-'}</td>
+            <td>${trunc(d.processo_compra,20)}</td>
+            <td>${trunc(d.registro_preco,15)}</td>
+            <td title="${d.descricao_processo}">${trunc(d.descricao_processo,25)}</td>
+            <td>${badgeStatus(d.status_processo||d.status_da_indicacao)}</td>
+            <td class="valor-monetario">${fmt(d.valor_indicacao)}</td>
+            <td class="valor-monetario">${fmt(d.valor_executado)}</td>
+            <td class="valor-monetario">${fmt(d.valor_empenhado)}</td>
+            <td class="valor-monetario">${fmt(d.valor_liquidado)}</td>
+            <td class="valor-monetario">${fmt(d.valor_pago)}</td>
+            <td style="text-align:center;"><button class="btn-action" onclick='mostrarDetalhesUnificado(${JSON.stringify(d.numero_indicacao)},${d._ano})' title="Ver Detalhes"><i class="material-icons">visibility</i></button></td>
+        </tr>`).join('');
+    } else if (dash === 'vi') {
+        rows = slice.map(d => `<tr>
+            <td>${trunc(d.responsavel,30)}</td>
+            <td>${d.partido||'-'}</td>
+            <td>${trunc(d.bloco_bancada,20)}</td>
+            <td title="${d.uo_descricao}">${trunc(d.uo_descricao||d.uo_sigla||d.uo||'-',30)}</td>
+            <td>${d.numero_indicacao||'-'}</td>
+            <td>${trunc(d.tipo_de_indicacao,18)}</td>
+            <td>${fmtSiafi(d.numero_siafi)}</td>
+            <td>${badgeSituacao(d.situacao)}</td>
+            <td class="valor-monetario">${fmt(d.valor_indicado)}</td>
             <td class="valor-monetario">${fmt(d.valor_utilizado)}</td>
             <td class="valor-monetario">${fmt(d.valor_empenhado)}</td>
             <td class="valor-monetario">${fmt(d.valor_liquidado)}</td>
             <td class="valor-monetario">${fmt(d.valor_pago)}</td>
-            <td style="text-align:center;"><button class="btn-action" onclick='mostrarDetalhes("dg",${JSON.stringify(d).replace(/'/g,"\\'")})'  title="Ver Detalhes"><i class="material-icons">visibility</i></button></td>
-        </tr>`).join('');
-    } else if (dash === 'exec') {
-        rows = slice.map(d => `<tr>
-            <td>${d._ano}</td>
-            <td>${trunc(d.responsavel,35)}</td>
-            <td title="${d.uo_descricao}">${d.uo_sigla||d.uo||'-'}</td>
-            <td>${d.numero_indicacao||'-'}</td>
-            <td>${trunc(d.tipo_de_indicacao,20)}</td>
-            <td>${badgeStatus(d.status_da_indicacao)}</td>
-            <td>${d.no_empenho||'-'}</td>
-            <td class="valor-monetario">${fmt(d.valor_indicacao)}</td>
-            <td class="valor-monetario">${fmt(d.valor_empenhado)}</td>
-            <td class="valor-monetario">${fmt(d.valor_pago)}</td>
-            <td style="text-align:center;"><button class="btn-action" onclick='mostrarDetalhes("exec",${JSON.stringify(d).replace(/'/g,"\\'")})'  title="Ver Detalhes"><i class="material-icons">visibility</i></button></td>
-        </tr>`).join('');
-    } else if (dash === 'vi') {
-        rows = slice.map(d => `<tr>
-            <td>${d._ano}</td>
-            <td>${trunc(d.responsavel,30)}</td>
-            <td>${d.partido||'-'}</td>
-            <td title="${d.uo_descricao}">${d.uo_sigla||d.uo||'-'}</td>
-            <td>${d.numero_indicacao||'-'}</td>
-            <td>${trunc(d.tipo_de_indicacao,18)}</td>
-            <td>${trunc(d.municipio,20)}</td>
-            <td>${trunc(d.convenente,30)}</td>
-            <td class="valor-monetario">${fmt(d.valor_indicado)}</td>
-            <td class="valor-monetario">${fmt(d.valor_pago)}</td>
-            <td style="text-align:center;"><button class="btn-action" onclick='mostrarDetalhes("vi",${JSON.stringify(d).replace(/'/g,"\\'")})'  title="Ver Detalhes"><i class="material-icons">visibility</i></button></td>
-        </tr>`).join('');
-    } else if (dash === 'nr') {
-        rows = slice.map(d => `<tr>
-            <td>${d._ano}</td>
-            <td>${trunc(d.responsavel,30)}</td>
-            <td>${d.partido||'-'}</td>
-            <td>${trunc(d.uo_descricao,25)}</td>
-            <td>${d.numero_indicacao||'-'}</td>
-            <td>${trunc(d.tipo_de_indicacao,18)}</td>
-            <td>${trunc(d.categoria_iot,20)}</td>
-            <td class="valor-monetario">${fmt(d.valor_indicado)}</td>
-            <td class="valor-monetario">${fmt(d.valor_utilizado)}</td>
-            <td class="valor-monetario">${fmt(d.valor_pago)}</td>
-            <td style="text-align:center;"><button class="btn-action" onclick='mostrarDetalhes("nr",${JSON.stringify(d).replace(/'/g,"\\'")})'  title="Ver Detalhes"><i class="material-icons">visibility</i></button></td>
+            <td style="text-align:center;"><button class="btn-action" onclick='mostrarDetalhesUnificado(${JSON.stringify(d.numero_indicacao)},${d._ano})' title="Ver Detalhes"><i class="material-icons">visibility</i></button></td>
         </tr>`).join('');
     }
 
     if (tbody) tbody.innerHTML = rows;
     if (countEl) countEl.textContent = `${data.length.toLocaleString()} registros`;
     renderPaginacao(paginIds[dash], dash, data.length, currentPage[dash], itemsPerPage[dash]);
+    aplicarVisibilidadeColunas(dash);
 }
 
 // ============================================================
-// MODAL DE DETALHES
+// NAVEGAÇÃO DA VISÃO GERAL → CONSULTA DE INDICAÇÕES
 // ============================================================
+function navegarParaIndicacoes(responsavel, ano) {
+    // Selecionar a aba Consulta de Indicações
+    const tabBtn = document.getElementById('tab3-tab');
+    if (tabBtn) {
+        const tab = new bootstrap.Tab(tabBtn);
+        tab.show();
+    }
+    // Preencher os filtros
+    setTimeout(() => {
+        const elAno = document.getElementById('anoVI');
+        const elResp = document.getElementById('responsavelVI');
+        if (elAno) elAno.value = ano;
+        if (elResp) elResp.value = responsavel;
+        aplicarFiltros('vi');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 200);
+}
+
+// ============================================================
+// MODAL DE DETALHES UNIFICADO (chave: numero_indicacao + ano)
+// ============================================================
+window.mostrarDetalhesUnificado = function(numeroIndicacao, ano) {
+    if (!numeroIndicacao) return;
+
+    // Buscar nas 3 fontes
+    const viItem = valoresIndicados.find(d => d.numero_indicacao == numeroIndicacao && d._ano == ano);
+    const nrItem = valoresNaoRealizados.find(d => d.numero_indicacao == numeroIndicacao && d._ano == ano);
+    const execItems = execucaoData.filter(d => d.numero_indicacao == numeroIndicacao && d._ano == ano);
+
+    // Determinar fonte principal
+    const main = viItem || nrItem;
+    if (!main && !execItems.length) return;
+
+    const situacao = viItem ? 'Realizado' : (nrItem ? 'Não Realizado' : '-');
+    const responsavel = main?.responsavel || execItems[0]?.responsavel || '-';
+
+    let titulo = `<i class="material-icons me-2">description</i>Indicação Nº ${numeroIndicacao} — ${responsavel} (${ano})`;
+
+    let conteudo = ``;
+
+    // SEÇÃO 1: IDENTIFICAÇÃO DO PARLAMENTAR E INDICAÇÃO
+    if (main) {
+        conteudo += `
+        <div class="modal-section">
+            <div class="modal-section-title"><i class="material-icons">person</i>IDENTIFICAÇÃO</div>
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Responsável (Nome)</div><div class="info-value highlight">${main.responsavel||'-'}</div></div>
+                <div class="info-card">
+                    <div class="info-label">Partido</div><div class="info-value">${main.partido||'-'}</div>
+                    <div class="info-label" style="margin-top:8px;">Bloco/Bancada</div><div class="info-value">${main.bloco_bancada||'-'}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Nº Indicação</div><div class="info-value highlight">${main.numero_indicacao||'-'}</div>
+                    <div class="info-label" style="margin-top:8px;">Nº Inciso</div><div class="info-value">${main.numero_inciso||'-'}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Situação</div><div class="info-value">${badgeSituacao(situacao)}</div>
+                    <div class="info-label" style="margin-top:8px;">Status Indicação</div><div class="info-value">${main.status||'-'}</div>
+                    <div class="info-label" style="margin-top:8px;">Ano</div><div class="info-value">${ano}</div>
+                </div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-label">UO</div><div class="info-value">${main.uo||'-'}</div>
+                    <div class="info-label" style="margin-top:8px;">UO - Descrição</div><div class="info-value">${main.uo_descricao||'-'}</div>
+                    <div class="info-label" style="margin-top:8px;">UO - Sigla</div><div class="info-value">${main.uo_sigla||'-'}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Tipo de Indicação</div><div class="info-value">${main.tipo_de_indicacao||'-'}</div>
+                    ${main.categoria_iot ? `<div class="info-label" style="margin-top:8px;">Categoria IOT</div><div class="info-value">${main.categoria_iot}</div>` : ''}
+                </div>
+                ${main.municipio ? `<div class="info-card"><div class="info-label">Descrição Município</div><div class="info-value">${main.municipio}</div></div>` : ''}
+                ${main.convenente ? `<div class="info-card">
+                    <div class="info-label">Nome Convenente/Beneficiado</div><div class="info-value">${main.convenente}</div>
+                    <div class="info-label" style="margin-top:8px;">CNPJ Convenente</div><div class="info-value">${main.cnpj_convenente||'-'}</div>
+                </div>` : ''}
+            </div>
+            ${(main.numero_siafi||main.numero_empenho||main.numero_instrumento||main.agencia||main.conta_corrente||main.funcional_programatica) ? `
+            <div class="info-grid">
+                ${main.numero_siafi ? `<div class="info-card"><div class="info-label">Número SIAFI</div><div class="info-value">${fmtSiafi(main.numero_siafi)}</div></div>` : ''}
+                ${main.numero_empenho ? `<div class="info-card"><div class="info-label">Número Empenho</div><div class="info-value">${main.numero_empenho}</div></div>` : ''}
+                ${main.numero_instrumento ? `<div class="info-card"><div class="info-label">Nº Instrumento Jurídico</div><div class="info-value">${main.numero_instrumento}</div></div>` : ''}
+                ${main.agencia ? `<div class="info-card"><div class="info-label">Agência</div><div class="info-value">${main.agencia}</div>${main.conta_corrente?`<div class="info-label" style="margin-top:8px;">Conta Corrente</div><div class="info-value">${main.conta_corrente}</div>`:''}</div>` : ''}
+                ${main.funcional_programatica ? `<div class="info-card"><div class="info-label">Funcional Programática</div><div class="info-value" style="font-size:11px;">${main.funcional_programatica}</div></div>` : ''}
+            </div>` : ''}
+        </div>`;
+    }
+
+    // SEÇÃO 2: DETALHAMENTO ORÇAMENTÁRIO (VI)
+    if (viItem) {
+        conteudo += `
+        <div class="modal-section section-vi">
+            <div class="modal-section-title"><i class="material-icons">account_tree</i>DETALHAMENTO ORÇAMENTÁRIO</div>
+            <div class="info-grid">
+                ${viItem.codigo_escola ? `<div class="info-card"><div class="info-label">Código Escola</div><div class="info-value">${viItem.codigo_escola}</div></div>` : ''}
+                ${viItem.numero_acao ? `<div class="info-card"><div class="info-label">Número da Ação</div><div class="info-value">${viItem.numero_acao}</div><div class="info-label" style="margin-top:8px;">Nome da Ação</div><div class="info-value">${viItem.nome_acao||'-'}</div></div>` : ''}
+                ${viItem.grupo_despesa ? `<div class="info-card"><div class="info-label">Nome Grupo de Despesa</div><div class="info-value">${viItem.grupo_despesa}</div></div>` : ''}
+                ${viItem.descricao_genero ? `<div class="info-card"><div class="info-label">Descrição Gênero</div><div class="info-value">${viItem.descricao_genero}</div></div>` : ''}
+                ${viItem.descricao_categoria ? `<div class="info-card"><div class="info-label">Descrição Categoria</div><div class="info-value">${viItem.descricao_categoria}</div></div>` : ''}
+                ${viItem.descricao_especificacao ? `<div class="info-card"><div class="info-label">Descrição Especificação</div><div class="info-value">${viItem.descricao_especificacao}</div></div>` : ''}
+                ${viItem.descricao_tipo_aplicacao ? `<div class="info-card"><div class="info-label">Descrição Tipo Aplicação</div><div class="info-value">${viItem.descricao_tipo_aplicacao}</div></div>` : ''}
+                ${viItem.categoria_economica_codigo ? `<div class="info-card"><div class="info-label">Cat. Econômica Despesa (Cód.)</div><div class="info-value">${viItem.categoria_economica_codigo}</div></div>` : ''}
+            </div>
+        </div>`;
+    }
+
+    // SEÇÃO 3: VALORES DA INDICAÇÃO
+    if (main) {
+        conteudo += `
+        <div class="modal-section section-vi">
+            <div class="modal-section-title"><i class="material-icons">attach_money</i>VALORES DA INDICAÇÃO${situacao !== '-' ? ` — ${badgeSituacao(situacao)}` : ''}</div>
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Valor Indicado</div><div class="info-value" style="color:var(--primary-dark);font-size:15px;">${fmt(main.valor_indicado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Utilizado</div><div class="info-value">${fmt(main.valor_utilizado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Empenhado</div><div class="info-value">${fmt(main.valor_empenhado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Liquidado</div><div class="info-value">${fmt(main.valor_liquidado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Pago</div><div class="info-value" style="color:var(--success-green);">${fmt(main.valor_pago)}</div></div>
+                <div class="info-card"><div class="info-label">Saldo a Pagar (RP)</div><div class="info-value">${fmt(main.saldo_rp)}</div></div>
+                ${main.rp_processado ? `<div class="info-card"><div class="info-label">RP Processado</div><div class="info-value">${fmt(main.rp_processado)}</div></div>` : ''}
+                ${main.rp_nao_processado ? `<div class="info-card"><div class="info-label">RP Não Processado</div><div class="info-value">${fmt(main.rp_nao_processado)}</div></div>` : ''}
+                ${main.valor_executado_doacao ? `<div class="info-card"><div class="info-label">Valor Executado (Doação)</div><div class="info-value">${fmt(main.valor_executado_doacao)}</div></div>` : ''}
+            </div>
+            ${main.descricao_indicacao ? `<div class="objeto-container"><div class="objeto-title"><i class="material-icons">subject</i>DESCRIÇÃO DA INDICAÇÃO</div><div class="objeto-text">${main.descricao_indicacao}</div></div>` : ''}
+            ${main.justificativa ? `<div class="objeto-container" style="margin-top:10px;"><div class="objeto-title"><i class="material-icons">info</i>JUSTIFICATIVA</div><div class="objeto-text">${main.justificativa}</div></div>` : ''}
+            ${main.justificativa_cancelamento ? `<div class="objeto-container" style="margin-top:10px;"><div class="objeto-title"><i class="material-icons">warning</i>JUSTIFICATIVA DE CANCELAMENTO/REPROVAÇÃO</div><div class="objeto-text">${main.justificativa_cancelamento}</div></div>` : ''}
+        </div>`;
+    }
+
+    // SEÇÃO 3: EXECUÇÃO (pode ter múltiplos registros)
+    if (execItems.length > 0) {
+        conteudo += `
+        <div class="modal-section section-exec">
+            <div class="modal-section-title"><i class="material-icons">receipt_long</i>EXECUÇÃO — ${execItems.length} REGISTRO(S)</div>`;
+        execItems.forEach((ex, idx) => {
+            conteudo += `
+            ${idx > 0 ? '<hr style="margin:12px 0;border-color:#d6dee6;">' : ''}
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Status da Indicação</div><div class="info-value">${badgeStatus(ex.status_da_indicacao)}</div></div>
+                <div class="info-card"><div class="info-label">UO</div><div class="info-value">${ex.uo_sigla||ex.uo||'-'} — ${ex.uo_descricao||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Nº SIAFI</div><div class="info-value">${fmtSiafi(ex.numero_siafi)}</div></div>
+                <div class="info-card"><div class="info-label">Nº Empenho</div><div class="info-value">${ex.no_empenho||'-'}</div></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Processo de Compra</div><div class="info-value">${ex.processo_compra||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Registro de Preço</div><div class="info-value">${ex.registro_preco||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Status do Processo</div><div class="info-value">${ex.status_processo||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Nº Proc. Compra/Planejamento</div><div class="info-value">${ex.numero_processo_compra||'-'}</div></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Valor Indicação</div><div class="info-value">${fmt(ex.valor_indicacao)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Executado</div><div class="info-value">${fmt(ex.valor_executado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Empenhado</div><div class="info-value">${fmt(ex.valor_empenhado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Liquidado</div><div class="info-value">${fmt(ex.valor_liquidado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Pago</div><div class="info-value">${fmt(ex.valor_pago)}</div></div>
+            </div>
+            ${ex.descricao_processo ? `<div class="objeto-container"><div class="objeto-title"><i class="material-icons">subject</i>DESCRIÇÃO DO PROCESSO DE COMPRAS</div><div class="objeto-text">${ex.descricao_processo}</div></div>` : ''}
+            ${ex.classificacao_iot ? `<div class="objeto-container" style="margin-top:10px;"><div class="objeto-title"><i class="material-icons">label</i>CLASSIFICAÇÃO IOT</div><div class="objeto-text">${ex.classificacao_iot}</div></div>` : ''}
+            ${ex.justificativa ? `<div class="objeto-container" style="margin-top:10px;"><div class="objeto-title"><i class="material-icons">info</i>JUSTIFICATIVA</div><div class="objeto-text">${ex.justificativa}</div></div>` : ''}`;
+        });
+        conteudo += `</div>`;
+    }
+
+    if (!conteudo) conteudo = `<div class="text-center text-muted p-4">Nenhum detalhe encontrado para a indicação Nº ${numeroIndicacao}.</div>`;
+
+    document.getElementById('detailModalLabel').innerHTML = titulo;
+    document.getElementById('detalhesConteudo').innerHTML = conteudo;
+    new bootstrap.Modal(document.getElementById('detailModal')).show();
+};
+
+// Modal legado para Visão Geral
 window.mostrarDetalhes = function(dash, item) {
     let titulo = '', conteudo = '';
 
@@ -1584,81 +1918,12 @@ window.mostrarDetalhes = function(dash, item) {
                 <div class="info-card"><div class="info-label">Valor Empenhado</div><div class="info-value">${fmt(item.valor_empenhado)}</div></div>
                 <div class="info-card"><div class="info-label">Valor Liquidado</div><div class="info-value">${fmt(item.valor_liquidado)}</div></div>
                 <div class="info-card"><div class="info-label">Valor Pago</div><div class="info-value">${fmt(item.valor_pago)}</div></div>
+            </div>
+            <div style="text-align:center;margin-top:12px;">
+                <button class="btn-pesquisa" onclick="bootstrap.Modal.getInstance(document.getElementById('detailModal')).hide(); setTimeout(()=>navegarParaIndicacoes('${item.responsavel.replace(/'/g,"\\'")}',${item._ano}),300);">
+                    <i class="material-icons">assignment</i>Ver Indicações deste Responsável
+                </button>
             </div>`;
-    } else if (dash === 'exec') {
-        titulo = `<i class="material-icons me-2">receipt</i>Execução — Nº ${item.numero_indicacao||'N/D'} (${item._ano})`;
-        conteudo = `
-            <div class="info-grid">
-                <div class="info-card"><div class="info-label">Responsável</div><div class="info-value highlight">${item.responsavel||'-'}</div></div>
-                <div class="info-card"><div class="info-label">Unidade Orçamentária</div><div class="info-value">${item.uo_sigla||item.uo||'-'} — ${item.uo_descricao||'-'}</div></div>
-                <div class="info-card"><div class="info-label">Nº Indicação</div><div class="info-value highlight">${item.numero_indicacao||'-'}</div></div>
-            </div>
-            <div class="info-grid">
-                <div class="info-card"><div class="info-label">Tipo de Indicação</div><div class="info-value">${item.tipo_de_indicacao||'-'}</div></div>
-                <div class="info-card"><div class="info-label">Status da Indicação</div><div class="info-value">${badgeStatus(item.status_da_indicacao)}</div></div>
-                <div class="info-card"><div class="info-label">Nº Inciso</div><div class="info-value">${item.numero_inciso||'-'}</div></div>
-            </div>
-            <div class="info-grid">
-                <div class="info-card"><div class="info-label">Nº Empenho</div><div class="info-value">${item.no_empenho||'-'}</div></div>
-                <div class="info-card"><div class="info-label">Processo de Compra</div><div class="info-value">${item.processo_compra||'-'}</div></div>
-                <div class="info-card"><div class="info-label">Status do Processo</div><div class="info-value">${item.status_processo||'-'}</div></div>
-            </div>
-            <div class="info-grid">
-                <div class="info-card"><div class="info-label">Valor Indicação</div><div class="info-value">${fmt(item.valor_indicacao)}</div></div>
-                <div class="info-card"><div class="info-label">Valor Utilizado</div><div class="info-value">${fmt(item.valor_utilizado)}</div></div>
-                <div class="info-card"><div class="info-label">Valor Empenhado</div><div class="info-value">${fmt(item.valor_empenhado)}</div></div>
-                <div class="info-card"><div class="info-label">Valor Liquidado</div><div class="info-value">${fmt(item.valor_liquidado)}</div></div>
-                <div class="info-card"><div class="info-label">Valor Pago</div><div class="info-value">${fmt(item.valor_pago)}</div></div>
-                <div class="info-card"><div class="info-label">Valor Executado</div><div class="info-value">${fmt(item.valor_executado)}</div></div>
-            </div>
-            ${item.descricao_processo ? `<div class="objeto-container"><div class="objeto-title"><i class="material-icons">subject</i>DESCRIÇÃO DO PROCESSO DE COMPRAS</div><div class="objeto-text">${item.descricao_processo}</div></div>` : ''}
-            ${item.classificacao_iot ? `<div class="objeto-container" style="margin-top:10px;"><div class="objeto-title"><i class="material-icons">label</i>CLASSIFICAÇÃO IOT</div><div class="objeto-text">${item.classificacao_iot}</div></div>` : ''}
-            ${item.justificativa ? `<div class="objeto-container" style="margin-top:10px;"><div class="objeto-title"><i class="material-icons">info</i>JUSTIFICATIVA</div><div class="objeto-text">${item.justificativa}</div></div>` : ''}`;
-    } else if (dash === 'vi') {
-        titulo = `<i class="material-icons me-2">assignment_turned_in</i>Valor Indicado — ${item.numero_indicacao||'N/D'} (${item._ano})`;
-        conteudo = `
-            <div class="info-grid">
-                <div class="info-card"><div class="info-label">Responsável</div><div class="info-value highlight">${item.responsavel||'-'}</div><div class="info-label" style="margin-top:8px;">Partido</div><div class="info-value">${item.partido||'-'}</div><div class="info-label" style="margin-top:8px;">Bloco/Bancada</div><div class="info-value">${item.bloco_bancada||'-'}</div></div>
-                <div class="info-card"><div class="info-label">Unidade Orçamentária</div><div class="info-value">${item.uo_sigla||item.uo||'-'}</div><div class="info-label" style="margin-top:8px;">Descrição UO</div><div class="info-value">${item.uo_descricao||'-'}</div></div>
-                <div class="info-card"><div class="info-label">Nº Indicação</div><div class="info-value highlight">${item.numero_indicacao||'-'}</div><div class="info-label" style="margin-top:8px;">Tipo de Indicação</div><div class="info-value">${item.tipo_de_indicacao||'-'}</div><div class="info-label" style="margin-top:8px;">Status</div><div class="info-value">${badgeStatus(item.status)}</div></div>
-            </div>
-            <div class="info-grid">
-                <div class="info-card"><div class="info-label">Município</div><div class="info-value">${item.municipio||'-'}</div></div>
-                <div class="info-card"><div class="info-label">Convenente/Beneficiado</div><div class="info-value">${item.convenente||'-'}</div><div class="info-label" style="margin-top:8px;">CNPJ</div><div class="info-value">${item.cnpj_convenente||'-'}</div></div>
-                <div class="info-card"><div class="info-label">Nº SIAFI</div><div class="info-value">${item.numero_siafi||'-'}</div><div class="info-label" style="margin-top:8px;">Nº Empenho</div><div class="info-value">${item.numero_empenho||'-'}</div></div>
-            </div>
-            <div class="info-grid">
-                <div class="info-card"><div class="info-label">Valor Indicado</div><div class="info-value">${fmt(item.valor_indicado)}</div></div>
-                <div class="info-card"><div class="info-label">Valor Utilizado</div><div class="info-value">${fmt(item.valor_utilizado)}</div></div>
-                <div class="info-card"><div class="info-label">Valor Empenhado</div><div class="info-value">${fmt(item.valor_empenhado)}</div></div>
-                <div class="info-card"><div class="info-label">Valor Liquidado</div><div class="info-value">${fmt(item.valor_liquidado)}</div></div>
-                <div class="info-card"><div class="info-label">Valor Pago</div><div class="info-value">${fmt(item.valor_pago)}</div></div>
-                <div class="info-card"><div class="info-label">Saldo a Pagar (RP)</div><div class="info-value">${fmt(item.saldo_rp)}</div></div>
-            </div>
-            <div class="info-grid">
-                <div class="info-card"><div class="info-label">Nome da Ação</div><div class="info-value">${item.nome_acao||'-'}</div></div>
-                <div class="info-card"><div class="info-label">Grupo de Despesa</div><div class="info-value">${item.grupo_despesa||'-'}</div></div>
-                <div class="info-card"><div class="info-label">Funcional Programática</div><div class="info-value" style="font-size:11px;">${item.funcional_programatica||'-'}</div></div>
-            </div>
-            ${item.descricao_indicacao ? `<div class="objeto-container"><div class="objeto-title"><i class="material-icons">subject</i>DESCRIÇÃO DA INDICAÇÃO</div><div class="objeto-text">${item.descricao_indicacao}</div></div>` : ''}
-            ${item.justificativa_cancelamento ? `<div class="objeto-container" style="margin-top:10px;"><div class="objeto-title"><i class="material-icons">warning</i>JUSTIFICATIVA DE CANCELAMENTO/REPROVAÇÃO</div><div class="objeto-text">${item.justificativa_cancelamento}</div></div>` : ''}`;
-    } else if (dash === 'nr') {
-        titulo = `<i class="material-icons me-2">block</i>Não Realizado — ${item.numero_indicacao||'N/D'} (${item._ano})`;
-        conteudo = `
-            <div class="info-grid">
-                <div class="info-card"><div class="info-label">Responsável</div><div class="info-value highlight">${item.responsavel||'-'}</div><div class="info-label" style="margin-top:8px;">Partido</div><div class="info-value">${item.partido||'-'}</div><div class="info-label" style="margin-top:8px;">Bloco/Bancada</div><div class="info-value">${item.bloco_bancada||'-'}</div></div>
-                <div class="info-card"><div class="info-label">Unidade Orçamentária</div><div class="info-value">${item.uo_descricao||'-'}</div></div>
-                <div class="info-card"><div class="info-label">Nº Indicação</div><div class="info-value highlight">${item.numero_indicacao||'-'}</div><div class="info-label" style="margin-top:8px;">Tipo de Indicação</div><div class="info-value">${item.tipo_de_indicacao||'-'}</div><div class="info-label" style="margin-top:8px;">Categoria IOT</div><div class="info-value">${item.categoria_iot||'-'}</div></div>
-            </div>
-            <div class="info-grid">
-                <div class="info-card"><div class="info-label">Valor Indicado</div><div class="info-value">${fmt(item.valor_indicado)}</div></div>
-                <div class="info-card"><div class="info-label">Valor Utilizado</div><div class="info-value">${fmt(item.valor_utilizado)}</div></div>
-                <div class="info-card"><div class="info-label">Valor Empenhado</div><div class="info-value">${fmt(item.valor_empenhado)}</div></div>
-                <div class="info-card"><div class="info-label">Valor Liquidado</div><div class="info-value">${fmt(item.valor_liquidado)}</div></div>
-                <div class="info-card"><div class="info-label">Valor Pago</div><div class="info-value">${fmt(item.valor_pago)}</div></div>
-                <div class="info-card"><div class="info-label">Saldo a Pagar (RP)</div><div class="info-value">${fmt(item.saldo_rp)}</div></div>
-            </div>
-            ${item.justificativa ? `<div class="objeto-container"><div class="objeto-title"><i class="material-icons">info</i>JUSTIFICATIVA</div><div class="objeto-text">${item.justificativa}</div></div>` : ''}`;
     }
 
     document.getElementById('detailModalLabel').innerHTML = titulo;
@@ -1695,7 +1960,7 @@ function renderPaginacao(containerId, dash, total, pg, perPage) {
 }
 
 window.mudarPagina = function(dash, pg) {
-    const data = dash==='dg' ? filteredDG : (dash==='exec' ? filteredExec : (dash==='vi' ? filteredVI : filteredNR));
+    const data = dash==='dg' ? filteredDG : (dash==='exec' ? filteredExec : filteredVI);
     const max = Math.ceil(data.length / itemsPerPage[dash]);
     if (pg < 1 || pg > max) return;
     currentPage[dash] = pg;
@@ -1719,14 +1984,11 @@ function exportarCSV(dash) {
         cabs = ['Ano','Responsável','Valor LOA','Valor Utilizado','Valor Empenhado','Valor Liquidado','Valor Pago'];
         linhas = filteredDG.map(d => [d._ano,d.responsavel,fmt(d.valor_loa),fmt(d.valor_utilizado),fmt(d.valor_empenhado),fmt(d.valor_liquidado),fmt(d.valor_pago)].map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(';'));
     } else if (dash === 'exec') {
-        cabs = ['Ano','Responsável','UO','Nº Indicação','Tipo Indicação','Status','Nº Empenho','Vl. Indicação','Vl. Empenhado','Vl. Liquidado','Vl. Pago','Justificativa'];
-        linhas = filteredExec.map(d => [d._ano,d.responsavel,d.uo_sigla,d.numero_indicacao,d.tipo_de_indicacao,d.status_da_indicacao,d.no_empenho,fmt(d.valor_indicacao),fmt(d.valor_empenhado),fmt(d.valor_liquidado),fmt(d.valor_pago),(d.justificativa||'').replace(/\n/g,' ')].map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(';'));
-    } else if (dash === 'vi') {
-        cabs = ['Ano','Responsável','Partido','UO','Nº Indicação','Tipo','Município','Convenente','CNPJ','Vl. Indicado','Vl. Pago','SIAFI','Nº Empenho'];
-        linhas = filteredVI.map(d => [d._ano,d.responsavel,d.partido,d.uo_sigla,d.numero_indicacao,d.tipo_de_indicacao,d.municipio,d.convenente,d.cnpj_convenente,fmt(d.valor_indicado),fmt(d.valor_pago),d.numero_siafi,d.numero_empenho].map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(';'));
+        cabs = ['Ano','Responsável','UO - Descrição','Nº Indicação','Tipo Indicação','Nº SIAFI','Nº Empenho','Proc. Compra','Reg. Preço','Desc. Proc. Compra','Status Proc.','Vl. Indicação','Vl. Executado','Vl. Empenhado','Vl. Liquidado','Vl. Pago'];
+        linhas = filteredExec.map(d => [d._ano,d.responsavel,d.uo_descricao,d.numero_indicacao,d.tipo_de_indicacao,d.numero_siafi,d.no_empenho,d.processo_compra,d.registro_preco,d.descricao_processo,d.status_processo,fmt(d.valor_indicacao),fmt(d.valor_executado),fmt(d.valor_empenhado),fmt(d.valor_liquidado),fmt(d.valor_pago)].map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(';'));
     } else {
-        cabs = ['Ano','Responsável','Partido','UO','Nº Indicação','Tipo','Categoria IOT','Vl. Indicado','Vl. Utilizado','Vl. Pago','Justificativa'];
-        linhas = filteredNR.map(d => [d._ano,d.responsavel,d.partido,d.uo_descricao,d.numero_indicacao,d.tipo_de_indicacao,d.categoria_iot,fmt(d.valor_indicado),fmt(d.valor_utilizado),fmt(d.valor_pago),(d.justificativa||'').replace(/\n/g,' ')].map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(';'));
+        cabs = ['Ano','Responsável','Partido','Bloco/Bancada','UO - Descrição','Nº Indicação','Tipo Indicação','Nº SIAFI','Situação','Vl. Indicado','Vl. Utilizado','Vl. Empenhado','Vl. Liquidado','Vl. Pago'];
+        linhas = filteredVI.map(d => [d._ano,d.responsavel,d.partido,d.bloco_bancada,d.uo_descricao,d.numero_indicacao,d.tipo_de_indicacao,fmtSiafi(d.numero_siafi),d.situacao,fmt(d.valor_indicado),fmt(d.valor_utilizado),fmt(d.valor_empenhado),fmt(d.valor_liquidado),fmt(d.valor_pago)].map(c=>`"${(c||'').replace(/"/g,'""')}"`).join(';'));
     }
     const csv = [cabs.join(';'), ...linhas].join('\n');
     const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
@@ -1749,16 +2011,12 @@ function exportarPDF(dash) {
         body = filteredDG.slice(0,500).map(d => [d._ano,trunc(d.responsavel,30),fmt(d.valor_loa),fmt(d.valor_utilizado),fmt(d.valor_empenhado),fmt(d.valor_liquidado),fmt(d.valor_pago)]);
     } else if (dash === 'exec') {
         titulo = 'Emendas Estaduais — Execução';
-        head = [['Ano','Responsável','UO','Nº Indicação','Tipo','Status','Empenho','Vl. Indicação','Vl. Pago']];
-        body = filteredExec.slice(0,500).map(d => [d._ano,trunc(d.responsavel,25),d.uo_sigla,d.numero_indicacao,trunc(d.tipo_de_indicacao,18),trunc(d.status_da_indicacao,15),d.no_empenho,fmt(d.valor_indicacao),fmt(d.valor_pago)]);
-    } else if (dash === 'vi') {
-        titulo = 'Emendas Estaduais — Valores Indicados';
-        head = [['Ano','Responsável','Partido','UO','Nº Indic.','Município','Convenente','Vl. Indicado','Vl. Pago']];
-        body = filteredVI.slice(0,500).map(d => [d._ano,trunc(d.responsavel,25),d.partido,d.uo_sigla,d.numero_indicacao,trunc(d.municipio,18),trunc(d.convenente,22),fmt(d.valor_indicado),fmt(d.valor_pago)]);
+        head = [['Responsável','UO - Desc.','Nº Indic.','Tipo','Nº Empenho','Vl. Indicação','Vl. Executado','Vl. Pago']];
+        body = filteredExec.slice(0,500).map(d => [trunc(d.responsavel,25),trunc(d.uo_descricao,20),d.numero_indicacao,trunc(d.tipo_de_indicacao,15),d.no_empenho,fmt(d.valor_indicacao),fmt(d.valor_executado),fmt(d.valor_pago)]);
     } else {
-        titulo = 'Emendas Estaduais — Valores Não Realizados';
-        head = [['Ano','Responsável','Partido','UO','Nº Indic.','Tipo','Cat. IOT','Vl. Indicado','Vl. Pago']];
-        body = filteredNR.slice(0,500).map(d => [d._ano,trunc(d.responsavel,25),d.partido,trunc(d.uo_descricao,20),d.numero_indicacao,trunc(d.tipo_de_indicacao,18),trunc(d.categoria_iot,18),fmt(d.valor_indicado),fmt(d.valor_pago)]);
+        titulo = 'Emendas Estaduais — Consulta de Indicações';
+        head = [['Responsável','Partido','UO','Nº Indic.','Tipo','Situação','Vl. Indicado','Vl. Pago']];
+        body = filteredVI.slice(0,500).map(d => [trunc(d.responsavel,25),d.partido,trunc(d.uo_descricao,18),d.numero_indicacao,trunc(d.tipo_de_indicacao,15),d.situacao,fmt(d.valor_indicado),fmt(d.valor_pago)]);
     }
     doc.autoTable({
         head, body,
@@ -1832,16 +2090,10 @@ function setupEventListeners() {
     document.getElementById('itemsPerPageVI')?.addEventListener('change', function() { alterarItensPorPagina('vi', this.value); });
     document.getElementById('exportCSVVI')?.addEventListener('click', () => exportarCSV('vi'));
     document.getElementById('printVI')?.addEventListener('click',     () => exportarPDF('vi'));
-    // NR
-    document.getElementById('aplicarFiltrosNR')?.addEventListener('click', () => aplicarFiltros('nr'));
-    document.getElementById('limparFiltrosNR')?.addEventListener('click',   () => limparFiltros('nr'));
-    document.getElementById('searchNR')?.addEventListener('input', e => { currentSearch.nr = e.target.value.toLowerCase(); filtrarTabela('nr'); });
-    document.getElementById('itemsPerPageNR')?.addEventListener('change', function() { alterarItensPorPagina('nr', this.value); });
-    document.getElementById('exportCSVNR')?.addEventListener('click', () => exportarCSV('nr'));
-    document.getElementById('printNR')?.addEventListener('click',     () => exportarPDF('nr'));
 
     document.addEventListener('click', e => {
         if (!e.target.closest('.share-dropdown')) document.querySelectorAll('.share-options').forEach(o => o.classList.remove('show'));
+        if (!e.target.closest('.col-manager-dropdown')) document.querySelectorAll('.col-manager-panel').forEach(p => p.classList.remove('show'));
     });
     document.querySelectorAll('[data-bs-toggle="tab"]').forEach(btn => {
         btn.addEventListener('shown.bs.tab', () => setTimeout(iframeUpdateHeight, 100));
