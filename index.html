@@ -537,8 +537,18 @@
 <!-- Loading Overlay -->
 <div class="loading-overlay" id="loadingOverlay">
     <div class="loading-box">
-        <div class="spinner-border" role="status"></div>
+        <div class="spinner-border" role="status" id="loadingSpinner"></div>
         <p id="loadingMsg">Carregando dados...</p>
+        <div id="loadingErro" style="display:none; text-align:center; max-width:420px;">
+            <i class="material-icons" style="font-size:36px; color:var(--accent-red);">cloud_off</i>
+            <p style="font-size:13px; color:#495057; margin:10px 0 16px;">
+                Não foi possível carregar os dados no momento. Isso costuma acontecer quando o repositório de dados
+                está temporariamente indisponível ou com limite de acesso excedido.
+            </p>
+            <button class="btn-export" style="border:none;" onclick="location.reload()">
+                <i class="material-icons me-1">refresh</i>Tentar novamente
+            </button>
+        </div>
     </div>
 </div>
 
@@ -885,19 +895,18 @@
                                 <tr><td>Indicações</td><td>plano_titulo / instrumento_titulo</td><td>Título do plano de trabalho / instrumento jurídico (exibido como "Objeto").</td></tr>
                                 <tr><td>Indicações</td><td>descricao_indicacao</td><td>Descrição da despesa da indicação (exibida como "Descrição da Despesa"; quando vazia, usa a especificação da despesa).</td></tr>
                                 <tr><td>Indicações</td><td>valor_indicacao / valor_utilizado</td><td>Valor total indicado (exibido como "Valor Indicado"/"Valor da Emenda") e valor efetivamente utilizado.</td></tr>
-                                <tr><td>Indicações</td><td>valor_empenhado_ano / valor_liquidado_ano / valor_pago_ano</td><td>Valores empenhado, liquidado e pago no ano de exercício, usados na Visão Geral, na Consulta por Emendas e no cálculo da "Situação".</td></tr>
+                                <tr><td>Indicações</td><td>valor_empenhado_ano / valor_liquidado_ano / valor_pago_ano</td><td>Valores empenhado, liquidado e pago no ano de exercício, usados na Visão Geral. Na Consulta por Emendas esses três campos não são mais usados diretamente (não são confiáveis); Valor Empenhado, Valor Liquidado, Valor Pago e Situação são determinados pela execução financeira (execucaoAAAA.csv) — ver seção abaixo.</td></tr>
                                 <tr><td>Indicações</td><td>numero_siafi</td><td>Código SIAFI do instrumento — chave de cruzamento com os arquivos de execução financeira (execucaoAAAA.csv).</td></tr>
                                 <tr><td>Indicações</td><td>data_publicacao / data_validade</td><td>Datas de início e fim de vigência (exibidas como "Data Início"/"Data Fim").</td></tr>
                                 <tr><td>Indicações</td><td>numero_convenio</td><td>Número do convênio, usado para montar os links de PDF do Plano de Trabalho e do Termo ("Inteiro Teor" no modal).</td></tr>
-                                <tr class="dicionario-secao"><td colspan="3">FONTE: execucaoAAAA.csv — 2023, 2024, 2025 e 2026 (execução financeira / empenhos — usada só na seção "Execução Financeira — Empenhos" do modal)</td></tr>
-                                <tr><td>Execução Financeira</td><td>numero_siafi</td><td>Código SIAFI do empenho — chave de cruzamento com o campo numero_siafi da base de indicações.</td></tr>
+                                <tr class="dicionario-secao"><td colspan="3">FONTE: execucaoAAAA.csv — 2023, 2024, 2025 e 2026 (execução financeira / empenhos — usada na seção "Execução Financeira — Empenhos" do modal, na coluna Nº/Data do Empenho e na regra de Situação/Valor Pago da Consulta por Emendas)</td></tr>
+                                <tr><td>Execução Financeira</td><td>numero_siafi</td><td>Código SIAFI do empenho — chave de cruzamento com o campo numero_siafi da base de indicações, restrito a empenhos com ano ≥ ano de exercício da indicação.</td></tr>
                                 <tr><td>Execução Financeira</td><td>numero_empenho</td><td>Número do empenho orçamentário (exibido como "Nº do Empenho").</td></tr>
                                 <tr><td>Execução Financeira</td><td>data_registro_doc_empenho</td><td>Data de registro do documento de empenho (exibida como "Data do Empenho"; também usada para determinar o "Ano do Empenho").</td></tr>
                                 <tr><td>Execução Financeira</td><td>valor_despesa_empenhada</td><td>Valor empenhado (exibido no modal como "Vl. Empenhado").</td></tr>
                                 <tr><td>Execução Financeira</td><td>valor_despesa_liquidada</td><td>Valor liquidado (exibido no modal como "Vl. Liquidado").</td></tr>
-                                <tr><td>Execução Financeira</td><td>valor_pago_financeiro</td><td>Valor pago (exibido no modal como "Vl. Pago").</td></tr>
+                                <tr><td>Execução Financeira</td><td>valor_pago_financeiro / valor_pago_em_rp</td><td>Valor pago e valor pago em restos a pagar (exibidos no modal como "Vl. Pago" e "Vl. Pago RP"). Definem a regra de Situação/Valor Empenhado/Valor Liquidado/Valor Pago da Consulta por Emendas: se algum empenho do Código SIAFI da emenda tiver valor pago ou valor pago RP diferente de zero, a Situação passa a ser <strong>PAGO</strong> e o Valor Empenhado, o Valor Liquidado e o Valor Pago exibidos passam a repetir o Valor Indicado da mesma linha; caso contrário (valor pago = 0 na execução, ou nenhum empenho encontrado para o Código SIAFI), as três colunas exibem <strong>0,00</strong> e a Situação fica "A EMPENHAR".</td></tr>
                                 <tr><td>Execução Financeira</td><td>valor_liquidado_em_rp</td><td>Valor liquidado em restos a pagar (exibido no modal como "Vl. Liquidado RP").</td></tr>
-                                <tr><td>Execução Financeira</td><td>valor_pago_em_rp</td><td>Valor pago em restos a pagar (exibido no modal como "Vl. Pago RP").</td></tr>
                                 <tr><td>Execução Financeira</td><td>razao_social_credor / cnpj_cpf_credor_formatado</td><td>Credor e CNPJ/CPF do empenho (carregados, mas não exibidos na tabela do modal).</td></tr>
                             </tbody>
                         </table>
@@ -988,6 +997,11 @@ const GH_REPO  = 'emendas_estaduai';
 const GH_PATH  = 'dataset/data';
 const GITHUB_API = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/commits?path=${GH_PATH}&per_page=1`;
 const GITHUB_CONTENTS_API = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}`;
+// A API pública da jsDelivr espelha o conteúdo de repositórios do GitHub e serve como alternativa
+// para listar os arquivos da pasta quando a API do GitHub falha — o que acontece com frequência,
+// já que chamadas anônimas à api.github.com compartilham um limite baixo (60/hora) por IP, e esse
+// limite costuma se esgotar rápido quando várias pessoas acessam o painel pela mesma rede.
+const JSDELIVR_LIST_API = `https://data.jsdelivr.com/v1/package/gh/${GH_OWNER}/${GH_REPO}@main/flat`;
 // Arquivos usados pelo dashboard:
 //  - PREFIXO_INDICACOES: base principal de indicações (parlamentar, município, beneficiário, ação, função, valores, plano/instrumento etc.)
 //    Usada para montar a Visão Geral e a Consulta por Emendas.
@@ -995,8 +1009,9 @@ const GITHUB_CONTENTS_API = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}
 //    Usada apenas dentro do modal de detalhes de cada emenda (seção "Execução Financeira — Empenhos"),
 //    cruzada pelo Código SIAFI (numero_siafi).
 const PREFIXO_INDICACOES = 'VW_SG_V2_EP_INDIC_RECURSOS';
-// URL de fallback (arquivo conhecido no momento em que este dashboard foi construído),
-// usada somente se a descoberta dinâmica via API do GitHub falhar (ex.: rate limit).
+// URL de fallback (arquivo conhecido no momento em que este dashboard foi construído), usada
+// somente se a descoberta dinâmica via API do GitHub E via jsDelivr falharem. Pode ficar
+// desatualizada com o tempo (o nome do arquivo muda a cada publicação), por isso é o último recurso.
 const FALLBACK_URL_INDICACOES = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/main/${GH_PATH}/VW_SG_V2_EP_INDIC_RECURSOS_TW_202608041638.csv`;
 
 // Anos disponíveis do arquivo de execução financeira (execucaoAAAA.csv). Adicione um ano aqui
@@ -1006,17 +1021,36 @@ function urlExecucaoFinanceira(ano) {
     return `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/main/${GH_PATH}/execucao${ano}.csv`;
 }
 
-// Descobre o arquivo mais recente (ordenação alfabética = ordenação por timestamp no nome) para um dado prefixo
+// Descobre o arquivo mais recente (ordenação alfabética = ordenação por timestamp no nome) para um
+// dado prefixo, tentando em ordem: 1) API do GitHub, 2) API da jsDelivr (mirror, sem o rate limit
+// agressivo da api.github.com), 3) URL de fallback fixa.
 async function descobrirUrlArquivo(prefixo, fallback) {
+    // 1) API do GitHub (rápida quando disponível, mas sujeita a limite de 60 req/hora por IP)
     try {
         const r = await fetch(GITHUB_CONTENTS_API, { cache: 'no-cache' });
-        if (!r.ok) throw new Error('contents api falhou');
+        if (!r.ok) throw new Error('contents api falhou: ' + r.status);
         const lista = await r.json();
         const candidatos = (lista || [])
             .filter(f => f.name && f.name.startsWith(prefixo) && f.name.toLowerCase().endsWith('.csv'))
             .sort((a, b) => b.name.localeCompare(a.name)); // mais recente primeiro
         if (candidatos.length && candidatos[0].download_url) return candidatos[0].download_url;
-    } catch (e) { /* usa fallback abaixo */ }
+    } catch (e) { /* tenta o próximo método */ }
+
+    // 2) API da jsDelivr — mesmo conteúdo do GitHub, mas sem o limite agressivo por IP
+    try {
+        const r = await fetch(JSDELIVR_LIST_API, { cache: 'no-cache' });
+        if (!r.ok) throw new Error('jsdelivr api falhou: ' + r.status);
+        const dados = await r.json();
+        const nomes = (dados.files || [])
+            .map(f => (f.name || '').replace(/^\//, ''))
+            .filter(nome => nome.startsWith(`${GH_PATH}/`))
+            .map(nome => nome.slice(GH_PATH.length + 1))
+            .filter(nome => nome.startsWith(prefixo) && nome.toLowerCase().endsWith('.csv'))
+            .sort((a, b) => b.localeCompare(a)); // mais recente primeiro
+        if (nomes.length) return `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/main/${GH_PATH}/${nomes[0]}`;
+    } catch (e) { /* usa fallback fixo abaixo */ }
+
+    // 3) URL de fallback fixa (último recurso — pode estar desatualizada)
     return fallback;
 }
 
@@ -1209,14 +1243,51 @@ function setLoading(show, msg) {
     if (msgEl && msg) msgEl.textContent = msg;
 }
 
+// Exibe (ou esconde) o estado de erro dentro do overlay de carregamento, com botão de "Tentar novamente"
+function setLoadingErro(mostrar) {
+    const overlay = document.getElementById('loadingOverlay');
+    const spinner = document.getElementById('loadingSpinner');
+    const msgEl = document.getElementById('loadingMsg');
+    const erroEl = document.getElementById('loadingErro');
+    if (overlay) overlay.classList.toggle('show', true);
+    if (spinner) spinner.style.display = mostrar ? 'none' : '';
+    if (msgEl) msgEl.style.display = mostrar ? 'none' : '';
+    if (erroEl) erroEl.style.display = mostrar ? 'block' : 'none';
+}
+
+// Converte uma URL raw.githubusercontent.com/OWNER/REPO/BRANCH/PATH no equivalente servido pela
+// CDN da jsDelivr (cdn.jsdelivr.net/gh/OWNER/REPO@BRANCH/PATH) — usada como origem alternativa
+// quando o raw.githubusercontent.com falha ou quando a URL de fallback fixa está desatualizada.
+function urlJsDelivrEquivalente(url) {
+    const m = (url || '').match(/^https:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.+)$/);
+    if (!m) return null;
+    const [, owner, repo, branch, caminho] = m;
+    return `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${branch}/${caminho}`;
+}
+
 async function carregarCSV(url) {
     // Busca o arquivo via fetch e faz o parse do texto completo de uma só vez.
     // (O modo download/streaming do PapaParse podia processar o conteúdo em
     // partes e gerar linhas duplicadas em alguns navegadores, dobrando os totais.)
+    const tentarFetch = async (u) => {
+        const resp = await fetch(u, { cache: 'no-cache' });
+        if (!resp.ok) throw new Error('fetch falhou: ' + resp.status);
+        return await resp.text();
+    };
+    let texto = null;
     try {
-        const resp = await fetch(url, { cache: 'no-cache' });
-        if (!resp.ok) return [];
-        const texto = await resp.text();
+        texto = await tentarFetch(url);
+    } catch (e) {
+        // Se a origem raw.githubusercontent.com falhar (ex.: URL de fallback desatualizada, 404,
+        // instabilidade momentânea), tenta o mesmo arquivo pela CDN da jsDelivr antes de desistir.
+        const urlAlternativa = urlJsDelivrEquivalente(url);
+        if (urlAlternativa) {
+            try { texto = await tentarFetch(urlAlternativa); } catch (e2) { return []; }
+        } else {
+            return [];
+        }
+    }
+    try {
         const r = Papa.parse(texto, {
             header: true,
             delimiter: ';',
@@ -1278,6 +1349,23 @@ function mapIndicacao(row) {
     const numeroSiafi = limparNumTexto(row.numero_siafi);
     const anoExercicio = parseInt(row.ano_exercicio, 10) || null;
     const empResumo = resumoEmpenhos(numeroSiafi, anoExercicio);
+
+    const valorIndicado = parseValor(row.valor_indicacao);
+
+    // Valores empenhado/liquidado/pago reais: os campos valor_empenhado_ano/valor_liquidado_ano/
+    // valor_pago_ano do arquivo de indicações não são confiáveis, então não são mais usados aqui.
+    // Em vez disso, verificamos, para os empenhos desta emenda na execução financeira
+    // (execucaoAAAA.csv, mesmo Código SIAFI): se o valor pago ou o valor pago em restos a pagar
+    // é diferente de zero, a emenda é considerada PAGA e o Valor Empenhado, o Valor Liquidado e o
+    // Valor Pago exibidos passam a repetir o Valor Indicado. Caso contrário (valor pago = 0 na
+    // execução, ou nenhum empenho encontrado), as três colunas exibem 0,00.
+    const empListaFiltrada = empenhosDaEmenda(numeroSiafi, anoExercicio);
+    const pagoConfirmadoNaExecucao = empListaFiltrada.some(e => (e.valor_pago || 0) !== 0 || (e.valor_pago_rp || 0) !== 0);
+    const valorEmpenhadoFinal = pagoConfirmadoNaExecucao ? valorIndicado : 0;
+    const valorLiquidadoFinal = pagoConfirmadoNaExecucao ? valorIndicado : 0;
+    const valorPagoFinal = pagoConfirmadoNaExecucao ? valorIndicado : 0;
+    const situacaoFinal = pagoConfirmadoNaExecucao ? 'PAGO' : calcularSituacao(valorEmpenhadoFinal, valorLiquidadoFinal, valorPagoFinal);
+
     return {
         _ano: anoExercicio,
         numero_indicacao: (row.numero_indicacao || '').toString().trim(),
@@ -1308,9 +1396,9 @@ function mapIndicacao(row) {
         funcional_programatica: row.funcional_programatica || '',
         valor_indicado: parseValor(row.valor_indicacao),
         valor_utilizado: parseValor(row.valor_utilizado),
-        valor_empenhado: parseValor(row.valor_empenhado_ano),
-        valor_liquidado: parseValor(row.valor_liquidado_ano),
-        valor_pago: parseValor(row.valor_pago_ano),
+        valor_empenhado: valorEmpenhadoFinal,
+        valor_liquidado: valorLiquidadoFinal,
+        valor_pago: valorPagoFinal,
         valor_restos_pagar: parseValor(row.valor_restos_pagar),
         plano_titulo: row.plano_titulo || '',
         instrumento_titulo: row.instrumento_titulo || '',
@@ -1320,11 +1408,7 @@ function mapIndicacao(row) {
         data_empenho: empResumo.data,
         data_inicio: (row.data_publicacao || '').toString().trim(),
         data_fim: (row.data_validade || '').toString().trim(),
-        situacao: calcularSituacao(
-            parseValor(row.valor_empenhado_ano),
-            parseValor(row.valor_liquidado_ano),
-            parseValor(row.valor_pago_ano)
-        ),
+        situacao: situacaoFinal,
         no_convenio: (row.numero_convenio || '').toString().trim(),
         _raw: row
     };
@@ -1400,6 +1484,15 @@ async function carregarTodosDados() {
         carregarCSV(urlIndicacoes),
         carregarExecucaoFinanceira()
     ]);
+
+    // Se, mesmo depois de tentar todas as origens (API do GitHub, jsDelivr e a URL de fallback,
+    // cada uma pela raw.githubusercontent.com e pela CDN da jsDelivr), não veio nenhuma linha do
+    // arquivo principal de indicações, avisa a pessoa em vez de deixar o painel com tabelas vazias.
+    if (!linhasIndicacoes.length) {
+        setLoadingErro(true);
+        _cargaEmAndamento = false;
+        return;
+    }
 
     setLoading(true, 'Processando dados...');
 
