@@ -853,6 +853,17 @@
             <!-- ===== TAB 5: DICIONÁRIO DE DADOS ===== -->
             <div class="tab-pane fade" id="tab5" role="tabpanel">
                 <div class="mt-2">
+                    <h5 class="mb-3"><i class="material-icons me-2" style="color:var(--accent-red);">menu_book</i>DICIONÁRIO DE DADOS — Estrutura de Dados</h5>
+                    <p style="font-size:12.5px;color:#6c757d;max-width:900px;">
+                        Este dashboard consome dois tipos de arquivo publicados no repositório de dados abertos: uma base principal de
+                        indicações (<code>VW_SG_V2_EP_INDIC_RECURSOS</code>) e um conjunto de arquivos de execução financeira, um por ano
+                        (<code>execucaoAAAA.csv</code> — ex.: <code>execucao2023.csv</code>, <code>execucao2024.csv</code>, <code>execucao2025.csv</code>,
+                        <code>execucao2026.csv</code>), cruzados pelo <strong>Código SIAFI</strong> (campo <code>numero_siafi</code>, presente em ambas
+                        as fontes). Em todas as abas são exibidas apenas as indicações com <strong>Status = APROVADO</strong>.
+                        A aba <strong>Visão Geral</strong> é um agregado (soma) da base de indicações por Autoria, Ano e Tipo de Emenda.
+                        A aba <strong>Consulta por Emendas</strong> traz um registro por emenda, com dados vindos da base de indicações;
+                        os dados de execução financeira (empenhos) aparecem apenas dentro do modal de detalhes de cada emenda, na seção
+                        "Execução Financeira — Empenhos".
                     </p>
                     <div class="table-responsive">
                         <table class="dicionario-tabela">
@@ -874,7 +885,7 @@
                                 <tr><td>Indicações</td><td>plano_titulo / instrumento_titulo</td><td>Título do plano de trabalho / instrumento jurídico (exibido como "Objeto").</td></tr>
                                 <tr><td>Indicações</td><td>descricao_indicacao</td><td>Descrição da despesa da indicação (exibida como "Descrição da Despesa"; quando vazia, usa a especificação da despesa).</td></tr>
                                 <tr><td>Indicações</td><td>valor_indicacao / valor_utilizado</td><td>Valor total indicado (exibido como "Valor Indicado"/"Valor da Emenda") e valor efetivamente utilizado.</td></tr>
-                                <tr><td>Indicações</td><td>valor_empenhado_ano / valor_liquidado_ano / valor_pago_ano</td><td>Valores empenhado, liquidado e pago no ano de exercício, usados na Consulta por Emendas e na Visão Geral.</td></tr>
+                                <tr><td>Indicações</td><td>valor_empenhado_ano / valor_liquidado_ano / valor_pago_ano</td><td>Valores empenhado, liquidado e pago no ano de exercício, usados na Visão Geral, na Consulta por Emendas e no cálculo da "Situação".</td></tr>
                                 <tr><td>Indicações</td><td>numero_siafi</td><td>Código SIAFI do instrumento — chave de cruzamento com os arquivos de execução financeira (execucaoAAAA.csv).</td></tr>
                                 <tr><td>Indicações</td><td>data_publicacao / data_validade</td><td>Datas de início e fim de vigência (exibidas como "Data Início"/"Data Fim").</td></tr>
                                 <tr><td>Indicações</td><td>numero_convenio</td><td>Número do convênio, usado para montar os links de PDF do Plano de Trabalho e do Termo ("Inteiro Teor" no modal).</td></tr>
@@ -882,11 +893,11 @@
                                 <tr><td>Execução Financeira</td><td>numero_siafi</td><td>Código SIAFI do empenho — chave de cruzamento com o campo numero_siafi da base de indicações.</td></tr>
                                 <tr><td>Execução Financeira</td><td>numero_empenho</td><td>Número do empenho orçamentário (exibido como "Nº do Empenho").</td></tr>
                                 <tr><td>Execução Financeira</td><td>data_registro_doc_empenho</td><td>Data de registro do documento de empenho (exibida como "Data do Empenho"; também usada para determinar o "Ano do Empenho").</td></tr>
-                                <tr><td>Execução Financeira</td><td>valor_despesa_empenhada</td><td>Valor empenhado (exibido como "Vl. Empenhado").</td></tr>
-                                <tr><td>Execução Financeira</td><td>valor_despesa_liquidada</td><td>Valor liquidado (exibido como "Vl. Liquidado").</td></tr>
-                                <tr><td>Execução Financeira</td><td>valor_pago_financeiro</td><td>Valor pago (exibido como "Vl. Pago").</td></tr>
-                                <tr><td>Execução Financeira</td><td>valor_liquidado_em_rp</td><td>Valor liquidado em restos a pagar (exibido como "Vl. Liquidado RP").</td></tr>
-                                <tr><td>Execução Financeira</td><td>valor_pago_em_rp</td><td>Valor pago em restos a pagar (exibido como "Vl. Pago RP").</td></tr>
+                                <tr><td>Execução Financeira</td><td>valor_despesa_empenhada</td><td>Valor empenhado (exibido no modal como "Vl. Empenhado").</td></tr>
+                                <tr><td>Execução Financeira</td><td>valor_despesa_liquidada</td><td>Valor liquidado (exibido no modal como "Vl. Liquidado").</td></tr>
+                                <tr><td>Execução Financeira</td><td>valor_pago_financeiro</td><td>Valor pago (exibido no modal como "Vl. Pago").</td></tr>
+                                <tr><td>Execução Financeira</td><td>valor_liquidado_em_rp</td><td>Valor liquidado em restos a pagar (exibido no modal como "Vl. Liquidado RP").</td></tr>
+                                <tr><td>Execução Financeira</td><td>valor_pago_em_rp</td><td>Valor pago em restos a pagar (exibido no modal como "Vl. Pago RP").</td></tr>
                                 <tr><td>Execução Financeira</td><td>razao_social_credor / cnpj_cpf_credor_formatado</td><td>Credor e CNPJ/CPF do empenho (carregados, mas não exibidos na tabela do modal).</td></tr>
                             </tbody>
                         </table>
@@ -1076,17 +1087,39 @@ const COL_FIXED = {
 // ============================================================
 // UTILITÁRIOS
 // ============================================================
+// Interpreta um número em texto, tolerando tanto o formato brasileiro (ex.: "1.234,56" ou
+// "300.000") quanto valores "crus" que já vêm com ponto decimal e sem separador de milhar
+// (ex.: "97346.68", "90658.5") — um problema identificado em alguns registros do arquivo
+// VW_SG_V2_EP_INDIC_RECURSOS_TW. Regra: se há vírgula, é formato brasileiro (ponto=milhar,
+// vírgula=decimal). Se só há ponto(s), só tratamos como separador de milhar quando o último
+// grupo tem 3 dígitos (ex.: "300.000"); se o único ponto for seguido de 1 ou 2 dígitos
+// (ex.: "97346.68"), ele já é o separador decimal e é mantido como está.
+function parseNumeroTexto(v) {
+    let s = (v || '').toString().trim();
+    if (!s) return NaN;
+    if (s.includes(',')) {
+        s = s.replace(/\./g, '').replace(',', '.');
+    } else if (s.includes('.')) {
+        const partes = s.split('.');
+        const ultimaParte = partes[partes.length - 1];
+        const pareceDecimal = partes.length === 2 && ultimaParte.length >= 1 && ultimaParte.length <= 2;
+        if (!pareceDecimal) s = s.replace(/\./g, '');
+    }
+    return parseFloat(s);
+}
+
 function fmt(v) {
     if (!v && v !== 0) return '-';
-    if (typeof v === 'string') v = parseFloat(v.replace(/\./g,'').replace(',','.'));
+    if (typeof v === 'string') v = parseNumeroTexto(v);
     if (isNaN(v)) return '-';
     return new Intl.NumberFormat('pt-BR', { style:'currency', currency:'BRL' }).format(v);
 }
 
 function parseValor(v) {
-    if (!v) return 0;
+    if (!v && v !== 0) return 0;
     if (typeof v === 'number') return v;
-    return parseFloat(v.toString().replace(/\./g,'').replace(',','.')) || 0;
+    const n = parseNumeroTexto(v);
+    return isNaN(n) ? 0 : n;
 }
 
 function trunc(str, n) {
@@ -1212,12 +1245,24 @@ function limparNumTexto(v) {
 
 // Resume os empenhos de uma emenda (cruzados pelo Código SIAFI) para exibição em coluna/célula.
 // Uma emenda pode ter mais de um empenho — nesse caso os valores são unidos por vírgula.
-function resumoEmpenhos(numeroSiafi) {
-    const lista = (numeroSiafi && empenhosPorSiafi[numeroSiafi]) || [];
+// Só considera empenhos com ano >= ano de exercício da indicação: o mesmo Código SIAFI pode ser
+// reaproveitado por indicações de exercícios diferentes, e um empenho não pode ser anterior ao
+// ano de exercício do recurso que o originou — por isso o ano de exercício é usado para tratar
+// corretamente qual indicação cada empenho pertence.
+function resumoEmpenhos(numeroSiafi, anoExercicio) {
+    const lista = empenhosDaEmenda(numeroSiafi, anoExercicio);
     if (!lista.length) return { numero: '-', data: '-' };
     const numero = lista.map(e => e.numero_empenho).filter(Boolean).join(', ') || '-';
     const data = lista.map(e => fmtData(e.data_empenho)).filter(Boolean).join(', ') || '-';
     return { numero, data };
+}
+
+// Retorna a lista de empenhos de uma emenda, cruzados pelo Código SIAFI e filtrados pelo
+// ano de exercício (ver nota acima em resumoEmpenhos).
+function empenhosDaEmenda(numeroSiafi, anoExercicio) {
+    const lista = (numeroSiafi && empenhosPorSiafi[numeroSiafi]) || [];
+    if (!anoExercicio) return lista;
+    return lista.filter(e => !e.ano_empenho || e.ano_empenho >= anoExercicio);
 }
 
 // Mapeia uma linha do arquivo principal de indicações (VW_SG_V2_EP_INDIC_RECURSOS)
@@ -1231,9 +1276,10 @@ function mapIndicacao(row) {
         || (row.especificacao_descricao && row.especificacao_descricao.trim())
         || '';
     const numeroSiafi = limparNumTexto(row.numero_siafi);
-    const empResumo = resumoEmpenhos(numeroSiafi);
+    const anoExercicio = parseInt(row.ano_exercicio, 10) || null;
+    const empResumo = resumoEmpenhos(numeroSiafi, anoExercicio);
     return {
-        _ano: parseInt(row.ano_exercicio, 10) || null,
+        _ano: anoExercicio,
         numero_indicacao: (row.numero_indicacao || '').toString().trim(),
         responsavel: row.responsavel || '',
         autor: row.responsavel || '',
@@ -1368,6 +1414,7 @@ async function carregarTodosDados() {
     dadosIndicacoesUnificados = indicacoes;
 
     // Visão Geral: agregado por Responsável + Ano + Tipo de Emenda, a partir da base de indicações
+    // (VW_SG_V2_EP_INDIC_RECURSOS_TW) — valores empenhado/liquidado/pago no ano de exercício.
     const grupos = {};
     indicacoes.forEach(d => {
         const chave = `${d._ano}|${(d.responsavel || '').trim().toUpperCase()}|${d.tipo_emenda}`;
@@ -1791,7 +1838,8 @@ window.mostrarDetalhesUnificado = function(numeroIndicacao, ano) {
     const main = dadosIndicacoesUnificados.find(d => d.numero_indicacao == numeroIndicacao) || null;
     if (!main) return;
     // Empenhos da execução financeira (execucaoAAAA.csv), cruzados pelo Código SIAFI da emenda
-    const empItems = (main.numero_siafi && empenhosPorSiafi[main.numero_siafi]) || [];
+    // e filtrados pelo ano de exercício (evita misturar empenhos de outra indicação que reaproveite o mesmo SIAFI)
+    const empItems = empenhosDaEmenda(main.numero_siafi, main._ano);
 
     const responsavel = main?.responsavel || '-';
     const anoRef = main?._ano || ano || '-';
