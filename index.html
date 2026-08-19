@@ -1,0 +1,2122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Emendas Estaduais - Governo de Minas Gerais</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <style>
+        :root {
+            --primary-dark:     #1a3a5c;
+            --primary-darker:   #0f2a44;
+            --accent-red:       #b93c42;
+            --accent-bright:    #db233f;
+            --background-light: #f5f7fa;
+            --success-green:    #28a745;
+            --warning-yellow:   #ffc107;
+            --info-blue:        #17a2b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; overflow-x: hidden; margin: 0; padding: 0; height: auto; min-height: auto; }
+        body {
+            font-family: 'Montserrat', Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-light);
+            padding-bottom: 15px;
+            overflow-x: hidden;
+        }
+        body, button, input, select, textarea, span, div { font-family: 'Montserrat', sans-serif !important; }
+        .material-icons { font-family: 'Material Icons' !important; font-size: 14px; vertical-align: middle; }
+
+        .main-container { height: auto; min-height: auto; overflow: visible; position: relative; }
+        .container-fluid { width: 100%; max-width: 88% !important; padding: 0 40px; margin: 0 auto; }
+        .container { max-width: 85% !important; }
+        .dashboard-container { width: 100%; max-width: 100%; padding: 0 40px; margin: 0 auto; }
+        .tab-content, .tab-pane { width: 100%; height: auto; min-height: auto; overflow: visible; }
+        .table-container { height: auto; min-height: auto; overflow: visible; position: relative; }
+
+        .data-atualizacao-container { display: flex; justify-content: left; align-items: center; margin: 15px 0; }
+        .data-atualizacao-box {
+            background: transparent !important;
+            border-radius: 8px;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--primary-dark);
+            font-weight: 600;
+            box-shadow: none;
+        }
+        .data-atualizacao-box i { font-size: 14px; color: var(--accent-red); }
+
+        .filter-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            padding: 20px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .filter-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a3a5c;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+        }
+        .filter-label i { font-size: 14px; color: var(--accent-red); }
+        .form-control, .form-select {
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            padding: 10px 12px;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            height: auto;
+            width: 100%;
+        }
+        .form-control:focus, .form-select:focus { border-color: var(--accent-red); box-shadow: 0 0 0 2px rgba(185,60,66,0.15); }
+        .filters-row { display: flex; gap: 15px; width: 100%; flex-wrap: wrap; }
+        .filter-group { flex: 1; min-width: 150px; }
+        .botoes-abaixo { margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; }
+
+        .metric-card {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e5e9ef;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            overflow: hidden;
+            height: 100%;
+            transition: box-shadow 0.25s ease, transform 0.25s ease;
+        }
+        .metric-card:hover { box-shadow: 0 8px 24px rgba(26,58,92,0.13); transform: translateY(-2px); }
+        .metric-header {
+            background: #20445d;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .metric-body { padding: 12px 15px; }
+        .metric-value { font-size: 20px; font-weight: 700; color: #171c21; }
+        .metric-sublabel { font-size: 10px; color: #94a3b8; font-weight: 500; margin-top: 2px; }
+
+        .table-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-darker) 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .table-title { font-size: 13px; font-weight: 600; margin: 0; }
+        .table-badge {
+            background: #1a3a5c;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .table-fixed-header-container { position: relative; overflow: auto; width: 100%; max-height: 600px; }
+        .table-fixed-header-container table thead th {
+            background-color: #54697b !important;
+            color: white !important;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            font-weight: 600;
+            padding: 12px 10px;
+            font-size: 12px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .table { width: 100%; font-size: 13px; border-collapse: collapse; table-layout: auto; margin-bottom: 0; }
+        .table th, .table td { border: 1px solid #d6dee6; }
+        .table thead th {
+            background-color: #54697b !important;
+            color: white !important;
+            font-weight: 600;
+            font-size: 12px;
+            padding: 12px 10px;
+            text-transform: uppercase;
+            border: 1px solid #d6dee6;
+            cursor: pointer;
+            user-select: none;
+        }
+        .table thead th:hover { background-color: #3d5566 !important; }
+        .table tbody tr { background-color: #ffffff; }
+        .table tbody td { padding: 10px 10px; vertical-align: middle; border-bottom: 1px solid #f1f1f1; font-size: 12px; font-family: 'Montserrat', sans-serif !important; }
+        .table tbody tr:hover { background-color: rgba(41,67,90,0.04); }
+        .table-bordered { border: 1px solid #dee2e6; width: 100%; }
+        .table-bordered th, .table-bordered td { border: 1px solid #dee2e6; padding: 12px; vertical-align: top; }
+        .table-responsive { display: block; width: 100%; overflow-x: auto; }
+        .valor-monetario { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; font-family: 'Montserrat', sans-serif !important; font-size: 12px; }
+
+        /* Linha clicável na Visão Geral */
+        .row-clickable { cursor: pointer; }
+        .row-clickable:hover { background-color: rgba(185,60,66,0.06) !important; }
+        .row-clickable td:first-child { position: relative; }
+        .row-clickable td.td-link { color: #0d6efd; font-weight: 600; text-decoration: underline; text-decoration-style: dotted; }
+
+        .sortable-header { cursor: pointer; position: relative; padding-right: 22px !important; }
+        .sortable-header:hover { background-color: #3d5566 !important; }
+        .sortable-header i { font-size: 13px; position: absolute; right: 5px; top: 50%; transform: translateY(-50%); opacity: 0.8; }
+
+        .btn-primary-custom, .btn-pesquisa {
+            background: linear-gradient(to right, #20445d, #20445d);
+            border: none;
+            padding: 0 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            height: 36px;
+            white-space: nowrap;
+        }
+        .btn-primary-custom:hover, .btn-pesquisa:hover {
+            background: linear-gradient(to right, var(--accent-red), #a32c32);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(185,60,66,0.2);
+            color: white;
+        }
+        .btn-secondary-custom {
+            background: white;
+            border: 2px solid var(--primary-darker);
+            color: var(--primary-darker);
+            padding: 0 16px;
+            font-weight: 600;
+            font-size: 13px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            height: 36px;
+            white-space: nowrap;
+            text-decoration: none !important;
+        }
+        .btn-secondary-custom:hover { background-color: #132837 !important; color: white !important; border-color: #132837 !important; }
+        .btn-export {
+            appearance: none;
+            -webkit-appearance: none;
+            background: transparent !important;
+            border: 1px solid #d6dee6;
+            color: #1a3a5c;
+            padding: 0 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            height: 32px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-export i { font-size: 14px !important; }
+        button.btn-export:hover, a.btn-export:hover { background-color: #1a3a5c !important; border-color: #1a3a5c !important; color: #ffffff !important; }
+        .btn-action {
+            padding: 4px;
+            border-radius: 7px;
+            border: 1.5px solid #1a3a5c;
+            background-color: #ffffff;
+            color: #1a3a5c;
+            width: 32px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .btn-action:hover { background-color: #1a3a5c; color: #ffffff; }
+        #btnTopo, .btn-topo {
+            background: #eeeff5;
+            color: #1a3a5c;
+            border: 1px solid #d6dee6;
+            border-radius: 12px;
+            padding: 0 16px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            height: 32px;
+        }
+        #btnTopo:hover, .btn-topo:hover { background-color: #1a3a5c; color: #ffffff; border-color: #1a3a5c; }
+
+        .share-dropdown { position: relative; display: inline-block; }
+        .share-options {
+            display: none; position: absolute; right: 0; top: 100%;
+            background-color: white; min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15); border-radius: 8px;
+            padding: 8px; z-index: 1000; border: 1px solid #dee2e6; margin-top: 5px;
+        }
+        .share-options.show { display: block; }
+        .share-options a {
+            display: flex; align-items: center; gap: 10px; padding: 8px 12px;
+            border-radius: 6px; font-size: 13px; color: var(--primary-dark);
+            transition: background 0.2s; cursor: pointer; text-decoration: none;
+        }
+        .share-options a:hover { background-color: var(--background-light); color: var(--accent-red); }
+        .share-options a i { font-size: 14px; width: 20px; text-align: center; }
+
+        .table-search-container {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            background: #ffffff;
+            border: 1px solid #d6dee6;
+            border-radius: 8px;
+            padding: 5px 10px;
+            height: 34px;
+        }
+        .table-search-container:hover { border-color: #1a3a5c; }
+        .table-search-input { border: none !important; outline: none; background: transparent; font-size: 12px; width: 180px; color: #1a3a5c; }
+        .table-search-input::placeholder { color: #94a3b8; }
+
+        .nav-tabs-container { background: transparent; padding: 10px 0; margin-top: 15px; margin-bottom: 15px; width: 100%; }
+        .nav-tabs { border: none !important; gap: 10px; width: 100%; flex-wrap: wrap; }
+        .nav-tabs .nav-link {
+            border: none !important;
+            background: #ffffff !important;
+            border-radius: 10px !important;
+            padding: 8px 18px !important;
+            font-weight: 500;
+            font-size: 14px;
+            color: #1a3a5c !important;
+            display: inline-flex !important;
+            align-items: center;
+            gap: 6px;
+            transition: all .25s ease;
+        }
+        .nav-tabs .nav-link:hover { background: #e6e9ed !important; }
+        .nav-tabs .nav-link.active { background: #234c63 !important; color: #fff !important; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .nav-tabs .material-icons { font-size: 14px !important; }
+
+        .modal-creative .modal-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-darker) 100%);
+            color: white !important;
+            padding: 15px 20px;
+            border-bottom: none;
+        }
+        .modal-creative .modal-header .modal-title { color: white !important; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+        .modal-creative .modal-header .btn-close { filter: brightness(0) invert(1); opacity: 1; }
+        .modal-creative .modal-header .btn-close:hover { opacity: 0.8; }
+        .info-card { background: #f8fafd; border-radius: 10px; padding: 16px; margin-bottom: 12px; border: 1px solid #e2e8f0; }
+        .info-label { font-size: 11px; text-transform: uppercase; color: #6c757d; font-weight: 600; margin-bottom: 4px; font-family: 'Montserrat', sans-serif !important; }
+        .info-value { font-size: 13px; font-weight: 600; color: var(--primary-dark); word-break: break-word; font-family: 'Montserrat', sans-serif !important; }
+        .info-value.highlight { font-size: 16px; color: var(--accent-red); }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 12px; }
+        .objeto-container { background: #f8fafd; border-radius: 8px; padding: 16px; border: 1px solid #e2e8f0; margin-top: 4px; }
+        .objeto-title { font-size: 13px; font-weight: 700; color: var(--primary-dark); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .objeto-text { font-size: 13px; line-height: 1.6; color: #495057; }
+
+        /* Modal sections */
+        .modal-section { background: #f0f4f8; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; border-left: 4px solid var(--primary-dark); }
+        .modal-section-title { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--primary-dark); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; letter-spacing: 0.5px; }
+        .modal-section.section-nr { border-left-color: var(--accent-red); }
+        .modal-section.section-exec { border-left-color: var(--info-blue); }
+        .modal-section.section-vi { border-left-color: var(--success-green); }
+        .modal-table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid #e2e8f0; background: #fff; }
+        .modal-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 640px; }
+        .modal-table th { background: #eef2f7; color: var(--primary-dark); text-transform: uppercase; font-size: 10.5px; font-weight: 700; letter-spacing: 0.3px; padding: 9px 10px; text-align: left; white-space: nowrap; }
+        .modal-table td { padding: 9px 10px; border-top: 1px solid #e9edf2; color: #334155; vertical-align: top; }
+        .modal-table td.valor-monetario { font-weight: 700; color: var(--primary-dark); white-space: nowrap; }
+        .modal-table tbody tr:hover td { background: #f8fafd; }
+
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 12px 20px;
+            background: white;
+            border-top: 1px solid #dee2e6;
+            width: 100%;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .pagination-info { font-size: 12px; color: #6c757d; }
+        .pagination .page-link { color: var(--primary-dark); border-color: #dee2e6; font-size: 13px; padding: 4px 10px; }
+        .pagination .page-link:hover { color: var(--accent-red); background-color: #f8f9fa; }
+        .pagination .page-item.active .page-link { background-color: var(--primary-dark); border-color: var(--primary-dark); color: white; }
+        .items-per-page {
+            height: 34px;
+            min-width: 80px;
+            border-radius: 8px;
+            border: 1px solid #d6dee6;
+            padding: 4px 28px 4px 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a3a5c;
+            background-color: #ffffff;
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='%231a3a5c' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 6px center;
+        }
+
+        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+        .toolbar-left { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .toolbar-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+        .card-stats {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
+            height: 100%;
+            border: 1px solid #e5e9ef;
+        }
+        .card-stats h4 { font-size: 15px; font-weight: 600; color: var(--primary-dark); }
+
+        /* Gerenciador de colunas */
+        .col-manager-dropdown { position: relative; display: inline-block; }
+        .col-manager-panel {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: white;
+            min-width: 240px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border-radius: 10px;
+            padding: 12px;
+            z-index: 1100;
+            border: 1px solid #dee2e6;
+            margin-top: 5px;
+            max-height: 340px;
+            overflow-y: auto;
+        }
+        .col-manager-panel.show { display: block; }
+        .col-manager-panel .col-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+            color: var(--primary-dark);
+            font-weight: 500;
+        }
+        .col-manager-panel .col-item:hover { background: var(--background-light); }
+        .col-manager-panel .col-item input[type=checkbox] { accent-color: var(--primary-dark); width: 14px; height: 14px; cursor: pointer; }
+        .col-manager-title { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #6c757d; padding: 0 8px 8px; border-bottom: 1px solid #e9ecef; margin-bottom: 8px; letter-spacing: 0.5px; }
+
+        .badge-realizado { background: #d4edda; color: #155724; display: inline-block; padding: 3px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; white-space: nowrap; }
+        .badge-naorealizados { background: #f8d7da; color: #721c24; display: inline-block; padding: 3px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; white-space: nowrap; }
+
+        .dicionario-tabela { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .dicionario-tabela th { background-color: #54697b; color: white; padding: 12px 10px; font-size: 12px; font-weight: 600; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.2); }
+        .dicionario-tabela td { padding: 10px; font-size: 12px; border: 1px solid #dee2e6; vertical-align: top; }
+        .dicionario-tabela tr:nth-child(even) { background-color: #f8f9fa; }
+        .dicionario-tabela tr:hover { background-color: rgba(41,67,90,0.05); }
+        .dicionario-secao td { background-color: var(--primary-darker) !important; color: white; font-weight: 700; border: 1px solid rgba(255,255,255,0.2); text-align: center; }
+
+        .toast-sucesso {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #e6f4ea;
+            color: #1e4620;
+            border-radius: 12px;
+            padding: 14px 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            z-index: 9999;
+            min-width: 280px;
+        }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px) translateX(-50%); } to { opacity: 1; transform: translateY(0) translateX(-50%); } }
+
+        .loading-overlay {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(26,58,92,0.15); z-index: 9998;
+            align-items: center; justify-content: center;
+        }
+        .loading-overlay.show { display: flex; }
+        .loading-box {
+            background: white; border-radius: 12px; padding: 30px 40px;
+            text-align: center; box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        .loading-box p { font-size: 13px; color: #1a3a5c; font-weight: 600; margin-top: 12px; margin-bottom: 0; }
+        .spinner-border { color: #1a3a5c; }
+
+        @media (max-width: 992px) { .container-fluid, .dashboard-container { padding: 0 15px; } }
+        @media (max-width: 768px) {
+            .filters-row { flex-direction: column; align-items: stretch; }
+            .filter-group { min-width: 100%; }
+            .nav-tabs { flex-direction: column; align-items: stretch; }
+            .nav-tabs .nav-link { justify-content: flex-start; }
+            .container-fluid, .dashboard-container { padding: 0 12px; }
+            .container { max-width: 100% !important; }
+            .table-search-input { width: 100% !important; }
+            .pagination-container { flex-direction: column; gap: 8px; }
+            .toolbar { flex-direction: column; align-items: flex-start; }
+        }
+
+        .tooltip-inner { background-color: #2f3b45 !important; color: #fff; font-size: 12px; padding: 6px 10px; border-radius: 6px; max-width: 250px; }
+        .fw-bold { font-weight: 700; }
+        h5 { font-size: 14px; color: var(--primary-dark); padding-bottom: 8px; font-weight: 700; }
+        code { font-size: 11px; background: #f0f4f8; padding: 2px 5px; border-radius: 3px; color: #1a3a5c; }
+
+        .badge-status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .badge-aprovado { background: #d4edda; color: #155724; }
+        .badge-cancelado { background: #f8d7da; color: #721c24; }
+        .badge-pendente { background: #fff3cd; color: #856404; }
+        .badge-default { background: #e2e8f0; color: #1a3a5c; }
+
+        .chart-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+            border: 1px solid #e5e9ef;
+            padding: 14px 16px 10px;
+            margin-bottom: 20px;
+        }
+        .chart-card h6 {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #1a3a5c;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .chart-card h6 i { color: var(--accent-red); font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-box">
+        <div class="spinner-border" role="status"></div>
+        <p id="loadingMsg">Carregando dados...</p>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="container-fluid dashboard-container">
+
+        <!-- MENU DE NAVEGAÇÃO -->
+        <div class="nav-tabs-container">
+            <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" id="tab1-tab" data-bs-toggle="tab" data-bs-target="#tab1">
+                        <i class="material-icons">bar_chart</i>Visão Geral
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="tab3-tab" data-bs-toggle="tab" data-bs-target="#tab3">
+                        <i class="material-icons">assignment</i>Consulta por Emendas
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="tab5-tab" data-bs-toggle="tab" data-bs-target="#tab5">
+                        <i class="material-icons">menu_book</i>Dicionário de Dados
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="tab4-tab" data-bs-toggle="tab" data-bs-target="#tab4">
+                        <i class="material-icons">download</i>Downloads
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- DATA DE ATUALIZAÇÃO -->
+        <div class="data-atualizacao-container">
+            <div class="data-atualizacao-box">
+                <i class="material-icons">event</i>
+                Data de atualização: <span id="data-atualizacao-header" style="margin-left:4px;">carregando...</span>
+            </div>
+        </div>
+
+        <div class="tab-content" id="dashboardTabsContent">
+
+            <!-- ===== TAB 1: VISÃO GERAL ===== -->
+            <div class="tab-pane fade show active" id="tab1" role="tabpanel">
+                <div class="filter-container">
+                    <div class="filters-row">
+                        <div class="filter-group">
+                            <label class="filter-label">Ano</label>
+                            <select class="form-select" id="anoDG"><option value="">Todos</option></select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Autoria</label>
+                            <input type="text" class="form-control" id="responsavelDG" placeholder="Nome do responsável...">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Tipo de Emenda</label>
+                            <select class="form-select" id="tipoEmendaDG"><option value="">Todos</option></select>
+                        </div>
+                    </div>
+                    <div class="botoes-abaixo">
+                        <button class="btn-pesquisa" id="aplicarFiltrosDG"><i class="material-icons me-2">refresh</i>Atualizar Filtros</button>
+                        <button class="btn-secondary-custom" id="limparFiltrosDG"><i class="material-icons me-2">clear</i>Limpar Filtros</button>
+                    </div>
+                </div>
+
+                <div class="row mb-4" id="summaryCardsDG">
+                    <div class="col-12 text-center text-muted" style="font-size:13px;">Carregando dados...</div>
+                </div>
+
+
+                <!-- GRÁFICOS VISÃO GERAL -->
+                <div class="row mb-3" id="graficosVG">
+                    <div class="col-md-6 mb-3">
+                        <div class="chart-card">
+                            <h6><i class="material-icons">bar_chart</i>Evolução Anual — Valor Indicação</h6>
+                            <canvas id="chartLOA" style="max-height:160px;"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="chart-card">
+                            <h6><i class="material-icons">payments</i>Evolução Anual — Valor Pago</h6>
+                            <canvas id="chartPago" style="max-height:160px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <button class="btn-export" id="exportCSVDG"><i class="material-icons">description</i>CSV</button>
+                        <button class="btn-export" id="printDG"><i class="material-icons">print</i>PDF</button>
+                        <div class="share-dropdown">
+                            <button class="btn-export" onclick="toggleShare(1)"><i class="material-icons">share</i>Compartilhar</button>
+                            <div class="share-options" id="shareOptions1">
+                                <a href="#" onclick="copiarLink(event,1)"><i class="material-icons">link</i>Copiar Link</a>
+                                <a href="#" onclick="compartilharWhatsApp(event,1)"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>
+                                <a href="#" onclick="compartilharFacebook(event,1)"><i class="fa-brands fa-facebook"></i>Facebook</a>
+                                <a href="#" onclick="compartilharTwitter(event,1)"><i class="fa-brands fa-x-twitter"></i>Twitter/X</a>
+                            </div>
+                        </div>
+                        <div class="col-manager-dropdown">
+                            <button class="btn-export" onclick="toggleColManager('dg')"><i class="material-icons">view_column</i>Colunas</button>
+                            <div class="col-manager-panel" id="colManagerDG">
+                                <div class="col-manager-title">Exibir / Ocultar Colunas</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="toolbar-right">
+                        <span style="font-size:11px;color:#94a3b8;font-style:italic;"><i class="material-icons" style="font-size:12px;">touch_app</i> Clique na linha para ver indicações</span>
+                        <span class="table-badge" id="countDG">0 registros</span>
+                        <div class="table-search-container">
+                            <i class="material-icons" style="font-size:16px;color:#94a3b8;">search</i>
+                            <input type="text" id="searchDG" class="table-search-input" placeholder="Buscar registros...">
+                        </div>
+                        <select id="itemsPerPageDG" class="items-per-page">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50" selected>50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-fixed-header-container">
+                        <table class="table" id="tabelaDG">
+                            <thead>
+                                <tr id="tabelaDGHead">
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',0)" data-col="0">Ano <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',1)" data-col="1">Autoria <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',2)" data-col="2">Origem <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',3)" data-col="3">Tipo de Emenda <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',4)" data-col="4">Nº de Emendas <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',5)" data-col="5">Valor Indicação <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',6)" data-col="6">Valor Utilizado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',7)" data-col="7">Valor Empenhado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',8)" data-col="8">Valor Liquidado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',9)" data-col="9">Valor Pago <i class="material-icons">unfold_more</i></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaDGBody">
+                                <tr><td colspan="10" class="text-center text-muted">Carregando dados...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination-container" id="paginacaoDG"></div>
+                </div>
+                <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+                    <div id="btnTopo" onclick="voltarAoTopo()"><i class="material-icons">arrow_upward</i>Voltar ao topo</div>
+                </div>
+            </div>
+
+            <!-- ===== TAB 3: CONSULTA POR EMENDAS ===== -->
+            <div class="tab-pane fade" id="tab3" role="tabpanel">
+                <div class="filter-container">
+                    <div class="filters-row">
+                        <div class="filter-group">
+                            <label class="filter-label">Ano</label>
+                            <select class="form-select" id="anoVI"><option value="">Todos</option></select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Número da Emenda</label>
+                            <input type="text" class="form-control" id="numIndicacaoVI" placeholder="Ex: 12345">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Autoria</label>
+                            <input type="text" class="form-control" id="responsavelVI" placeholder="Nome do autor da emenda...">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Código SIAFI</label>
+                            <input type="text" class="form-control" id="numSiafiVI" placeholder="Ex: 9461574">
+                        </div>
+                    </div>
+                    <div class="filters-row" style="margin-top:12px;">
+                        <div class="filter-group">
+                            <label class="filter-label">Tipo de Emenda</label>
+                            <select class="form-select" id="tipoEmendaVI"><option value="">Todos</option></select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Forma de Repasse</label>
+                            <select class="form-select" id="tipoIndicacaoVI"><option value="">Todos</option></select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Função de Governo</label>
+                            <select class="form-select" id="funcaoVI"><option value="">Todas</option></select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Órgão</label>
+                            <input type="text" class="form-control" id="uoVI" placeholder="Sigla ou descrição...">
+                        </div>
+                    </div>
+                    <div class="filters-row" style="margin-top:12px;">
+                        <div class="filter-group">
+                            <label class="filter-label">Objeto</label>
+                            <input type="text" class="form-control" id="objetoVI" placeholder="Palavras-chave...">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Descrição da Despesa</label>
+                            <input type="text" class="form-control" id="descricaoVI" placeholder="Palavras-chave...">
+                        </div>
+                    </div>
+                    <div class="filters-row" style="margin-top:12px;">
+                        <div class="filter-group">
+                            <label class="filter-label">Credor</label>
+                            <input type="text" class="form-control" id="credorVI" placeholder="Nome do credor...">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">CNPJ/CPF</label>
+                            <input type="text" class="form-control" id="cnpjVI" placeholder="Ex: 12345678000190">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Município Beneficiado</label>
+                            <input type="text" class="form-control" id="municipioVI" placeholder="Nome do município...">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Situação</label>
+                            <select class="form-select" id="situacaoVI">
+                                <option value="">Todas</option>
+                                <option value="PAGO">Pago</option>
+                                <option value="AGUARDANDO PAGAMENTO">Aguardando Pagamento</option>
+                                <option value="EMPENHADO">Empenhado</option>
+                                <option value="A EMPENHAR">A Empenhar</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="botoes-abaixo">
+                        <button class="btn-pesquisa" id="aplicarFiltrosVI"><i class="material-icons me-2">refresh</i>Atualizar Filtros</button>
+                        <button class="btn-secondary-custom" id="limparFiltrosVI"><i class="material-icons me-2">clear</i>Limpar Filtros</button>
+                    </div>
+                </div>
+
+                <div class="row mb-4" id="summaryCardsVI">
+                    <div class="col-12 text-center text-muted" style="font-size:13px;">Carregando dados...</div>
+                </div>
+
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <button class="btn-export" id="exportCSVVI"><i class="material-icons">description</i>CSV</button>
+                        <button class="btn-export" id="printVI"><i class="material-icons">print</i>PDF</button>
+                        <div class="share-dropdown">
+                            <button class="btn-export" onclick="toggleShare(3)"><i class="material-icons">share</i>Compartilhar</button>
+                            <div class="share-options" id="shareOptions3">
+                                <a href="#" onclick="copiarLink(event,3)"><i class="material-icons">link</i>Copiar Link</a>
+                                <a href="#" onclick="compartilharWhatsApp(event,3)"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>
+                                <a href="#" onclick="compartilharFacebook(event,3)"><i class="fa-brands fa-facebook"></i>Facebook</a>
+                                <a href="#" onclick="compartilharTwitter(event,3)"><i class="fa-brands fa-x-twitter"></i>Twitter/X</a>
+                            </div>
+                        </div>
+                        <div class="col-manager-dropdown">
+                            <button class="btn-export" onclick="toggleColManager('vi')"><i class="material-icons">view_column</i>Adicionar/Remover Colunas</button>
+                            <div class="col-manager-panel" id="colManagerVI">
+                                <div class="col-manager-title">Exibir / Ocultar Colunas</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="toolbar-right">
+                        <span class="table-badge" id="countVI">0 registros</span>
+                        <div class="table-search-container">
+                            <i class="material-icons" style="font-size:16px;color:#94a3b8;">search</i>
+                            <input type="text" id="searchVI" class="table-search-input" placeholder="Buscar registros...">
+                        </div>
+                        <select id="itemsPerPageVI" class="items-per-page">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50" selected>50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-fixed-header-container">
+                        <table class="table" id="tabelaVI">
+                            <thead>
+                                <tr id="tabelaVIHead">
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',0)" data-col="0">Ano <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',1)" data-col="1">Nº Emenda <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',2)" data-col="2">Autoria <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',3)" data-col="3">Código SIAFI <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',4)" data-col="4">Nº do Empenho <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',5)" data-col="5">Data do Empenho <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',6)" data-col="6">Tipo de Emenda <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',7)" data-col="7">Forma de Repasse <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',8)" data-col="8">Função de Governo <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',9)" data-col="9">Órgão <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',10)" data-col="10">Objeto <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',11)" data-col="11">Descrição da Despesa <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',12)" data-col="12">Credor <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',13)" data-col="13">CNPJ/CPF <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',14)" data-col="14">Município Beneficiado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',15)" data-col="15">Data Início <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',16)" data-col="16">Data Fim <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',17)" data-col="17">Valor Indicado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',18)" data-col="18">Valor Empenhado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',19)" data-col="19">Valor Liquidado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',20)" data-col="20">Valor Pago <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',21)" data-col="21">Situação <i class="material-icons">unfold_more</i></th>
+                                    <th style="text-align:center;width:70px;" data-col="22">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaVIBody">
+                                <tr><td colspan="23" class="text-center text-muted">Carregando dados...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination-container" id="paginacaoVI"></div>
+                </div>
+                <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+                    <div class="btn-topo" onclick="voltarAoTopo()"><i class="material-icons">arrow_upward</i>Voltar ao topo</div>
+                </div>
+            </div>
+
+            <!-- ===== TAB 5: DICIONÁRIO DE DADOS ===== -->
+            <div class="tab-pane fade" id="tab5" role="tabpanel">
+                <div class="mt-2">
+                    </p>
+                    <div class="table-responsive">
+                        <table class="dicionario-tabela">
+                            <thead><tr><th>Tabela</th><th>Campo</th><th>Descrição</th></tr></thead>
+                            <tbody>
+                                <tr class="dicionario-secao"><td colspan="3">FONTE: VW_SG_V2_EP_INDIC_RECURSOS (base principal de indicações — Visão Geral, Consulta por Emendas e "Dados da Emenda"/"Objeto" no modal)</td></tr>
+                                <tr><td>Indicações</td><td>numero_indicacao</td><td>Número de identificação da indicação parlamentar (exibido como "Nº Emenda").</td></tr>
+                                <tr><td>Indicações</td><td>ano_exercicio</td><td>Ano de exercício orçamentário da indicação.</td></tr>
+                                <tr><td>Indicações</td><td>responsavel</td><td>Nome do parlamentar responsável (exibido como "Autoria").</td></tr>
+                                <tr><td>Indicações</td><td>classificacao_resp_descricao</td><td>Classifica a indicação como Individual (Parlamentar Estadual), Bloco ou Bancada (exibido como "Tipo de Emenda").</td></tr>
+                                <tr><td>Indicações</td><td>uo / uo_sigla / uo_descricao</td><td>Código, sigla e descrição da Unidade Orçamentária (exibido como "Órgão").</td></tr>
+                                <tr><td>Indicações</td><td>tipo_indicacao</td><td>Forma de repasse dos recursos.</td></tr>
+                                <tr><td>Indicações</td><td>status_indicacao</td><td>Status da indicação. O dashboard exibe somente registros com status APROVADO.</td></tr>
+                                <tr><td>Indicações</td><td>municipio</td><td>Município beneficiado pela indicação (exibido como "Município Beneficiado").</td></tr>
+                                <tr><td>Indicações</td><td>beneficiario_nome / beneficiario_cnpj</td><td>Razão social e CNPJ/CPF do credor (exibidos como "Credor" e "CNPJ/CPF").</td></tr>
+                                <tr><td>Indicações</td><td>grupo_despesa_codigo / grupo_despesa_nome</td><td>Código e nome do elemento de despesa (exibidos no modal como "Código Elemento" e "Elemento da Despesa").</td></tr>
+                                <tr><td>Indicações</td><td>funcao_descricao</td><td>Descrição da função de governo.</td></tr>
+                                <tr><td>Indicações</td><td>especificacao_descricao</td><td>Especificação da despesa (exibida no modal como "Item da Despesa" — a fonte não traz um código de item separado, por isso "Código Item" aparece como "-").</td></tr>
+                                <tr><td>Indicações</td><td>plano_titulo / instrumento_titulo</td><td>Título do plano de trabalho / instrumento jurídico (exibido como "Objeto").</td></tr>
+                                <tr><td>Indicações</td><td>descricao_indicacao</td><td>Descrição da despesa da indicação (exibida como "Descrição da Despesa"; quando vazia, usa a especificação da despesa).</td></tr>
+                                <tr><td>Indicações</td><td>valor_indicacao / valor_utilizado</td><td>Valor total indicado (exibido como "Valor Indicado"/"Valor da Emenda") e valor efetivamente utilizado.</td></tr>
+                                <tr><td>Indicações</td><td>valor_empenhado_ano / valor_liquidado_ano / valor_pago_ano</td><td>Valores empenhado, liquidado e pago no ano de exercício, usados na Consulta por Emendas e na Visão Geral.</td></tr>
+                                <tr><td>Indicações</td><td>numero_siafi</td><td>Código SIAFI do instrumento — chave de cruzamento com os arquivos de execução financeira (execucaoAAAA.csv).</td></tr>
+                                <tr><td>Indicações</td><td>data_publicacao / data_validade</td><td>Datas de início e fim de vigência (exibidas como "Data Início"/"Data Fim").</td></tr>
+                                <tr><td>Indicações</td><td>numero_convenio</td><td>Número do convênio, usado para montar os links de PDF do Plano de Trabalho e do Termo ("Inteiro Teor" no modal).</td></tr>
+                                <tr class="dicionario-secao"><td colspan="3">FONTE: execucaoAAAA.csv — 2023, 2024, 2025 e 2026 (execução financeira / empenhos — usada só na seção "Execução Financeira — Empenhos" do modal)</td></tr>
+                                <tr><td>Execução Financeira</td><td>numero_siafi</td><td>Código SIAFI do empenho — chave de cruzamento com o campo numero_siafi da base de indicações.</td></tr>
+                                <tr><td>Execução Financeira</td><td>numero_empenho</td><td>Número do empenho orçamentário (exibido como "Nº do Empenho").</td></tr>
+                                <tr><td>Execução Financeira</td><td>data_registro_doc_empenho</td><td>Data de registro do documento de empenho (exibida como "Data do Empenho"; também usada para determinar o "Ano do Empenho").</td></tr>
+                                <tr><td>Execução Financeira</td><td>valor_despesa_empenhada</td><td>Valor empenhado (exibido como "Vl. Empenhado").</td></tr>
+                                <tr><td>Execução Financeira</td><td>valor_despesa_liquidada</td><td>Valor liquidado (exibido como "Vl. Liquidado").</td></tr>
+                                <tr><td>Execução Financeira</td><td>valor_pago_financeiro</td><td>Valor pago (exibido como "Vl. Pago").</td></tr>
+                                <tr><td>Execução Financeira</td><td>valor_liquidado_em_rp</td><td>Valor liquidado em restos a pagar (exibido como "Vl. Liquidado RP").</td></tr>
+                                <tr><td>Execução Financeira</td><td>valor_pago_em_rp</td><td>Valor pago em restos a pagar (exibido como "Vl. Pago RP").</td></tr>
+                                <tr><td>Execução Financeira</td><td>razao_social_credor / cnpj_cpf_credor_formatado</td><td>Credor e CNPJ/CPF do empenho (carregados, mas não exibidos na tabela do modal).</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+                    <div class="btn-topo" onclick="voltarAoTopo()"><i class="material-icons">arrow_upward</i>Voltar ao topo</div>
+                </div>
+            </div>
+
+            <!-- ===== TAB 4: DOWNLOADS ===== -->
+            <div class="tab-pane fade" id="tab4" role="tabpanel">
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-3">
+                        <div class="card-stats">
+                            <h4 class="fw-bold mb-3"><i class="material-icons me-2" style="color:var(--accent-red);">storage</i>Portal de Dados Abertos</h4>
+                            <p style="font-size:13px;color:#6c757d;text-align:justify;">
+                                Acesse o conjunto completo de dados sobre emendas estaduais no Portal de Dados Abertos de Minas Gerais, documentado conforme especificações Frictionless Data para validação automática e reuso.
+                            </p>
+                            <div class="mt-4 text-end">
+                                <a href="https://dados.mg.gov.br/dataset/emendas_estaduais" target="_blank" class="btn-export text-decoration-none fw-bold d-inline-block px-4 py-2">
+                                    <i class="material-icons me-1">launch</i>Acessar Portal de Dados MG
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card-stats">
+                            <h4 class="fw-bold mb-3"><i class="material-icons me-2" style="color:var(--accent-red);">account_balance</i>Portal das Emendas Estaduais</h4>
+                            <p style="font-size:13px;color:#6c757d;text-align:justify;">
+                                Acesse o portal oficial de transparência das emendas estaduais do Governo de Minas Gerais com informações detalhadas sobre a execução orçamentária.
+                            </p>
+                            <div class="mt-4 text-end">
+                                <a href="https://www.emendas.mg.gov.br/transparencia/" target="_blank" class="btn-export text-decoration-none fw-bold d-inline-block px-4 py-2">
+                                    <i class="material-icons me-1">launch</i>Acessar Portal Emendas MG
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+                    <div class="btn-topo" onclick="voltarAoTopo()"><i class="material-icons">arrow_upward</i>Voltar ao topo</div>
+                </div>
+            </div>
+
+        </div><!-- /tab-content -->
+    </div>
+</div>
+
+<!-- MODAL DE DETALHES -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content modal-creative">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">
+                    <i class="material-icons me-2">description</i>Detalhes do Registro
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="detalhesConteudo"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary-custom" data-bs-dismiss="modal"><i class="material-icons">close</i>Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div id="toastSucesso" class="toast-sucesso">
+    <div style="display:flex;align-items:center;gap:10px;">
+        <i class="material-icons" style="color:#28a745;font-size:18px;">check_circle</i>
+        <span style="font-size:13px;">Link copiado para a área de transferência!</span>
+    </div>
+    <span style="cursor:pointer;margin-left:12px;font-size:13px;" onclick="document.getElementById('toastSucesso').style.display='none'">✖</span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ============================================================
+// CONFIGURAÇÕES
+// ============================================================
+// Repositório fonte dos dados (2 arquivos únicos, com todos os anos, em vez de
+// 6 arquivos por ano como antes). Os nomes dos arquivos trazem um timestamp que
+// muda a cada atualização (ex.: ..._TW_202608041628.csv), então em vez de fixar
+// o nome buscamos a listagem da pasta e usamos o arquivo mais recente de cada prefixo.
+const GH_OWNER = 'transparencia-mg';
+const GH_REPO  = 'emendas_estaduai';
+const GH_PATH  = 'dataset/data';
+const GITHUB_API = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/commits?path=${GH_PATH}&per_page=1`;
+const GITHUB_CONTENTS_API = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}`;
+// Arquivos usados pelo dashboard:
+//  - PREFIXO_INDICACOES: base principal de indicações (parlamentar, município, beneficiário, ação, função, valores, plano/instrumento etc.)
+//    Usada para montar a Visão Geral e a Consulta por Emendas.
+//  - Execução financeira (empenhos): um arquivo por ano ("execucaoAAAA.csv"), com um registro por empenho.
+//    Usada apenas dentro do modal de detalhes de cada emenda (seção "Execução Financeira — Empenhos"),
+//    cruzada pelo Código SIAFI (numero_siafi).
+const PREFIXO_INDICACOES = 'VW_SG_V2_EP_INDIC_RECURSOS';
+// URL de fallback (arquivo conhecido no momento em que este dashboard foi construído),
+// usada somente se a descoberta dinâmica via API do GitHub falhar (ex.: rate limit).
+const FALLBACK_URL_INDICACOES = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/main/${GH_PATH}/VW_SG_V2_EP_INDIC_RECURSOS_TW_202608041638.csv`;
+
+// Anos disponíveis do arquivo de execução financeira (execucaoAAAA.csv). Adicione um ano aqui
+// assim que o arquivo correspondente for publicado no repositório.
+const ANOS_EXECUCAO_FINANCEIRA = [2023, 2024, 2025, 2026];
+function urlExecucaoFinanceira(ano) {
+    return `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/main/${GH_PATH}/execucao${ano}.csv`;
+}
+
+// Descobre o arquivo mais recente (ordenação alfabética = ordenação por timestamp no nome) para um dado prefixo
+async function descobrirUrlArquivo(prefixo, fallback) {
+    try {
+        const r = await fetch(GITHUB_CONTENTS_API, { cache: 'no-cache' });
+        if (!r.ok) throw new Error('contents api falhou');
+        const lista = await r.json();
+        const candidatos = (lista || [])
+            .filter(f => f.name && f.name.startsWith(prefixo) && f.name.toLowerCase().endsWith('.csv'))
+            .sort((a, b) => b.name.localeCompare(a.name)); // mais recente primeiro
+        if (candidatos.length && candidatos[0].download_url) return candidatos[0].download_url;
+    } catch (e) { /* usa fallback abaixo */ }
+    return fallback;
+}
+
+// ============================================================
+// ESTADO GLOBAL
+// ============================================================
+let dadosGerais = [];
+let filteredDG = [], filteredVI = [];
+// Base única de indicações (arquivo VW_SG_V2_EP_INDIC_RECURSOS), já filtrada para status_indicacao = APROVADO
+let dadosIndicacoesUnificados = [];
+// Mapa auxiliar numero_indicacao → registro da indicação (para enriquecer a aba de Execução)
+let indicacaoPorNumero = {};
+// Execução financeira (empenhos), vinda dos arquivos execucaoAAAA.csv, um por ano.
+// Mapa auxiliar numero_siafi → lista de empenhos (uma emenda pode ter vários empenhos).
+let empenhosPorSiafi = {};
+
+// ============================================================
+// LINKS DE PDF (PLANO DE TRABALHO E TERMO) — a partir do nº do convênio (no_convenio)
+// Formato esperado: "NumeroConvenio/UltimosDigitosAno" (ex.: "1491000033/2025")
+// ============================================================
+function parseNoConvenio(noConvenio) {
+    if (!noConvenio) return null;
+    const partes = noConvenio.toString().trim().split('/');
+    if (partes.length < 2) return null;
+    const numeroConvenio   = (partes[0] || '').trim();
+    const ultimos4Digitos  = (partes[1] || '').trim();
+    if (!numeroConvenio || !ultimos4Digitos) return null;
+    return { numeroConvenio, ultimos4Digitos };
+}
+
+function getLinkPdfPlano(noConvenio) {
+    const p = parseNoConvenio(noConvenio);
+    if (!p) return '';
+    return `https://www.convenios.mg.gov.br/sigconv2/ws/rest/mobile/instrumentos/${p.ultimos4Digitos}/${p.numeroConvenio}/pdf`;
+}
+
+function getLinkPdfTermo(noConvenio) {
+    const p = parseNoConvenio(noConvenio);
+    if (!p) return '';
+    return `https://www.convenios.mg.gov.br/sigconv2/ws/rest/mobile/instrumentos/${p.ultimos4Digitos}/${p.numeroConvenio}/termo/pdf`;
+}
+
+let currentPage  = { dg:1, vi:1 };
+let itemsPerPage = { dg:50, vi:50 };
+let currentSearch = { dg:'', vi:'' };
+let sortConfig = {
+    dg:   { column:0, direction:'asc' },  // Ano
+    vi:   { column:1, direction:'asc' }   // Número da Emenda — crescente
+};
+
+// Colunas visíveis por aba (índices das colunas, true=visível)
+let colVisibility = {
+    dg: [true, true, true, true, true, true, true, true, true, true],
+    vi: [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true]
+};
+
+const COL_LABELS = {
+    dg:   ['Ano','Autoria','Origem','Tipo de Emenda','Nº de Emendas','Valor Indicação','Valor Utilizado','Valor Empenhado','Valor Liquidado','Valor Pago'],
+    vi:   ['Ano','Nº Emenda','Autoria','Código SIAFI','Nº do Empenho','Data do Empenho','Tipo de Emenda','Forma de Repasse','Função de Governo','Órgão','Objeto','Descrição da Despesa','Credor','CNPJ/CPF','Município Beneficiado','Data Início','Data Fim','Valor Indicado','Valor Empenhado','Valor Liquidado','Valor Pago','Situação','Ações']
+};
+
+// Colunas que não podem ser ocultadas
+const COL_FIXED = {
+    dg: [1],       // Autoria sempre visível
+    vi: [0, 1, 22] // Ano, Nº Emenda e Ações sempre visíveis
+};
+
+// ============================================================
+// UTILITÁRIOS
+// ============================================================
+function fmt(v) {
+    if (!v && v !== 0) return '-';
+    if (typeof v === 'string') v = parseFloat(v.replace(/\./g,'').replace(',','.'));
+    if (isNaN(v)) return '-';
+    return new Intl.NumberFormat('pt-BR', { style:'currency', currency:'BRL' }).format(v);
+}
+
+function parseValor(v) {
+    if (!v) return 0;
+    if (typeof v === 'number') return v;
+    return parseFloat(v.toString().replace(/\./g,'').replace(',','.')) || 0;
+}
+
+function trunc(str, n) {
+    if (!str) return '-';
+    return str.length > n ? str.substring(0, n) + '...' : str;
+}
+
+function fmtData(v) {
+    if (!v) return '-';
+    const s = v.toString().trim();
+    if (!s) return '-';
+    const m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (m) return `${m[3]}/${m[2]}/${m[1]}`;
+    return s;
+}
+
+function fmtSiafi(v) {
+    if (!v && v !== 0) return '-';
+    const s = v.toString().trim();
+    if (!s || s === '-') return '-';
+    // Remove trailing ,0 or .0 (e.g. "9461574,0" → "9461574")
+    return s.replace(/[,.]0+$/, '');
+}
+
+function badgeStatus(status) {
+    if (!status) return '-';
+    const s = status.toLowerCase();
+    let cls = 'badge-default';
+    if (s.includes('aprovad') || s.includes('execut') || s.includes('pago') || s.includes('liquid')) cls = 'badge-aprovado';
+    else if (s.includes('cancel') || s.includes('reprov') || s.includes('impedid')) cls = 'badge-cancelado';
+    else if (s.includes('pendent') || s.includes('aguard') || s.includes('andamento')) cls = 'badge-pendente';
+    return `<span class="badge-status ${cls}">${status}</span>`;
+}
+
+// Calcula a situação da indicação a partir dos valores empenhado/liquidado/pago.
+// Regra:
+//   PAGO                  -> valor_pago > 0
+//   AGUARDANDO PAGAMENTO  -> valor_liquidado > 0 e valor_pago == 0
+//   EMPENHADO             -> valor_empenhado > 0 e valor_liquidado == 0 (e valor_pago == 0)
+//   A EMPENHAR            -> valor_empenhado, valor_liquidado e valor_pago todos == 0
+function calcularSituacao(valorEmpenhado, valorLiquidado, valorPago) {
+    const emp = Number(valorEmpenhado) || 0;
+    const liq = Number(valorLiquidado) || 0;
+    const pago = Number(valorPago) || 0;
+    if (pago > 0) return 'PAGO';
+    if (liq > 0) return 'AGUARDANDO PAGAMENTO';
+    if (emp > 0) return 'EMPENHADO';
+    return 'A EMPENHAR';
+}
+
+// Badge visual para a situação calculada (cores próprias, distintas do badgeStatus genérico)
+function badgeSituacao(situacao) {
+    if (!situacao) return '-';
+    let cls = 'badge-default';
+    if (situacao === 'PAGO') cls = 'badge-aprovado';
+    else if (situacao === 'AGUARDANDO PAGAMENTO') cls = 'badge-pendente';
+    else if (situacao === 'EMPENHADO') cls = 'badge-pendente';
+    else if (situacao === 'A EMPENHAR') cls = 'badge-cancelado';
+    return `<span class="badge-status ${cls}">${situacao}</span>`;
+}
+
+// ============================================================
+// DATA DE ATUALIZAÇÃO
+// ============================================================
+async function setupAtualizacao() {
+    const el = document.getElementById('data-atualizacao-header');
+    if (!el) return;
+    try {
+        const r = await fetch(GITHUB_API);
+        if (!r.ok) throw new Error();
+        const commits = await r.json();
+        if (commits?.length > 0) {
+            el.textContent = new Date(commits[0].commit.committer.date).toLocaleDateString('pt-BR');
+            return;
+        }
+    } catch(e) {}
+    el.textContent = new Date().toLocaleDateString('pt-BR');
+}
+
+// ============================================================
+// CARGA DE DADOS
+// ============================================================
+function setLoading(show, msg) {
+    const el = document.getElementById('loadingOverlay');
+    if (el) el.classList.toggle('show', show);
+    const msgEl = document.getElementById('loadingMsg');
+    if (msgEl && msg) msgEl.textContent = msg;
+}
+
+async function carregarCSV(url) {
+    // Busca o arquivo via fetch e faz o parse do texto completo de uma só vez.
+    // (O modo download/streaming do PapaParse podia processar o conteúdo em
+    // partes e gerar linhas duplicadas em alguns navegadores, dobrando os totais.)
+    try {
+        const resp = await fetch(url, { cache: 'no-cache' });
+        if (!resp.ok) return [];
+        const texto = await resp.text();
+        const r = Papa.parse(texto, {
+            header: true,
+            delimiter: ';',
+            skipEmptyLines: true
+        });
+        return (r.data || []).filter(row => Object.values(row).some(v => v));
+    } catch (e) {
+        return [];
+    }
+}
+
+// Classificação Individual/Bloco/Bancada, a partir de classificacao_resp_descricao
+function mapTipoEmenda(v) {
+    const s = (v || '').toString().trim().toUpperCase();
+    if (s === 'PARLAMENTAR ESTADUAL') return 'Individual';
+    if (s === 'BLOCO') return 'Bloco';
+    if (s === 'BANCADA') return 'Bancada';
+    return s ? s.charAt(0) + s.slice(1).toLowerCase() : 'Individual';
+}
+
+// Remove ",0" residual de campos numéricos exportados como texto (ex.: CNPJ "18772031000126,0")
+function limparNumTexto(v) {
+    if (!v && v !== 0) return '';
+    return v.toString().trim().replace(/[,.]0+$/, '');
+}
+
+// Resume os empenhos de uma emenda (cruzados pelo Código SIAFI) para exibição em coluna/célula.
+// Uma emenda pode ter mais de um empenho — nesse caso os valores são unidos por vírgula.
+function resumoEmpenhos(numeroSiafi) {
+    const lista = (numeroSiafi && empenhosPorSiafi[numeroSiafi]) || [];
+    if (!lista.length) return { numero: '-', data: '-' };
+    const numero = lista.map(e => e.numero_empenho).filter(Boolean).join(', ') || '-';
+    const data = lista.map(e => fmtData(e.data_empenho)).filter(Boolean).join(', ') || '-';
+    return { numero, data };
+}
+
+// Mapeia uma linha do arquivo principal de indicações (VW_SG_V2_EP_INDIC_RECURSOS)
+function mapIndicacao(row) {
+    // Objeto = título do plano de trabalho / instrumento jurídico
+    const objeto = (row.plano_titulo && row.plano_titulo.trim())
+        || (row.instrumento_titulo && row.instrumento_titulo.trim())
+        || '';
+    // Descrição da Despesa = descrição da indicação, com fallback para a especificação da despesa
+    const descricaoDespesa = (row.descricao_indicacao && row.descricao_indicacao.trim())
+        || (row.especificacao_descricao && row.especificacao_descricao.trim())
+        || '';
+    const numeroSiafi = limparNumTexto(row.numero_siafi);
+    const empResumo = resumoEmpenhos(numeroSiafi);
+    return {
+        _ano: parseInt(row.ano_exercicio, 10) || null,
+        numero_indicacao: (row.numero_indicacao || '').toString().trim(),
+        responsavel: row.responsavel || '',
+        autor: row.responsavel || '',
+        tipo_emenda: mapTipoEmenda(row.classificacao_resp_descricao),
+        uo: row.uo || '',
+        uo_sigla: row.uo_sigla || '',
+        uo_descricao: row.uo_descricao || '',
+        numero_indicacao_status: row.status_indicacao || '',
+        tipo_de_indicacao: row.tipo_indicacao || '',
+        esfera: 'Estadual',
+        municipio: row.municipio || '',
+        convenente: row.beneficiario_nome || '',
+        cnpj_convenente: limparNumTexto(row.beneficiario_cnpj),
+        beneficiario_tipo: row.beneficiario_tipo || '',
+        codigo_escola: row.codigo_escola || '',
+        numero_acao: row.acao_numero || '',
+        nome_acao: row.acao_nome || '',
+        grupo_despesa_codigo: row.grupo_despesa_codigo || '',
+        grupo_despesa: row.grupo_despesa_nome || '',
+        funcao: row.funcao_descricao || '',
+        descricao_genero: row.genero_descricao || '',
+        descricao_especificacao: row.especificacao_descricao || '',
+        descricao_indicacao: row.descricao_indicacao || '',
+        objeto,
+        descricao_despesa: descricaoDespesa,
+        funcional_programatica: row.funcional_programatica || '',
+        valor_indicado: parseValor(row.valor_indicacao),
+        valor_utilizado: parseValor(row.valor_utilizado),
+        valor_empenhado: parseValor(row.valor_empenhado_ano),
+        valor_liquidado: parseValor(row.valor_liquidado_ano),
+        valor_pago: parseValor(row.valor_pago_ano),
+        valor_restos_pagar: parseValor(row.valor_restos_pagar),
+        plano_titulo: row.plano_titulo || '',
+        instrumento_titulo: row.instrumento_titulo || '',
+        instrumento_numero: row.instrumento_numero || '',
+        numero_siafi: numeroSiafi,
+        numero_empenho: empResumo.numero,
+        data_empenho: empResumo.data,
+        data_inicio: (row.data_publicacao || '').toString().trim(),
+        data_fim: (row.data_validade || '').toString().trim(),
+        situacao: calcularSituacao(
+            parseValor(row.valor_empenhado_ano),
+            parseValor(row.valor_liquidado_ano),
+            parseValor(row.valor_pago_ano)
+        ),
+        no_convenio: (row.numero_convenio || '').toString().trim(),
+        _raw: row
+    };
+}
+
+// Mapeia uma linha do arquivo de execução financeira (execucaoAAAA.csv) — um registro por empenho.
+// Colunas de origem: numero_siafi;numero_empenho;data_registro_doc_empenho;numero_processo_compra_siad;
+// unidade_orcamentaria_codigo;unidade_orcamentaria_sigla;unidade_orcamentaria_nome;razao_social_credor;
+// cnpj_cpf_credor_formatado;elemento_despesa_codigo;elemento_despesa_descricao;item_despesa_codigo;
+// item_despesa_descricao;fonte_recurso_codigo;fonte_recurso_descricao;valor_despesa_empenhada;
+// valor_despesa_liquidada;valor_despesa_liquidada_1;valor_pago_financeiro;valor_liquidado_em_rp;valor_pago_em_rp
+function mapEmpenho(row, anoArquivo) {
+    const dataEmpenho = (row.data_registro_doc_empenho || '').toString().trim();
+    const anoMatch = dataEmpenho.match(/^(\d{4})-/);
+    return {
+        numero_siafi: limparNumTexto(row.numero_siafi),
+        numero_empenho: (row.numero_empenho || '').toString().trim(),
+        data_empenho: dataEmpenho,
+        ano_empenho: anoMatch ? parseInt(anoMatch[1], 10) : anoArquivo,
+        uo_codigo: row.unidade_orcamentaria_codigo || '',
+        uo_sigla: row.unidade_orcamentaria_sigla || '',
+        uo_nome: row.unidade_orcamentaria_nome || '',
+        credor: row.razao_social_credor || '',
+        cnpj_credor: row.cnpj_cpf_credor_formatado || '',
+        elemento_despesa_codigo: row.elemento_despesa_codigo || '',
+        elemento_despesa_descricao: row.elemento_despesa_descricao || '',
+        item_despesa_codigo: row.item_despesa_codigo || '',
+        item_despesa_descricao: row.item_despesa_descricao || '',
+        fonte_recurso_codigo: row.fonte_recurso_codigo || '',
+        fonte_recurso_descricao: row.fonte_recurso_descricao || '',
+        valor_empenhado: parseValor(row.valor_despesa_empenhada),
+        valor_liquidado: parseValor(row.valor_despesa_liquidada),
+        valor_pago: parseValor(row.valor_pago_financeiro),
+        valor_liquidado_rp: parseValor(row.valor_liquidado_em_rp),
+        valor_pago_rp: parseValor(row.valor_pago_em_rp),
+        _raw: row
+    };
+}
+
+// Carrega os arquivos execucaoAAAA.csv de todos os anos configurados (ANOS_EXECUCAO_FINANCEIRA)
+// e monta o mapa numero_siafi → lista de empenhos, usado no modal de detalhes da emenda.
+async function carregarExecucaoFinanceira() {
+    const listasPorAno = await Promise.all(
+        ANOS_EXECUCAO_FINANCEIRA.map(ano => carregarCSV(urlExecucaoFinanceira(ano)))
+    );
+    const mapa = {};
+    listasPorAno.forEach((linhas, idx) => {
+        const ano = ANOS_EXECUCAO_FINANCEIRA[idx];
+        linhas.forEach(row => {
+            const emp = mapEmpenho(row, ano);
+            if (!emp.numero_siafi) return;
+            if (!mapa[emp.numero_siafi]) mapa[emp.numero_siafi] = [];
+            mapa[emp.numero_siafi].push(emp);
+        });
+    });
+    // Ordena os empenhos de cada emenda por ano/data (mais antigo primeiro)
+    Object.values(mapa).forEach(lista => lista.sort((a, b) =>
+        (a.ano_empenho - b.ano_empenho) || (a.data_empenho || '').localeCompare(b.data_empenho || '')
+    ));
+    empenhosPorSiafi = mapa;
+}
+
+let _cargaEmAndamento = false; // evita carga dupla (que duplicaria os dados)
+async function carregarTodosDados() {
+    if (_cargaEmAndamento) return;
+    _cargaEmAndamento = true;
+    setLoading(true, 'Localizando arquivos mais recentes...');
+
+    const urlIndicacoes = await descobrirUrlArquivo(PREFIXO_INDICACOES, FALLBACK_URL_INDICACOES);
+
+    setLoading(true, 'Carregando dados das indicações e da execução financeira...');
+    const [linhasIndicacoes] = await Promise.all([
+        carregarCSV(urlIndicacoes),
+        carregarExecucaoFinanceira()
+    ]);
+
+    setLoading(true, 'Processando dados...');
+
+    // Base principal: só indicações com status_indicacao = APROVADO
+    let indicacoes = linhasIndicacoes.map(mapIndicacao)
+        .filter(d => (d.numero_indicacao_status || '').toUpperCase() === 'APROVADO');
+
+    // Mapa numero_indicacao → indicação (para enriquecer a Execução)
+    indicacaoPorNumero = {};
+    indicacoes.forEach(d => { if (d.numero_indicacao) indicacaoPorNumero[d.numero_indicacao] = d; });
+
+    dadosIndicacoesUnificados = indicacoes;
+
+    // Visão Geral: agregado por Responsável + Ano + Tipo de Emenda, a partir da base de indicações
+    const grupos = {};
+    indicacoes.forEach(d => {
+        const chave = `${d._ano}|${(d.responsavel || '').trim().toUpperCase()}|${d.tipo_emenda}`;
+        if (!grupos[chave]) {
+            grupos[chave] = { _ano: d._ano, responsavel: d.responsavel, tipo_emenda: d.tipo_emenda, esfera: 'Estadual', valor_indicacao: 0, valor_utilizado: 0, valor_empenhado: 0, valor_liquidado: 0, valor_pago: 0, qtd_indicacoes: 0 };
+        }
+        const g = grupos[chave];
+        g.valor_indicacao += d.valor_indicado;
+        g.valor_utilizado += d.valor_utilizado;
+        g.valor_empenhado += d.valor_empenhado;
+        g.valor_liquidado += d.valor_liquidado;
+        g.valor_pago += d.valor_pago;
+        g.qtd_indicacoes += 1;
+    });
+    dadosGerais = Object.values(grupos);
+
+    // A execução financeira (empenhos) já foi carregada em paralelo por carregarExecucaoFinanceira()
+    // e está disponível em empenhosPorSiafi, indexada por Código SIAFI — usada só no modal de detalhes.
+
+    filteredDG   = [...dadosGerais];
+    filteredVI   = [...dadosIndicacoesUnificados];
+
+    populaFiltros();
+    inicializarColManagers();
+    ordenarDados('dg');
+    ordenarDados('vi');
+    updateDashboard('dg');
+    updateDashboard('vi');
+    setLoading(false);
+    _cargaEmAndamento = false;
+}
+
+// ============================================================
+// POPULAÇÃO DE FILTROS
+// ============================================================
+function populaFiltros() {
+    const populaAnos = (id, data) => {
+        const anos = [...new Set(data.map(d => d._ano))].sort((a,b)=>b-a);
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = '<option value="">Todos</option>' + anos.map(a=>`<option value="${a}">${a}</option>`).join('');
+        return anos;
+    };
+    const anosDG   = populaAnos('anoDG', dadosGerais);
+    const anosVI   = populaAnos('anoVI', dadosIndicacoesUnificados);
+
+    const setAno = (id, anos, data, filteredRef) => {
+        const el = document.getElementById(id);
+        if (el && anos.length) { el.value = anos[0]; return data.filter(d => d._ano == anos[0]); }
+        return data;
+    };
+    filteredDG   = setAno('anoDG',   anosDG,   dadosGerais, filteredDG);
+    filteredVI   = setAno('anoVI',   anosVI,   dadosIndicacoesUnificados, filteredVI);
+
+    const populaSelect = (id, data, key) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const vals = [...new Set(data.map(d => d[key]).filter(Boolean))].sort();
+        el.innerHTML = '<option value="">Todos</option>' + vals.map(v=>`<option value="${v}">${v}</option>`).join('');
+    };
+    populaSelect('tipoEmendaDG', dadosGerais, 'tipo_emenda');
+    populaSelect('tipoEmendaVI', dadosIndicacoesUnificados, 'tipo_emenda');
+    populaSelect('tipoIndicacaoVI', dadosIndicacoesUnificados, 'tipo_de_indicacao');
+    populaSelect('funcaoVI', dadosIndicacoesUnificados, 'funcao');
+}
+
+// ============================================================
+// GERENCIADOR DE COLUNAS
+// ============================================================
+function inicializarColManagers() {
+    ['dg','vi'].forEach(dash => {
+        const panel = document.getElementById('colManager' + dash.toUpperCase());
+        if (!panel) return;
+        const labels = COL_LABELS[dash];
+        const fixed  = COL_FIXED[dash] || [];
+        let html = '<div class="col-manager-title">Exibir / Ocultar Colunas</div>';
+        labels.forEach((label, i) => {
+            const isFixed = fixed.includes(i);
+            html += `<label class="col-item">
+                <input type="checkbox" ${colVisibility[dash][i] ? 'checked' : ''} ${isFixed ? 'disabled' : ''} 
+                    onchange="toggleColuna('${dash}',${i},this.checked)">
+                ${label}${isFixed ? ' <small style="color:#94a3b8;">(fixo)</small>' : ''}
+            </label>`;
+        });
+        // preserve existing title div
+        panel.innerHTML = html;
+    });
+}
+
+window.toggleColManager = function(dash) {
+    const id = 'colManager' + dash.toUpperCase();
+    document.querySelectorAll('.col-manager-panel').forEach(p => { if (p.id !== id) p.classList.remove('show'); });
+    document.getElementById(id)?.classList.toggle('show');
+};
+
+window.toggleColuna = function(dash, idx, visible) {
+    colVisibility[dash][idx] = visible;
+    aplicarVisibilidadeColunas(dash);
+};
+
+function aplicarVisibilidadeColunas(dash) {
+    const tableIds = { dg: 'tabelaDG', vi: 'tabelaVI' };
+    const table = document.getElementById(tableIds[dash]);
+    if (!table) return;
+    const vis = colVisibility[dash];
+    // Header
+    table.querySelectorAll('thead th').forEach((th, i) => {
+        th.style.display = vis[i] === false ? 'none' : '';
+    });
+    // Rows
+    table.querySelectorAll('tbody tr').forEach(tr => {
+        tr.querySelectorAll('td').forEach((td, i) => {
+            td.style.display = vis[i] === false ? 'none' : '';
+        });
+    });
+}
+
+// ============================================================
+// FILTRAR / LIMPAR
+// ============================================================
+function aplicarFiltros(dash) {
+    const g = id => (document.getElementById(id)?.value || '').toLowerCase();
+    const gv = id => document.getElementById(id)?.value || '';
+
+    if (dash === 'dg') {
+        const ano = gv('anoDG'), resp = g('responsavelDG'), tipoEmenda = gv('tipoEmendaDG');
+        filteredDG = dadosGerais.filter(d => {
+            if (ano && d._ano != ano) return false;
+            if (resp && !d.responsavel.toLowerCase().includes(resp)) return false;
+            if (tipoEmenda && d.tipo_emenda !== tipoEmenda) return false;
+            return true;
+        });
+    } else if (dash === 'vi') {
+        const ano = gv('anoVI'), ni = g('numIndicacaoVI'), resp = g('responsavelVI'), siafi = g('numSiafiVI'),
+              tipoEmenda = gv('tipoEmendaVI'), tipo = gv('tipoIndicacaoVI'), funcao = gv('funcaoVI'), uo = g('uoVI'),
+              objeto = g('objetoVI'), desc = g('descricaoVI'),
+              credor = g('credorVI'), cnpj = g('cnpjVI'), mun = g('municipioVI'), situacao = gv('situacaoVI');
+        filteredVI = dadosIndicacoesUnificados.filter(d => {
+            if (ano && d._ano != ano) return false;
+            if (ni && !d.numero_indicacao.toLowerCase().includes(ni)) return false;
+            if (resp && !d.responsavel.toLowerCase().includes(resp)) return false;
+            if (siafi && !(d.numero_siafi||'').toLowerCase().includes(siafi)) return false;
+            if (tipoEmenda && d.tipo_emenda !== tipoEmenda) return false;
+            if (tipo && d.tipo_de_indicacao !== tipo) return false;
+            if (funcao && d.funcao !== funcao) return false;
+            if (uo && !(d.uo_descricao+''+d.uo_sigla).toLowerCase().includes(uo)) return false;
+            if (objeto && !(d.objeto||'').toLowerCase().includes(objeto)) return false;
+            if (desc && !(d.descricao_despesa||'').toLowerCase().includes(desc)) return false;
+            if (credor && !(d.convenente||'').toLowerCase().includes(credor)) return false;
+            if (cnpj && !(d.cnpj_convenente||'').toLowerCase().includes(cnpj)) return false;
+            if (mun && !(d.municipio||'').toLowerCase().includes(mun)) return false;
+            if (situacao && d.situacao !== situacao) return false;
+            return true;
+        });
+    }
+    currentPage[dash] = 1;
+    ordenarDados(dash);
+    updateDashboard(dash);
+    iframeUpdateHeight();
+}
+
+function limparFiltros(dash) {
+    const ids = {
+        dg:   ['anoDG','responsavelDG','tipoEmendaDG','searchDG'],
+        vi:   ['anoVI','numIndicacaoVI','responsavelVI','numSiafiVI','tipoEmendaVI','tipoIndicacaoVI','funcaoVI','uoVI','objetoVI','descricaoVI','credorVI','cnpjVI','municipioVI','situacaoVI','searchVI']
+    };
+    ids[dash].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    currentSearch[dash] = '';
+    if (dash==='dg') filteredDG = [...dadosGerais];
+    else if (dash==='vi') filteredVI = [...dadosIndicacoesUnificados];
+    currentPage[dash] = 1;
+    ordenarDados(dash);
+    updateDashboard(dash);
+    iframeUpdateHeight();
+}
+
+function filtrarTabela(dash) {
+    const term = currentSearch[dash];
+    const base = dash==='dg' ? dadosGerais : dadosIndicacoesUnificados;
+    const result = term ? base.filter(item => Object.values(item).some(v => v && v.toString().toLowerCase().includes(term))) : [...base];
+    if (dash==='dg') filteredDG = result;
+    else if (dash==='vi') filteredVI = result;
+    currentPage[dash] = 1;
+    ordenarDados(dash);
+    updateDashboard(dash);
+    iframeUpdateHeight();
+}
+
+// ============================================================
+// ORDENAÇÃO
+// ============================================================
+const COLS = {
+    dg:   ['_ano','responsavel','esfera','tipo_emenda','qtd_indicacoes','valor_indicacao','valor_utilizado','valor_empenhado','valor_liquidado','valor_pago'],
+    vi:   ['_ano','numero_indicacao','responsavel','numero_siafi','numero_empenho','data_empenho','tipo_emenda','tipo_de_indicacao','funcao','uo_descricao','objeto','descricao_despesa','convenente','cnpj_convenente','municipio','data_inicio','data_fim','valor_indicado','valor_empenhado','valor_liquidado','valor_pago','situacao']
+};
+
+function ordenarTabela(dash, col) {
+    const c = sortConfig[dash];
+    c.direction = (c.column === col && c.direction === 'asc') ? 'desc' : 'asc';
+    c.column = col;
+    ordenarDados(dash);
+    renderTabela(dash);
+    iframeUpdateHeight();
+}
+
+function ordenarDados(dash) {
+    const c = sortConfig[dash];
+    const prop = COLS[dash][c.column];
+    const data = dash==='dg' ? filteredDG : filteredVI;
+    if (!prop) return;
+    data.sort((a, b) => {
+        let vA = a[prop], vB = b[prop];
+        if (typeof vA === 'number') return c.direction==='asc' ? vA-vB : vB-vA;
+        // Se ambos os valores forem numéricos (ex.: Nº Indicação, Nº SIAFI), compara como número
+        const nA = parseFloat((vA||'').toString().replace(',','.'));
+        const nB = parseFloat((vB||'').toString().replace(',','.'));
+        if (vA !== '' && vB !== '' && !isNaN(nA) && !isNaN(nB) && /^-?\d+([.,]\d+)?$/.test((vA||'').toString().trim()) && /^-?\d+([.,]\d+)?$/.test((vB||'').toString().trim())) {
+            return c.direction==='asc' ? nA-nB : nB-nA;
+        }
+        vA = (vA||'').toString().toLowerCase();
+        vB = (vB||'').toString().toLowerCase();
+        return c.direction==='asc' ? vA.localeCompare(vB) : vB.localeCompare(vA);
+    });
+}
+
+// ============================================================
+// UPDATE DASHBOARDS
+// ============================================================
+function updateDashboard(dash) {
+    updateCards(dash);
+    renderTabela(dash);
+    if (dash === 'dg') renderGraficosVG();
+}
+
+function updateCards(dash) {
+    const map = { dg: 'summaryCardsDG', vi: 'summaryCardsVI' };
+    const el = document.getElementById(map[dash]);
+    if (!el) return;
+
+    const data = dash==='dg' ? filteredDG : filteredVI;
+    if (!data.length) { el.innerHTML = '<div class="col-12 text-center text-muted">Nenhum dado encontrado.</div>'; return; }
+
+    let html = '';
+    if (dash === 'dg') {
+        const totalLOA  = data.reduce((s,i) => s+i.valor_indicacao, 0);
+        const totalEmp  = data.reduce((s,i) => s+i.valor_empenhado, 0);
+        const totalPago = data.reduce((s,i) => s+i.valor_pago, 0);
+        const totalEmendas = data.reduce((s,i) => s+i.qtd_indicacoes, 0);
+        const taxa = totalEmp ? ((totalPago/totalEmp)*100).toFixed(1) : 0;
+        html = `
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Responsáveis <i class="material-icons" data-bs-toggle="tooltip" title="Qtd de responsáveis distintos">info_outline</i></div><div class="metric-body"><div class="metric-value">${new Set(data.map(d=>d.responsavel)).size.toLocaleString('pt-BR')}</div><div class="metric-sublabel">${totalEmendas.toLocaleString('pt-BR')} emendas no total</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Indicação <i class="material-icons" data-bs-toggle="tooltip" title="Soma do valor das indicações aprovadas">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalLOA)}</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Empenhado <i class="material-icons" data-bs-toggle="tooltip" title="Total empenhado">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalEmp)}</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Pago <i class="material-icons" data-bs-toggle="tooltip" title="Total pago">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalPago)}</div><div class="metric-sublabel">Taxa execução: ${taxa}%</div></div></div></div>`;
+    } else if (dash === 'vi') {
+        const totalInd  = data.reduce((s,i) => s+i.valor_indicado, 0);
+        const totalEmp  = data.reduce((s,i) => s+i.valor_empenhado, 0);
+        const totalPago = data.reduce((s,i) => s+i.valor_pago, 0);
+        const taxa = totalEmp ? ((totalPago/totalEmp)*100).toFixed(1) : 0;
+        html = `
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Total de Emendas <i class="material-icons" data-bs-toggle="tooltip" title="Qtd de indicações aprovadas">info_outline</i></div><div class="metric-body"><div class="metric-value">${data.length.toLocaleString('pt-BR')}</div><div class="metric-sublabel">Somente status Aprovado</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Previsto <i class="material-icons" data-bs-toggle="tooltip" title="Total previsto (indicado)">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalInd)}</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Empenhado <i class="material-icons" data-bs-toggle="tooltip" title="Total empenhado">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalEmp)}</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Pago <i class="material-icons" data-bs-toggle="tooltip" title="Total pago aos credores">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalPago)}</div><div class="metric-sublabel">Taxa: ${taxa}%</div></div></div></div>`;
+    }
+    el.innerHTML = html;
+    setTimeout(() => document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => new bootstrap.Tooltip(el)), 100);
+}
+
+// ============================================================
+// GRÁFICOS VISÃO GERAL
+// ============================================================
+let chartLOAInstance = null, chartPagoInstance = null;
+
+function renderGraficosVG() {
+    const anos = [...new Set(dadosGerais.map(d => d._ano))].sort((a,b)=>a-b);
+    const loaPorAno  = anos.map(a => dadosGerais.filter(d=>d._ano===a).reduce((s,d)=>s+d.valor_indicacao,0));
+    const pagoPorAno = anos.map(a => dadosGerais.filter(d=>d._ano===a).reduce((s,d)=>s+d.valor_pago,0));
+
+    const fmtM = v => {
+        if (v >= 1e9) return 'R$ ' + (v/1e9).toFixed(1).replace('.',',') + ' bi';
+        if (v >= 1e6) return 'R$ ' + (v/1e6).toFixed(0) + ' mi';
+        return 'R$ ' + (v/1e3).toFixed(0) + ' mil';
+    };
+
+    const makeOpts = (label, color, data) => ({
+        type: 'bar',
+        data: {
+            labels: anos.map(String),
+            datasets: [{ label, data, backgroundColor: color + 'bb', borderColor: color, borderWidth: 2, borderRadius: 5 }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: { callbacks: { label: ctx => ' ' + fmtM(ctx.parsed.y) } }
+            },
+            scales: {
+                y: { ticks: { font:{size:10,family:'Montserrat'}, callback: v => fmtM(v) }, grid: { color:'#f0f4f8' } },
+                x: { ticks: { font:{size:11,family:'Montserrat',weight:'600'} }, grid: { display:false } }
+            }
+        }
+    });
+
+    const ctxLOA  = document.getElementById('chartLOA');
+    const ctxPago = document.getElementById('chartPago');
+    if (!ctxLOA || !ctxPago || !anos.length) return;
+    if (chartLOAInstance)  { chartLOAInstance.destroy();  chartLOAInstance  = null; }
+    if (chartPagoInstance) { chartPagoInstance.destroy(); chartPagoInstance = null; }
+    chartLOAInstance  = new Chart(ctxLOA,  makeOpts('Valor Indicação',  '#1a3a5c', loaPorAno));
+    chartPagoInstance = new Chart(ctxPago, makeOpts('Valor Pago', '#b93c42', pagoPorAno));
+}
+
+// ============================================================
+// RENDERIZAÇÃO DE TABELAS
+// ============================================================
+function renderTabela(dash) {
+    const bodyIds = { dg:'tabelaDGBody', vi:'tabelaVIBody' };
+    const countIds = { dg:'countDG', vi:'countVI' };
+    const paginIds = { dg:'paginacaoDG', vi:'paginacaoVI' };
+
+    const tbody   = document.getElementById(bodyIds[dash]);
+    const countEl = document.getElementById(countIds[dash]);
+    const data    = dash==='dg' ? filteredDG : filteredVI;
+    const colCount = dash==='dg' ? 10 : 23;
+
+    if (!data.length) {
+        if (tbody) tbody.innerHTML = `<tr><td colspan="${colCount}" class="text-center text-muted">Nenhum registro encontrado.</td></tr>`;
+        if (countEl) countEl.textContent = '0 registros';
+        renderPaginacao(paginIds[dash], dash, 0, 1, itemsPerPage[dash]); return;
+    }
+
+    const start = (currentPage[dash]-1) * itemsPerPage[dash];
+    const slice = data.slice(start, start + itemsPerPage[dash]);
+
+    let rows = '';
+    if (dash === 'dg') {
+        rows = slice.map(d => {
+            return `<tr class="row-clickable" onclick="navegarParaIndicacoes('${d.responsavel.replace(/'/g,"\\'")}', ${d._ano})" title="Clique para ver as emendas de ${trunc(d.responsavel,30)} em ${d._ano}">
+                <td>${d._ano}</td>
+                <td class="td-link">${trunc(d.responsavel,45)}</td>
+                <td>${d.esfera||'Estadual'}</td>
+                <td><span class="badge-status badge-default">${d.tipo_emenda||'-'}</span></td>
+                <td style="text-align:center;">${d.qtd_indicacoes.toLocaleString('pt-BR')}</td>
+                <td class="valor-monetario">${fmt(d.valor_indicacao)}</td>
+                <td class="valor-monetario">${fmt(d.valor_utilizado)}</td>
+                <td class="valor-monetario">${fmt(d.valor_empenhado)}</td>
+                <td class="valor-monetario">${fmt(d.valor_liquidado)}</td>
+                <td class="valor-monetario">${fmt(d.valor_pago)}</td>
+            </tr>`;
+        }).join('');
+    } else if (dash === 'vi') {
+        rows = slice.map(d => {
+            const linkPlano = getLinkPdfPlano(d.no_convenio);
+            const linkTermo = getLinkPdfTermo(d.no_convenio);
+            return `<tr>
+            <td>${d._ano||'-'}</td>
+            <td>${d.numero_indicacao||'-'}</td>
+            <td title="${d.responsavel||''}">${trunc(d.responsavel,30)}</td>
+            <td>${fmtSiafi(d.numero_siafi)}</td>
+            <td title="${d.numero_empenho||''}">${trunc(d.numero_empenho,18)}</td>
+            <td title="${d.data_empenho||''}">${trunc(d.data_empenho,18)}</td>
+            <td><span class="badge-status badge-default">${d.tipo_emenda||'-'}</span></td>
+            <td>${trunc(d.tipo_de_indicacao,18)}</td>
+            <td title="${d.funcao||''}">${trunc(d.funcao,25)||'-'}</td>
+            <td title="${d.uo_descricao}">${trunc(d.uo_descricao||d.uo_sigla||d.uo||'-',25)}</td>
+            <td title="${d.objeto||''}">${trunc(d.objeto,25)||'-'}</td>
+            <td title="${d.descricao_despesa||''}">${trunc(d.descricao_despesa,25)||'-'}</td>
+            <td title="${d.convenente||''}">${trunc(d.convenente,25)||'-'}</td>
+            <td>${d.cnpj_convenente||'-'}</td>
+            <td>${d.municipio||'-'}</td>
+            <td>${fmtData(d.data_inicio)}</td>
+            <td>${fmtData(d.data_fim)}</td>
+            <td class="valor-monetario">${fmt(d.valor_indicado)}</td>
+            <td class="valor-monetario">${fmt(d.valor_empenhado)}</td>
+            <td class="valor-monetario">${fmt(d.valor_liquidado)}</td>
+            <td class="valor-monetario">${fmt(d.valor_pago)}</td>
+            <td>${badgeSituacao(d.situacao)}</td>
+            <td style="text-align:center;white-space:nowrap;">
+                <button class="btn-action" onclick='mostrarDetalhesUnificado(${JSON.stringify(d.numero_indicacao)},${d._ano})' title="Ver Detalhes"><i class="material-icons">visibility</i></button>
+                ${linkPlano ? `<a href="${linkPlano}" target="_blank" rel="noopener" class="btn-action" style="margin-left:4px;" title="PDF do Plano de Trabalho (Convênio ${d.no_convenio})"><i class="material-icons">description</i></a>` : ''}
+                ${linkTermo ? `<a href="${linkTermo}" target="_blank" rel="noopener" class="btn-action" style="margin-left:4px;" title="PDF do Termo (Convênio ${d.no_convenio})"><i class="material-icons">picture_as_pdf</i></a>` : ''}
+            </td>
+        </tr>`;
+        }).join('');
+    }
+
+    if (tbody) tbody.innerHTML = rows;
+    if (countEl) countEl.textContent = `${data.length.toLocaleString()} registros`;
+    renderPaginacao(paginIds[dash], dash, data.length, currentPage[dash], itemsPerPage[dash]);
+    aplicarVisibilidadeColunas(dash);
+}
+
+// ============================================================
+// NAVEGAÇÃO DA VISÃO GERAL → CONSULTA DE INDICAÇÕES
+// ============================================================
+function navegarParaIndicacoes(responsavel, ano) {
+    // Selecionar a aba Consulta de Indicações
+    const tabBtn = document.getElementById('tab3-tab');
+    if (tabBtn) {
+        const tab = new bootstrap.Tab(tabBtn);
+        tab.show();
+    }
+    // Preencher os filtros
+    setTimeout(() => {
+        const elAno = document.getElementById('anoVI');
+        const elResp = document.getElementById('responsavelVI');
+        if (elAno) elAno.value = ano;
+        if (elResp) elResp.value = responsavel;
+        aplicarFiltros('vi');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 200);
+}
+
+// ============================================================
+// MODAL DE DETALHES UNIFICADO (chave: numero_indicacao)
+// ============================================================
+window.mostrarDetalhesUnificado = function(numeroIndicacao, ano) {
+    if (!numeroIndicacao) return;
+
+    const main = dadosIndicacoesUnificados.find(d => d.numero_indicacao == numeroIndicacao) || null;
+    if (!main) return;
+    // Empenhos da execução financeira (execucaoAAAA.csv), cruzados pelo Código SIAFI da emenda
+    const empItems = (main.numero_siafi && empenhosPorSiafi[main.numero_siafi]) || [];
+
+    const responsavel = main?.responsavel || '-';
+    const anoRef = main?._ano || ano || '-';
+    let titulo = `<i class="material-icons me-2">description</i>Emenda Nº ${numeroIndicacao} — ${responsavel} (${anoRef})`;
+
+    let conteudo = '';
+
+    // ---------- A) DADOS DA EMENDA ----------
+    if (main) {
+        const linkPlano = getLinkPdfPlano(main.no_convenio);
+        const linkTermo = getLinkPdfTermo(main.no_convenio);
+        conteudo += `
+        <div class="modal-section">
+            <div class="modal-section-title"><i class="material-icons">description</i>DADOS DA EMENDA</div>
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Ano</div><div class="info-value highlight">${main._ano||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Autoria</div><div class="info-value highlight">${main.responsavel||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Nº Emenda</div><div class="info-value highlight">${main.numero_indicacao||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Código SIAFI</div><div class="info-value">${fmtSiafi(main.numero_siafi)}</div></div>
+                <div class="info-card"><div class="info-label">Tipo de Emenda</div><div class="info-value">${main.tipo_emenda||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Forma de Repasse</div><div class="info-value">${main.tipo_de_indicacao||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Função de Governo</div><div class="info-value">${main.funcao||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Situação</div><div class="info-value">${badgeSituacao(main.situacao)}</div></div>
+                <div class="info-card"><div class="info-label">Valor da Emenda</div><div class="info-value" style="color:var(--primary-dark);font-size:15px;">${fmt(main.valor_indicado)}</div></div>
+                <div class="info-card">
+                    <div class="info-label">Inteiro Teor</div>
+                    ${(linkPlano || linkTermo) ? `<div style="margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;">
+                        ${linkPlano ? `<a href="${linkPlano}" target="_blank" rel="noopener" class="text-decoration-none" style="display:inline-flex;align-items:center;gap:6px;background:var(--primary-dark);color:#fff;font-size:11px;font-weight:600;padding:7px 14px;border-radius:6px;" title="Abrir o PDF do Plano de Trabalho"><i class="material-icons" style="font-size:14px;">description</i>Plano de Trabalho</a>` : ''}
+                        ${linkTermo ? `<a href="${linkTermo}" target="_blank" rel="noopener" class="text-decoration-none" style="display:inline-flex;align-items:center;gap:6px;background:var(--accent-red);color:#fff;font-size:11px;font-weight:600;padding:7px 14px;border-radius:6px;" title="Abrir o PDF do Termo"><i class="material-icons" style="font-size:14px;">picture_as_pdf</i>Termo</a>` : ''}
+                    </div>` : `<div class="info-value" style="color:#94a3b8;">Não disponível</div>`}
+                </div>
+            </div>
+        </div>`;
+    }
+
+    // ---------- B) DADOS DA EXECUÇÃO ----------
+    if (main) {
+        const execucaoIniciada = (main.valor_empenhado > 0) || empItems.length > 0;
+        conteudo += `
+        <div class="modal-section section-vi">
+            <div class="modal-section-title"><i class="material-icons">receipt_long</i>DADOS DA EXECUÇÃO</div>
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Data Início</div><div class="info-value">${fmtData(main.data_inicio)}</div></div>
+                <div class="info-card"><div class="info-label">Data Fim Prevista</div><div class="info-value">${fmtData(main.data_fim)}</div></div>
+                <div class="info-card"><div class="info-label">Órgão Executor</div><div class="info-value">${main.uo_descricao||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Município Beneficiado</div><div class="info-value">${main.municipio||'-'}</div></div>
+                <div class="info-card">
+                    <div class="info-label">Credor</div>
+                    <div class="info-value">${execucaoIniciada ? (main.convenente||'-') : '<span style="color:#94a3b8;">Não disponível ainda</span>'}</div>
+                    <div class="info-label" style="margin-top:8px;">CNPJ/CPF Credor</div>
+                    <div class="info-value">${execucaoIniciada ? (main.cnpj_convenente||'-') : '<span style="color:#94a3b8;">Não disponível ainda</span>'}</div>
+                </div>
+            </div>
+        </div>`;
+    }
+
+    // ---------- C) OBJETO ----------
+    if (main) {
+        conteudo += `
+        <div class="modal-section section-vi">
+            <div class="modal-section-title"><i class="material-icons">receipt</i>OBJETO</div>
+            ${main.objeto ? `<div class="objeto-container" style="margin-bottom:10px;"><div class="objeto-title"><i class="material-icons">receipt</i>OBJETO</div><div class="objeto-text">${main.objeto}</div></div>` : ''}
+            ${main.descricao_despesa ? `<div class="objeto-container" style="margin-bottom:10px;"><div class="objeto-title"><i class="material-icons">notes</i>DESCRIÇÃO DA DESPESA</div><div class="objeto-text">${main.descricao_despesa}</div></div>` : ''}
+            <div class="modal-table-wrap">
+                <table class="modal-table">
+                    <thead><tr><th>Código Elemento</th><th>Elemento da Despesa</th><th>Código Item</th><th>Item da Despesa</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>${main.grupo_despesa_codigo||'-'}</td>
+                            <td>${main.grupo_despesa||'-'}</td>
+                            <td>-</td>
+                            <td>${main.descricao_especificacao||'-'}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>`;
+    }
+
+    // ---------- D) EXECUÇÃO FINANCEIRA — EMPENHOS (fonte: execucaoAAAA.csv, cruzado por Código SIAFI) ----------
+    {
+        const linhasEmpenho = empItems.map(ex => `
+            <tr>
+                <td>${ex.ano_empenho || '-'}</td>
+                <td>${ex.numero_empenho || '-'}</td>
+                <td>${fmtData(ex.data_empenho)}</td>
+                <td class="valor-monetario">${fmt(ex.valor_empenhado)}</td>
+                <td class="valor-monetario">${fmt(ex.valor_liquidado)}</td>
+                <td class="valor-monetario">${fmt(ex.valor_pago)}</td>
+                <td class="valor-monetario">${fmt(ex.valor_liquidado_rp)}</td>
+                <td class="valor-monetario">${fmt(ex.valor_pago_rp)}</td>
+            </tr>`).join('');
+        const totais = empItems.reduce((t, ex) => {
+            t.emp += ex.valor_empenhado; t.liq += ex.valor_liquidado; t.pago += ex.valor_pago;
+            t.liqRp += ex.valor_liquidado_rp; t.pagoRp += ex.valor_pago_rp;
+            return t;
+        }, { emp:0, liq:0, pago:0, liqRp:0, pagoRp:0 });
+        const linhaTotal = empItems.length > 1 ? `
+            <tr style="font-weight:700;background:#f0f4f8;">
+                <td colspan="3">TOTAL</td>
+                <td class="valor-monetario">${fmt(totais.emp)}</td>
+                <td class="valor-monetario">${fmt(totais.liq)}</td>
+                <td class="valor-monetario">${fmt(totais.pago)}</td>
+                <td class="valor-monetario">${fmt(totais.liqRp)}</td>
+                <td class="valor-monetario">${fmt(totais.pagoRp)}</td>
+            </tr>` : '';
+        conteudo += `
+        <div class="modal-section section-exec">
+            <div class="modal-section-title"><i class="material-icons">attach_money</i>EXECUÇÃO FINANCEIRA — EMPENHOS</div>
+            ${empItems.length ? `<div class="modal-table-wrap">
+                <table class="modal-table">
+                    <thead><tr>
+                        <th>Ano do Empenho</th><th>Nº do Empenho</th><th>Data do Empenho</th><th>Vl. Empenhado</th><th>Vl. Liquidado</th><th>Vl. Pago</th><th>Vl. Liquidado RP</th><th>Vl. Pago RP</th>
+                    </tr></thead>
+                    <tbody>${linhasEmpenho}${linhaTotal}</tbody>
+                </table>
+            </div>` : `<div class="text-center text-muted" style="padding:14px;font-size:12.5px;">Nenhum empenho registrado ainda para esta emenda.</div>`}
+        </div>`;
+    }
+
+    if (!conteudo) conteudo = `<div class="text-center text-muted p-4">Nenhum detalhe encontrado para a emenda Nº ${numeroIndicacao}.</div>`;
+
+    document.getElementById('detailModalLabel').innerHTML = titulo;
+    document.getElementById('detalhesConteudo').innerHTML = conteudo;
+    new bootstrap.Modal(document.getElementById('detailModal')).show();
+};
+
+// Modal legado para Visão Geral
+window.mostrarDetalhes = function(dash, item) {
+    let titulo = '', conteudo = '';
+
+    if (dash === 'dg') {
+        titulo = `<i class="material-icons me-2">bar_chart</i>Visão Geral — ${item.responsavel||'N/D'} (${item._ano})`;
+        conteudo = `
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Responsável</div><div class="info-value highlight">${item.responsavel||'-'}</div></div>
+                <div class="info-card"><div class="info-label">Ano</div><div class="info-value highlight">${item._ano||'-'}</div></div>
+            </div>
+            <div class="info-grid">
+                <div class="info-card"><div class="info-label">Valor Indicação</div><div class="info-value">${fmt(item.valor_indicacao)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Utilizado</div><div class="info-value">${fmt(item.valor_utilizado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Empenhado</div><div class="info-value">${fmt(item.valor_empenhado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Liquidado</div><div class="info-value">${fmt(item.valor_liquidado)}</div></div>
+                <div class="info-card"><div class="info-label">Valor Pago</div><div class="info-value">${fmt(item.valor_pago)}</div></div>
+            </div>
+            <div style="text-align:center;margin-top:12px;">
+                <button class="btn-pesquisa" onclick="bootstrap.Modal.getInstance(document.getElementById('detailModal')).hide(); setTimeout(()=>navegarParaIndicacoes('${item.responsavel.replace(/'/g,"\\'")}',${item._ano}),300);">
+                    <i class="material-icons">assignment</i>Ver Indicações deste Responsável
+                </button>
+            </div>`;
+    }
+
+    document.getElementById('detailModalLabel').innerHTML = titulo;
+    document.getElementById('detalhesConteudo').innerHTML = conteudo;
+    new bootstrap.Modal(document.getElementById('detailModal')).show();
+};
+
+// ============================================================
+// PAGINAÇÃO
+// ============================================================
+function renderPaginacao(containerId, dash, total, pg, perPage) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    if (!total) { el.innerHTML = ''; return; }
+    const totalPages = Math.ceil(total / perPage);
+    const ini = (pg-1)*perPage + 1, fim = Math.min(pg*perPage, total);
+    let p2i = Math.max(1, pg-2), p2f = Math.min(totalPages, p2i+4);
+    let pgs = '';
+    for (let i=p2i; i<=p2f; i++) pgs += `<li class="page-item ${i===pg?'active':''}"><a class="page-link" href="#" onclick="mudarPagina('${dash}',${i});return false;">${i}</a></li>`;
+    el.innerHTML = `<div class="d-flex align-items-center justify-content-center gap-3 w-100 flex-wrap">
+        <div class="pagination-info">${ini}–${fim} de ${total.toLocaleString()} registros</div>
+        <nav><ul class="pagination mb-0">
+            <li class="page-item ${pg===1?'disabled':''}"><a class="page-link" href="#" onclick="mudarPagina('${dash}',${pg-1});return false;">«</a></li>
+            ${pgs}
+            <li class="page-item ${pg===totalPages?'disabled':''}"><a class="page-link" href="#" onclick="mudarPagina('${dash}',${pg+1});return false;">»</a></li>
+        </ul></nav>
+        <select class="items-per-page" onchange="alterarItensPorPagina('${dash}',this.value)">
+            <option value="10" ${perPage==10?'selected':''}>10</option>
+            <option value="25" ${perPage==25?'selected':''}>25</option>
+            <option value="50" ${perPage==50?'selected':''}>50</option>
+            <option value="100" ${perPage==100?'selected':''}>100</option>
+        </select>
+    </div>`;
+}
+
+window.mudarPagina = function(dash, pg) {
+    const data = dash==='dg' ? filteredDG : filteredVI;
+    const max = Math.ceil(data.length / itemsPerPage[dash]);
+    if (pg < 1 || pg > max) return;
+    currentPage[dash] = pg;
+    renderTabela(dash);
+    iframeUpdateHeight();
+};
+
+window.alterarItensPorPagina = function(dash, v) {
+    itemsPerPage[dash] = parseInt(v);
+    currentPage[dash] = 1;
+    renderTabela(dash);
+    iframeUpdateHeight();
+};
+
+// ============================================================
+// EXPORTAR CSV
+// ============================================================
+function exportarCSV(dash) {
+    let cabs, linhas;
+    if (dash === 'dg') {
+        cabs = ['Ano','Autoria','Origem','Tipo de Emenda','Nº de Emendas','Valor Indicação','Valor Utilizado','Valor Empenhado','Valor Liquidado','Valor Pago'];
+        linhas = filteredDG.map(d => [d._ano,d.responsavel,d.esfera||'Estadual',d.tipo_emenda,d.qtd_indicacoes,fmt(d.valor_indicacao),fmt(d.valor_utilizado),fmt(d.valor_empenhado),fmt(d.valor_liquidado),fmt(d.valor_pago)].map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`).join(';'));
+    } else {
+        cabs = ['Ano','Nº Emenda','Autoria','Código SIAFI','Nº do Empenho','Data do Empenho','Tipo de Emenda','Forma de Repasse','Função de Governo','Órgão','Objeto','Descrição da Despesa','Credor','CNPJ/CPF','Município Beneficiado','Data Início','Data Fim','Valor Indicado','Valor Empenhado','Valor Liquidado','Valor Pago','Situação'];
+        linhas = filteredVI.map(d => [d._ano,d.numero_indicacao,d.responsavel,fmtSiafi(d.numero_siafi),d.numero_empenho,d.data_empenho,d.tipo_emenda,d.tipo_de_indicacao,d.funcao,d.uo_descricao,d.objeto,d.descricao_despesa,d.convenente,d.cnpj_convenente,d.municipio,fmtData(d.data_inicio),fmtData(d.data_fim),fmt(d.valor_indicado),fmt(d.valor_empenhado),fmt(d.valor_liquidado),fmt(d.valor_pago),d.situacao].map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`).join(';'));
+    }
+    const csv = [cabs.join(';'), ...linhas].join('\n');
+    const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `emendas_estaduais_${dash}_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+}
+
+// ============================================================
+// EXPORTAR PDF
+// ============================================================
+function exportarPDF(dash) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation:'landscape' });
+    let head, body, titulo;
+    if (dash === 'dg') {
+        titulo = 'Emendas Estaduais — Visão Geral';
+        head = [['Ano','Autoria','Origem','Tipo de Emenda','Nº Emendas','Vl. Indicação','Vl. Utilizado','Vl. Empenhado','Vl. Liquidado','Vl. Pago']];
+        body = filteredDG.slice(0,500).map(d => [d._ano,trunc(d.responsavel,30),d.esfera||'Estadual',d.tipo_emenda,d.qtd_indicacoes,fmt(d.valor_indicacao),fmt(d.valor_utilizado),fmt(d.valor_empenhado),fmt(d.valor_liquidado),fmt(d.valor_pago)]);
+    } else {
+        titulo = 'Emendas Estaduais — Consulta por Emendas';
+        head = [['Ano','Nº Emenda','Autoria','SIAFI','Nº Empenho','Tipo Emenda','Forma Repasse','Função Gov.','Órgão','Objeto','Desc. Despesa','Credor','Município','Vl. Indicado','Vl. Pago','Situação']];
+        body = filteredVI.slice(0,500).map(d => [d._ano,d.numero_indicacao,trunc(d.responsavel,22),fmtSiafi(d.numero_siafi),trunc(d.numero_empenho,15),d.tipo_emenda,trunc(d.tipo_de_indicacao,15),trunc(d.funcao,18),trunc(d.uo_descricao,18),trunc(d.objeto,20),trunc(d.descricao_despesa,20),trunc(d.convenente,18),d.municipio,fmt(d.valor_indicado),fmt(d.valor_pago),d.situacao]);
+    }
+    doc.autoTable({
+        head, body,
+        headStyles: { fillColor: [32,68,93] },
+        styles: { fontSize: 6.5 },
+        didDrawPage: () => {
+            doc.setFontSize(10);
+            doc.text(titulo, 14, 10);
+            doc.text(`Emitido em: ${new Date().toLocaleString('pt-BR')}`, 14, doc.internal.pageSize.height - 5);
+        }
+    });
+    doc.save(`emendas_estaduais_${dash}.pdf`);
+}
+
+// ============================================================
+// COMPARTILHAMENTO
+// ============================================================
+function toggleShare(id) {
+    document.querySelectorAll('.share-options').forEach(o => o.classList.remove('show'));
+    document.getElementById(`shareOptions${id}`)?.classList.toggle('show');
+}
+function copiarLink(e, id) {
+    e.preventDefault();
+    navigator.clipboard.writeText(window.location.href).then(() => {
+        const t = document.getElementById('toastSucesso');
+        if (t) { t.style.display='flex'; t.style.animation='none'; t.offsetHeight; t.style.animation='fadeInUp 0.3s ease'; setTimeout(()=>{ t.style.display='none'; },3000); }
+    });
+    document.getElementById(`shareOptions${id}`)?.classList.remove('show');
+}
+function compartilharFacebook(e,id) { e.preventDefault(); window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(location.href)}`,'_blank'); document.getElementById(`shareOptions${id}`)?.classList.remove('show'); }
+function compartilharTwitter(e,id)  { e.preventDefault(); window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(location.href)}&text=${encodeURIComponent('Emendas Estaduais - Governo de Minas Gerais')}`,'_blank'); document.getElementById(`shareOptions${id}`)?.classList.remove('show'); }
+function compartilharWhatsApp(e,id) { e.preventDefault(); window.open(`https://wa.me/?text=${encodeURIComponent('Emendas Estaduais - Governo de Minas Gerais '+location.href)}`,'_blank'); document.getElementById(`shareOptions${id}`)?.classList.remove('show'); }
+
+function voltarAoTopo() {
+    window.scrollTo({ top:0, behavior:'smooth' });
+    document.documentElement.scrollTo({ top:0, behavior:'smooth' });
+    document.body.scrollTo({ top:0, behavior:'smooth' });
+    if (window.parent !== window) {
+        try { window.parent.scrollTo({ top:0, behavior:'smooth' }); } catch(e) {}
+        try { window.parent.postMessage({ type:'scrollToTop', scrollTop:true }, '*'); } catch(e) {}
+    }
+}
+
+function iframeUpdateHeight() {
+    const h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) + 10;
+    try { window.parent.postMessage({ iframeHeight:h, iframeResize:true, type:'resize' }, '*'); } catch(e) {}
+}
+
+// ============================================================
+// EVENT LISTENERS
+// ============================================================
+function setupEventListeners() {
+    // DG
+    document.getElementById('aplicarFiltrosDG')?.addEventListener('click', () => aplicarFiltros('dg'));
+    document.getElementById('limparFiltrosDG')?.addEventListener('click',   () => limparFiltros('dg'));
+    document.getElementById('searchDG')?.addEventListener('input', e => { currentSearch.dg = e.target.value.toLowerCase(); filtrarTabela('dg'); });
+    document.getElementById('itemsPerPageDG')?.addEventListener('change', function() { alterarItensPorPagina('dg', this.value); });
+    document.getElementById('exportCSVDG')?.addEventListener('click', () => exportarCSV('dg'));
+    document.getElementById('printDG')?.addEventListener('click',     () => exportarPDF('dg'));
+    // VI
+    document.getElementById('aplicarFiltrosVI')?.addEventListener('click', () => aplicarFiltros('vi'));
+    document.getElementById('limparFiltrosVI')?.addEventListener('click',   () => limparFiltros('vi'));
+    document.getElementById('searchVI')?.addEventListener('input', e => { currentSearch.vi = e.target.value.toLowerCase(); filtrarTabela('vi'); });
+    document.getElementById('itemsPerPageVI')?.addEventListener('change', function() { alterarItensPorPagina('vi', this.value); });
+    document.getElementById('exportCSVVI')?.addEventListener('click', () => exportarCSV('vi'));
+    document.getElementById('printVI')?.addEventListener('click',     () => exportarPDF('vi'));
+
+    document.addEventListener('click', e => {
+        if (!e.target.closest('.share-dropdown')) document.querySelectorAll('.share-options').forEach(o => o.classList.remove('show'));
+        if (!e.target.closest('.col-manager-dropdown')) document.querySelectorAll('.col-manager-panel').forEach(p => p.classList.remove('show'));
+    });
+    document.querySelectorAll('[data-bs-toggle="tab"]').forEach(btn => {
+        btn.addEventListener('shown.bs.tab', () => setTimeout(iframeUpdateHeight, 100));
+    });
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+    setupAtualizacao();
+    carregarTodosDados();
+    setupEventListeners();
+    setTimeout(iframeUpdateHeight, 1000);
+});
+
+if (window.ResizeObserver) new ResizeObserver(iframeUpdateHeight).observe(document.body);
+else { window.addEventListener('resize', iframeUpdateHeight); setInterval(iframeUpdateHeight, 3000); }
+setInterval(iframeUpdateHeight, 3000);
+</script>
+</body>
+</html>
