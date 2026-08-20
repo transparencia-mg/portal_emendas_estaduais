@@ -770,6 +770,7 @@
                                 <option value="AGUARDANDO PAGAMENTO">Aguardando Pagamento</option>
                                 <option value="EMPENHADO">Empenhado</option>
                                 <option value="A EMPENHAR">A Empenhar</option>
+                                <option value="EMPENHO ANULADO">Empenho Anulado</option>
                             </select>
                         </div>
                     </div>
@@ -894,18 +895,17 @@
                                 <tr><td>Indicações</td><td>especificacao_descricao</td><td>Especificação da despesa (exibida no modal como "Item da Despesa" — a fonte não traz um código de item separado, por isso "Código Item" aparece como "-").</td></tr>
                                 <tr><td>Indicações</td><td>plano_titulo / instrumento_titulo</td><td>Título do plano de trabalho / instrumento jurídico (exibido como "Objeto").</td></tr>
                                 <tr><td>Indicações</td><td>descricao_indicacao</td><td>Descrição da despesa da indicação (exibida como "Descrição da Despesa"; quando vazia, usa a especificação da despesa).</td></tr>
-                                <tr><td>Indicações</td><td>valor_indicacao / valor_utilizado</td><td>Valor total indicado (exibido como "Valor Indicado"/"Valor da Emenda") e valor efetivamente utilizado.</td></tr>
-                                <tr><td>Indicações</td><td>valor_empenhado_ano / valor_liquidado_ano / valor_pago_ano</td><td>Valores empenhado, liquidado e pago no ano de exercício, usados na Visão Geral. Na Consulta por Emendas esses três campos não são mais usados diretamente (não são confiáveis); Valor Empenhado, Valor Liquidado, Valor Pago e Situação são determinados pela execução financeira (execucaoAAAA.csv) — ver seção abaixo.</td></tr>
+                                <tr><td>Indicações</td><td>valor_empenhado / valor_liquidado / valor_pago / valor_empenhado_armazem / valor_liquidado_armazem / valor_pago_armazem</td><td>Valores brutos e valores de controle vindos do armazém de dados. Só são considerados quando existe, de fato, empenho registrado para a emenda na execução financeira (ver seção abaixo); nesse caso, Valor Empenhado, Valor Liquidado e Valor Pago exibidos na Visão Geral e na Consulta por Emendas são "atualizados" cruzando cada valor bruto com o respectivo valor do armazém, em cascata e respeitando um teto (Empenhado ≤ Valor Utilizado; Liquidado ≤ Empenhado atualizado; Pago ≤ Liquidado atualizado): se o valor do armazém for nulo/≤0, usa-se o valor bruto; se ultrapassar o teto, usa-se o teto; se for maior que o bruto (e dentro do teto), usa-se o valor do armazém; caso contrário, usa-se o bruto. A Situação é calculada a partir desses valores atualizados.</td></tr>
                                 <tr><td>Indicações</td><td>numero_siafi</td><td>Código SIAFI do instrumento — chave de cruzamento com os arquivos de execução financeira (execucaoAAAA.csv).</td></tr>
                                 <tr><td>Indicações</td><td>data_publicacao / data_validade</td><td>Datas de início e fim de vigência (exibidas como "Data Início"/"Data Fim").</td></tr>
                                 <tr><td>Indicações</td><td>numero_convenio</td><td>Número do convênio, usado para montar os links de PDF do Plano de Trabalho e do Termo ("Inteiro Teor" no modal).</td></tr>
-                                <tr class="dicionario-secao"><td colspan="3">FONTE: execucaoAAAA.csv — 2023, 2024, 2025 e 2026 (execução financeira / empenhos — usada na seção "Execução Financeira — Empenhos" do modal, na coluna Nº/Data do Empenho e na regra de Situação/Valor Pago da Consulta por Emendas)</td></tr>
+                                <tr class="dicionario-secao"><td colspan="3">FONTE: execucaoAAAA.csv — 2023, 2024, 2025 e 2026 (execução financeira / empenhos — usada na seção "Execução Financeira — Empenhos" do modal, na coluna Nº/Data do Empenho e na regra de Empenho Anulado da Consulta por Emendas)</td></tr>
                                 <tr><td>Execução Financeira</td><td>numero_siafi</td><td>Código SIAFI do empenho — chave de cruzamento com o campo numero_siafi da base de indicações, restrito a empenhos com ano ≥ ano de exercício da indicação.</td></tr>
                                 <tr><td>Execução Financeira</td><td>numero_empenho</td><td>Número do empenho orçamentário (exibido como "Nº do Empenho").</td></tr>
                                 <tr><td>Execução Financeira</td><td>data_registro_doc_empenho</td><td>Data de registro do documento de empenho (exibida como "Data do Empenho"; também usada para determinar o "Ano do Empenho").</td></tr>
-                                <tr><td>Execução Financeira</td><td>valor_despesa_empenhada</td><td>Valor empenhado (exibido no modal como "Vl. Empenhado").</td></tr>
+                                <tr><td>Execução Financeira</td><td>valor_despesa_empenhada</td><td>Valor empenhado (exibido no modal como "Vl. Empenhado"). Define duas regras da Consulta por Emendas: (1) se NÃO houver nenhum empenho encontrado para o Código SIAFI da emenda, Valor Empenhado/Liquidado/Pago exibem <strong>0,00</strong> e a Situação fica <strong>"A EMPENHAR"</strong>, mesmo que o arquivo de indicações já traga valores preenchidos; (2) se houver empenho(s) mas a soma do valor empenhado deles for zero, o(s) empenho(s) foi(ram) anulado(s) — as três colunas exibem <strong>0,00</strong> e a Situação fica <strong>"EMPENHO ANULADO"</strong>.</td></tr>
                                 <tr><td>Execução Financeira</td><td>valor_despesa_liquidada</td><td>Valor liquidado (exibido no modal como "Vl. Liquidado").</td></tr>
-                                <tr><td>Execução Financeira</td><td>valor_pago_financeiro / valor_pago_em_rp</td><td>Valor pago e valor pago em restos a pagar (exibidos no modal como "Vl. Pago" e "Vl. Pago RP"). Definem a regra de Situação/Valor Empenhado/Valor Liquidado/Valor Pago da Consulta por Emendas: se algum empenho do Código SIAFI da emenda tiver valor pago ou valor pago RP diferente de zero, a Situação passa a ser <strong>PAGO</strong> e o Valor Empenhado, o Valor Liquidado e o Valor Pago exibidos passam a repetir o Valor Indicado da mesma linha; caso contrário (valor pago = 0 na execução, ou nenhum empenho encontrado para o Código SIAFI), as três colunas exibem <strong>0,00</strong> e a Situação fica "A EMPENHAR".</td></tr>
+                                <tr><td>Execução Financeira</td><td>valor_pago_financeiro / valor_pago_em_rp</td><td>Valor pago e valor pago em restos a pagar (exibidos no modal como "Vl. Pago" e "Vl. Pago RP").</td></tr>
                                 <tr><td>Execução Financeira</td><td>valor_liquidado_em_rp</td><td>Valor liquidado em restos a pagar (exibido no modal como "Vl. Liquidado RP").</td></tr>
                                 <tr><td>Execução Financeira</td><td>razao_social_credor / cnpj_cpf_credor_formatado</td><td>Credor e CNPJ/CPF do empenho (carregados, mas não exibidos na tabela do modal).</td></tr>
                             </tbody>
@@ -1194,6 +1194,7 @@ function badgeStatus(status) {
 //   AGUARDANDO PAGAMENTO  -> valor_liquidado > 0 e valor_pago == 0
 //   EMPENHADO             -> valor_empenhado > 0 e valor_liquidado == 0 (e valor_pago == 0)
 //   A EMPENHAR            -> valor_empenhado, valor_liquidado e valor_pago todos == 0
+// (Empenho Anulado é tratado à parte em mapIndicacao, antes de chegar aqui — ver empenhoAnulado.)
 function calcularSituacao(valorEmpenhado, valorLiquidado, valorPago) {
     const emp = Number(valorEmpenhado) || 0;
     const liq = Number(valorLiquidado) || 0;
@@ -1212,6 +1213,7 @@ function badgeSituacao(situacao) {
     else if (situacao === 'AGUARDANDO PAGAMENTO') cls = 'badge-pendente';
     else if (situacao === 'EMPENHADO') cls = 'badge-pendente';
     else if (situacao === 'A EMPENHAR') cls = 'badge-cancelado';
+    else if (situacao === 'EMPENHO ANULADO') cls = 'badge-cancelado';
     return `<span class="badge-status ${cls}">${situacao}</span>`;
 }
 
@@ -1336,6 +1338,24 @@ function empenhosDaEmenda(numeroSiafi, anoExercicio) {
     return lista.filter(e => !e.ano_empenho || e.ano_empenho >= anoExercicio);
 }
 
+// Calcula o "valor atualizado" (empenhado/liquidado/pago) cruzando o valor de controle do
+// armazém de dados com o valor bruto da base de indicações, respeitando um teto:
+//   - se o valor do armazém for nulo/vazio ou <= 0, usa o valor bruto (sem cruzamento);
+//   - se o valor do armazém ultrapassar o teto, usa o teto (nunca pode superar a etapa anterior);
+//   - se o valor do armazém for maior que o valor bruto (mas dentro do teto), usa o do armazém;
+//   - caso contrário, usa o valor bruto.
+// Regra repassada pela área responsável pelos dados (cascata: empenhado ≤ utilizado,
+// liquidado ≤ empenhado atualizado, pago ≤ liquidado atualizado).
+function valorAtualizado(valorArmazem, valorBase, teto) {
+    const arm = parseValor(valorArmazem);
+    const base = parseValor(valorBase);
+    const tet = parseValor(teto);
+    if (!arm || arm <= 0) return base;
+    if (arm > tet) return tet;
+    if (arm > base) return arm;
+    return base;
+}
+
 // Mapeia uma linha do arquivo principal de indicações (VW_SG_V2_EP_INDIC_RECURSOS)
 function mapIndicacao(row) {
     // Objeto = título do plano de trabalho / instrumento jurídico
@@ -1351,20 +1371,44 @@ function mapIndicacao(row) {
     const empResumo = resumoEmpenhos(numeroSiafi, anoExercicio);
 
     const valorIndicado = parseValor(row.valor_indicacao);
+    const valorUtilizado = parseValor(row.valor_utilizado);
 
-    // Valores empenhado/liquidado/pago reais: os campos valor_empenhado_ano/valor_liquidado_ano/
-    // valor_pago_ano do arquivo de indicações não são confiáveis, então não são mais usados aqui.
-    // Em vez disso, verificamos, para os empenhos desta emenda na execução financeira
-    // (execucaoAAAA.csv, mesmo Código SIAFI): se o valor pago ou o valor pago em restos a pagar
-    // é diferente de zero, a emenda é considerada PAGA e o Valor Empenhado, o Valor Liquidado e o
-    // Valor Pago exibidos passam a repetir o Valor Indicado. Caso contrário (valor pago = 0 na
-    // execução, ou nenhum empenho encontrado), as três colunas exibem 0,00.
+    // Empenho anulado / sem empenho: as colunas Valor Empenhado, Valor Liquidado e Valor Pago só
+    // podem exibir valor se existir, de fato, empenho registrado na execução financeira
+    // (execucaoAAAA.csv, mesmo Código SIAFI) para esta emenda:
+    //   - se NÃO houver nenhum empenho encontrado para o Código SIAFI (ex.: indicação ainda não
+    //     empenhada formalmente, mesmo que o arquivo de indicações já traga valores preenchidos),
+    //     as três colunas exibem 0,00 e a situação é "A EMPENHAR";
+    //   - se houver empenho(s) mas a soma do valor empenhado deles for zero, o(s) empenho(s)
+    //     foi(ram) anulado(s): as três colunas exibem 0,00 e a situação é "EMPENHO ANULADO";
+    //   - caso contrário, os valores seguem a cascata de cruzamento com o armazém de dados.
     const empListaFiltrada = empenhosDaEmenda(numeroSiafi, anoExercicio);
-    const pagoConfirmadoNaExecucao = empListaFiltrada.some(e => (e.valor_pago || 0) !== 0 || (e.valor_pago_rp || 0) !== 0);
-    const valorEmpenhadoFinal = pagoConfirmadoNaExecucao ? valorIndicado : 0;
-    const valorLiquidadoFinal = pagoConfirmadoNaExecucao ? valorIndicado : 0;
-    const valorPagoFinal = pagoConfirmadoNaExecucao ? valorIndicado : 0;
-    const situacaoFinal = pagoConfirmadoNaExecucao ? 'PAGO' : calcularSituacao(valorEmpenhadoFinal, valorLiquidadoFinal, valorPagoFinal);
+    const semEmpenho = empListaFiltrada.length === 0;
+    const somaEmpenhadoExecucao = empListaFiltrada.reduce((s, e) => s + (Number(e.valor_empenhado) || 0), 0);
+    const empenhoAnulado = !semEmpenho && somaEmpenhadoExecucao === 0;
+
+    // Valores empenhado/liquidado/pago "atualizados": cruzamento entre o valor bruto da base de
+    // indicações (valor_empenhado/valor_liquidado/valor_pago) e o valor de controle vindo do
+    // armazém de dados (valor_empenhado_armazem/valor_liquidado_armazem/valor_pago_armazem),
+    // em cascata (empenhado ≤ utilizado, liquidado ≤ empenhado atualizado, pago ≤ liquidado
+    // atualizado) — regra repassada pela área responsável pelos dados.
+    let valorEmpenhadoFinal, valorLiquidadoFinal, valorPagoFinal, situacaoFinal;
+    if (semEmpenho) {
+        valorEmpenhadoFinal = 0;
+        valorLiquidadoFinal = 0;
+        valorPagoFinal = 0;
+        situacaoFinal = 'A EMPENHAR';
+    } else if (empenhoAnulado) {
+        valorEmpenhadoFinal = 0;
+        valorLiquidadoFinal = 0;
+        valorPagoFinal = 0;
+        situacaoFinal = 'EMPENHO ANULADO';
+    } else {
+        valorEmpenhadoFinal = valorAtualizado(row.valor_empenhado_armazem, row.valor_empenhado, valorUtilizado);
+        valorLiquidadoFinal = valorAtualizado(row.valor_liquidado_armazem, row.valor_liquidado, valorEmpenhadoFinal);
+        valorPagoFinal = valorAtualizado(row.valor_pago_armazem, row.valor_pago, valorLiquidadoFinal);
+        situacaoFinal = calcularSituacao(valorEmpenhadoFinal, valorLiquidadoFinal, valorPagoFinal);
+    }
 
     return {
         _ano: anoExercicio,
@@ -1395,7 +1439,7 @@ function mapIndicacao(row) {
         descricao_despesa: descricaoDespesa,
         funcional_programatica: row.funcional_programatica || '',
         valor_indicado: parseValor(row.valor_indicacao),
-        valor_utilizado: parseValor(row.valor_utilizado),
+        valor_utilizado: valorUtilizado,
         valor_empenhado: valorEmpenhadoFinal,
         valor_liquidado: valorLiquidadoFinal,
         valor_pago: valorPagoFinal,
