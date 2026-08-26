@@ -1,9 +1,8 @@
-name: emendas_estaduai
-owner_org: ''
+name: emendas_estaduais
+owner_org: secretaria-estado-governo-segov
 profile: data-package
 resources:
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -168,9 +167,62 @@ resources:
         - name: numero_convenio
           type: string
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Indicação de Emendas Parlamentares
+  - dialect:
+      delimiter: ;
+    encoding: utf-8-sig
+    format: csv
+    hashing: md5
+    name: execucao2022
+    path: data/execucao2022.csv
+    profile: tabular-data-resource
+    schema:
+      fields:
+        - name: numero_siafi
+          type: integer
+        - name: numero_empenho
+          type: integer
+        - name: data_registro_doc_empenho
+          type: date
+        - name: numero_processo_compra_siad
+          type: string
+        - name: unidade_orcamentaria_codigo
+          type: integer
+        - name: unidade_orcamentaria_sigla
+          type: string
+        - name: unidade_orcamentaria_nome
+          type: string
+        - name: razao_social_credor
+          type: string
+        - name: cnpj_cpf_credor_formatado
+          type: string
+        - name: elemento_despesa_codigo
+          type: integer
+        - name: elemento_despesa_descricao
+          type: string
+        - name: item_despesa_codigo
+          type: integer
+        - name: item_despesa_descricao
+          type: string
+        - name: fonte_recurso_codigo
+          type: integer
+        - name: fonte_recurso_descricao
+          type: string
+        - name: valor_despesa_empenhada
+          type: string
+        - name: valor_despesa_liquidada
+          type: string
+        - name: valor_despesa_liquidada_1
+          type: any
+        - name: valor_pago_financeiro
+          type: string
+        - name: valor_liquidado_em_rp
+          type: any
+        - name: valor_pago_em_rp
+          type: any
+    scheme: file
+    title: Execução 2022
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -223,9 +275,8 @@ resources:
         - name: valor_pago_em_rp
           type: any
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Execução 2023
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -278,9 +329,8 @@ resources:
         - name: valor_pago_em_rp
           type: any
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Execução 2024
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -333,9 +383,8 @@ resources:
         - name: valor_pago_em_rp
           type: any
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Execução 2025
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -388,5 +437,5 @@ resources:
         - name: valor_pago_em_rp
           type: any
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-title: Emendas_estaduai
+    title: Execução 2026
+title: Indicação e Execução de Emendas Estaduais
