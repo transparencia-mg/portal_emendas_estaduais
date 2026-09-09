@@ -607,6 +607,10 @@
                             <label class="filter-label">Tipo de Emenda</label>
                             <select class="form-select" id="tipoEmendaDG"><option value="">Todos</option></select>
                         </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Status</label>
+                            <select class="form-select" id="statusIndicacaoDG"><option value="">Todos</option></select>
+                        </div>
                     </div>
                     <div class="botoes-abaixo">
                         <button class="btn-pesquisa" id="aplicarFiltrosDG"><i class="material-icons me-2">refresh</i>Atualizar Filtros</button>
@@ -680,16 +684,17 @@
                                     <th class="sortable-header" onclick="ordenarTabela('dg',1)" data-col="1">Autoria <i class="material-icons">unfold_more</i></th>
                                     <th class="sortable-header" onclick="ordenarTabela('dg',2)" data-col="2">Origem <i class="material-icons">unfold_more</i></th>
                                     <th class="sortable-header" onclick="ordenarTabela('dg',3)" data-col="3">Tipo de Emenda <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('dg',4)" data-col="4">Nº de Emendas <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('dg',5)" data-col="5">Valor Indicação <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('dg',6)" data-col="6">Valor Utilizado <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('dg',7)" data-col="7">Valor Empenhado <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('dg',8)" data-col="8">Valor Liquidado <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('dg',9)" data-col="9">Valor Pago <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',4)" data-col="4">Status <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',5)" data-col="5">Nº de Emendas <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',6)" data-col="6">Valor Indicação <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',7)" data-col="7">Valor Utilizado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',8)" data-col="8">Valor Empenhado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',9)" data-col="9">Valor Liquidado <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('dg',10)" data-col="10">Valor Pago <i class="material-icons">unfold_more</i></th>
                                 </tr>
                             </thead>
                             <tbody id="tabelaDGBody">
-                                <tr><td colspan="10" class="text-center text-muted">Carregando dados...</td></tr>
+                                <tr><td colspan="11" class="text-center text-muted">Carregando dados...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -763,7 +768,7 @@
                             <input type="text" class="form-control" id="municipioVI" placeholder="Nome do município...">
                         </div>
                         <div class="filter-group">
-                            <label class="filter-label">Situação</label>
+                            <label class="filter-label">Situação (Execução)</label>
                             <select class="form-select" id="situacaoVI">
                                 <option value="">Todas</option>
                                 <option value="PAGO">Pago</option>
@@ -772,6 +777,10 @@
                                 <option value="A EMPENHAR">A Empenhar</option>
                                 <option value="EMPENHO ANULADO">Empenho Anulado</option>
                             </select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Status da Indicação</label>
+                            <select class="form-select" id="statusIndicacaoVI"><option value="">Todos</option></select>
                         </div>
                     </div>
                     <div class="botoes-abaixo">
@@ -845,12 +854,13 @@
                                     <th class="sortable-header" onclick="ordenarTabela('vi',18)" data-col="18">Valor Empenhado <i class="material-icons">unfold_more</i></th>
                                     <th class="sortable-header" onclick="ordenarTabela('vi',19)" data-col="19">Valor Liquidado <i class="material-icons">unfold_more</i></th>
                                     <th class="sortable-header" onclick="ordenarTabela('vi',20)" data-col="20">Valor Pago <i class="material-icons">unfold_more</i></th>
-                                    <th class="sortable-header" onclick="ordenarTabela('vi',21)" data-col="21">Situação <i class="material-icons">unfold_more</i></th>
-                                    <th style="text-align:center;width:70px;" data-col="22">Ações</th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',21)" data-col="21">Situação (Execução) <i class="material-icons">unfold_more</i></th>
+                                    <th class="sortable-header" onclick="ordenarTabela('vi',22)" data-col="22">Status da Indicação <i class="material-icons">unfold_more</i></th>
+                                    <th style="text-align:center;width:70px;" data-col="23">Ações</th>
                                 </tr>
                             </thead>
                             <tbody id="tabelaVIBody">
-                                <tr><td colspan="23" class="text-center text-muted">Carregando dados...</td></tr>
+                                <tr><td colspan="24" class="text-center text-muted">Carregando dados...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -865,16 +875,6 @@
             <div class="tab-pane fade" id="tab5" role="tabpanel">
                 <div class="mt-2">
                     <h5 class="mb-3"><i class="material-icons me-2" style="color:var(--accent-red);">menu_book</i>DICIONÁRIO DE DADOS — Estrutura de Dados</h5>
-                    <p style="font-size:12.5px;color:#6c757d;max-width:900px;">
-                        Este dashboard consome dois tipos de arquivo publicados no repositório de dados abertos: uma base principal de
-                        indicações (<code>VW_SG_V2_EP_INDIC_RECURSOS</code>) e um conjunto de arquivos de execução financeira, um por ano
-                        (<code>execucaoAAAA.csv</code> — ex.: <code>execucao2023.csv</code>, <code>execucao2024.csv</code>, <code>execucao2025.csv</code>,
-                        <code>execucao2026.csv</code>), cruzados pelo <strong>Código SIAFI</strong> (campo <code>numero_siafi</code>, presente em ambas
-                        as fontes). Em todas as abas são exibidas apenas as indicações com <strong>Status = APROVADO</strong>.
-                        A aba <strong>Visão Geral</strong> é um agregado (soma) da base de indicações por Autoria, Ano e Tipo de Emenda.
-                        A aba <strong>Consulta por Emendas</strong> traz um registro por emenda, com dados vindos da base de indicações;
-                        os dados de execução financeira (empenhos) aparecem apenas dentro do modal de detalhes de cada emenda, na seção
-                        "Execução Financeira — Empenhos".
                     </p>
                     <div class="table-responsive">
                         <table class="dicionario-tabela">
@@ -887,14 +887,15 @@
                                 <tr><td>Indicações</td><td>classificacao_resp_descricao</td><td>Classifica a indicação como Individual (Parlamentar Estadual), Bloco ou Bancada (exibido como "Tipo de Emenda").</td></tr>
                                 <tr><td>Indicações</td><td>uo / uo_sigla / uo_descricao</td><td>Código, sigla e descrição da Unidade Orçamentária (exibido como "Órgão").</td></tr>
                                 <tr><td>Indicações</td><td>tipo_indicacao</td><td>Forma de repasse dos recursos.</td></tr>
-                                <tr><td>Indicações</td><td>status_indicacao</td><td>Status da indicação. O dashboard exibe somente registros com status APROVADO.</td></tr>
+                                <tr><td>Indicações</td><td>status_indicacao</td><td>Status da indicação conforme vem na planilha (ex.: Aprovado, Cancelado, Em Análise). O dashboard exibe registros de todos os status, disponíveis na coluna/filtro "Status".</td></tr>
                                 <tr><td>Indicações</td><td>municipio</td><td>Município beneficiado pela indicação (exibido como "Município Beneficiado").</td></tr>
                                 <tr><td>Indicações</td><td>beneficiario_nome / beneficiario_cnpj</td><td>Razão social e CNPJ/CPF do credor (exibidos como "Credor" e "CNPJ/CPF").</td></tr>
                                 <tr><td>Indicações</td><td>grupo_despesa_codigo / grupo_despesa_nome</td><td>Código e nome do elemento de despesa (exibidos no modal como "Código Elemento" e "Elemento da Despesa").</td></tr>
                                 <tr><td>Indicações</td><td>funcao_descricao</td><td>Descrição da função de governo.</td></tr>
-                                <tr><td>Indicações</td><td>especificacao_descricao</td><td>Especificação da despesa (exibida no modal como "Item da Despesa" — a fonte não traz um código de item separado, por isso "Código Item" aparece como "-").</td></tr>
-                                <tr><td>Indicações</td><td>plano_titulo / instrumento_titulo</td><td>Título do plano de trabalho / instrumento jurídico (exibido como "Objeto").</td></tr>
-                                <tr><td>Indicações</td><td>descricao_indicacao</td><td>Descrição da despesa da indicação (exibida como "Descrição da Despesa"; quando vazia, usa a especificação da despesa).</td></tr>
+                                <tr><td>Indicações</td><td>tipo_aplicacao_descricao</td><td>Tipo de aplicação do recurso (ex.: Resolução SES, Execução Direta, Caixa Escolar, Doação de Bens, Outros). Quando preenchido, é o 1º critério usado para montar o campo "Objeto".</td></tr>
+                                <tr><td>Indicações</td><td>genero_descricao / categoria_descricao / especificacao_descricao</td><td>Género, categoria e especificação da despesa (convênios). Usados juntos ("Género - Categoria - Especificação") como 3º critério do campo "Objeto"; especificacao_descricao também é exibida sozinha no modal como "Item da Despesa" — a fonte não traz um código de item separado, por isso "Código Item" aparece como "-".</td></tr>
+                                <tr><td>Indicações</td><td>Objeto (campo calculado)</td><td>O portal de dados abertos não tem um campo único para isso; o dashboard o compõe em cascata: 1) tipo_aplicacao_descricao, quando preenchido; 2) senão, se tipo_indicacao = "Transferência Especial", usa o próprio rótulo (é transferência constitucional, sem objeto especificado); 3) senão, "Género - Categoria - Especificação" (genero_descricao / categoria_descricao / especificacao_descricao), quando algum estiver preenchido; 4) por último, o texto livre de descricao_indicacao. Se nada estiver preenchido, exibe "—".</td></tr>
+                                <tr><td>Indicações</td><td>descricao_indicacao</td><td>Descrição da despesa da indicação (exibida como "Descrição da Despesa"; quando vazia, usa a especificação da despesa). É também o último critério de fallback do campo "Objeto" (ver acima).</td></tr>
                                 <tr><td>Indicações</td><td>valor_empenhado / valor_liquidado / valor_pago / valor_empenhado_armazem / valor_liquidado_armazem / valor_pago_armazem</td><td>Valores brutos e valores de controle vindos do armazém de dados. Só são considerados quando existe, de fato, empenho registrado para a emenda na execução financeira (ver seção abaixo); nesse caso, Valor Empenhado, Valor Liquidado e Valor Pago exibidos na Visão Geral e na Consulta por Emendas são "atualizados" cruzando cada valor bruto com o respectivo valor do armazém, em cascata e respeitando um teto (Empenhado ≤ Valor Utilizado; Liquidado ≤ Empenhado atualizado; Pago ≤ Liquidado atualizado): se o valor do armazém for nulo/≤0, usa-se o valor bruto; se ultrapassar o teto, usa-se o teto; se for maior que o bruto (e dentro do teto), usa-se o valor do armazém; caso contrário, usa-se o bruto. A Situação é calculada a partir desses valores atualizados.</td></tr>
                                 <tr><td>Indicações</td><td>numero_siafi</td><td>Código SIAFI do instrumento — chave de cruzamento com os arquivos de execução financeira (execucaoAAAA.csv).</td></tr>
                                 <tr><td>Indicações</td><td>data_publicacao / data_validade</td><td>Datas de início e fim de vigência (exibidas como "Data Início"/"Data Fim").</td></tr>
@@ -1059,7 +1060,7 @@ async function descobrirUrlArquivo(prefixo, fallback) {
 // ============================================================
 let dadosGerais = [];
 let filteredDG = [], filteredVI = [];
-// Base única de indicações (arquivo VW_SG_V2_EP_INDIC_RECURSOS), já filtrada para status_indicacao = APROVADO
+// Base única de indicações (arquivo VW_SG_V2_EP_INDIC_RECURSOS), com todos os status_indicacao
 let dadosIndicacoesUnificados = [];
 // Mapa auxiliar numero_indicacao → registro da indicação (para enriquecer a aba de Execução)
 let indicacaoPorNumero = {};
@@ -1103,19 +1104,19 @@ let sortConfig = {
 
 // Colunas visíveis por aba (índices das colunas, true=visível)
 let colVisibility = {
-    dg: [true, true, true, true, true, true, true, true, true, true],
-    vi: [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true]
+    dg: [true, true, true, true, true, true, true, true, true, true, true],
+    vi: [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true]
 };
 
 const COL_LABELS = {
-    dg:   ['Ano','Autoria','Origem','Tipo de Emenda','Nº de Emendas','Valor Indicação','Valor Utilizado','Valor Empenhado','Valor Liquidado','Valor Pago'],
-    vi:   ['Ano','Nº Emenda','Autoria','Código SIAFI','Nº do Empenho','Data do Empenho','Tipo de Emenda','Forma de Repasse','Função de Governo','Órgão','Objeto','Descrição da Despesa','Credor','CNPJ/CPF','Município Beneficiado','Data Início','Data Fim','Valor Indicado','Valor Empenhado','Valor Liquidado','Valor Pago','Situação','Ações']
+    dg:   ['Ano','Autoria','Origem','Tipo de Emenda','Status','Nº de Emendas','Valor Indicação','Valor Utilizado','Valor Empenhado','Valor Liquidado','Valor Pago'],
+    vi:   ['Ano','Nº Emenda','Autoria','Código SIAFI','Nº do Empenho','Data do Empenho','Tipo de Emenda','Forma de Repasse','Função de Governo','Órgão','Objeto','Descrição da Despesa','Credor','CNPJ/CPF','Município Beneficiado','Data Início','Data Fim','Valor Indicado','Valor Empenhado','Valor Liquidado','Valor Pago','Situação (Execução)','Status da Indicação','Ações']
 };
 
 // Colunas que não podem ser ocultadas
 const COL_FIXED = {
     dg: [1],       // Autoria sempre visível
-    vi: [0, 1, 22] // Ano, Nº Emenda e Ações sempre visíveis
+    vi: [0, 1, 23] // Ano, Nº Emenda e Ações sempre visíveis
 };
 
 // ============================================================
@@ -1356,12 +1357,46 @@ function valorAtualizado(valorArmazem, valorBase, teto) {
     return base;
 }
 
+// ----------------------------------------------------------------
+// OBJETO — o portal da transparência não tem um campo único para isso;
+// ele é COMPOSTO a partir de outros campos, em cascata:
+//
+//   • tipo_aplicacao_descricao quando existe   (ex.: Resolução SES,
+//     Execução Direta, Caixa Escolar, Doação de Bens, Outros)
+//       ex.: "EMATER Tanque de Resfriamento de Leite"
+//   • TRANSFERÊNCIA ESPECIAL -> o próprio rótulo do tipo; é
+//     transferência constitucional, sem objeto especificado
+//   • senão, genero - categoria - especificação (convênios)
+//       ex.: "AQUISIÇÃO DE BENS - Permanente - Patrulha Motomecanizada"
+//   • último recurso: o texto livre descricao_indicacao
+//
+// Antes a tabela usava descricao_indicacao direto, preenchido em apenas
+// ~46% das linhas — daí os objetos vazios.
+// ----------------------------------------------------------------
+function montarObjeto(row) {
+    const tipoAplicacao = (row.tipo_aplicacao_descricao || '').toString().trim();
+    if (tipoAplicacao) return tipoAplicacao;
+
+    const tipoIndicacao = (row.tipo_indicacao || '').toString().trim().toUpperCase();
+    if (tipoIndicacao === 'TRANSFERÊNCIA ESPECIAL') return 'Transferência Especial';
+
+    const genero = (row.genero_descricao || '').toString().trim();
+    const categoria = (row.categoria_descricao || '').toString().trim();
+    const especificacao = (row.especificacao_descricao || '').toString().trim();
+    if (genero || categoria || especificacao) {
+        return [genero, categoria, especificacao].filter(Boolean).join(' - ');
+    }
+
+    const descricaoIndicacao = (row.descricao_indicacao || '').toString().trim();
+    if (descricaoIndicacao) return descricaoIndicacao;
+
+    return '—';
+}
+
 // Mapeia uma linha do arquivo principal de indicações (VW_SG_V2_EP_INDIC_RECURSOS)
 function mapIndicacao(row) {
-    // Objeto = título do plano de trabalho / instrumento jurídico
-    const objeto = (row.plano_titulo && row.plano_titulo.trim())
-        || (row.instrumento_titulo && row.instrumento_titulo.trim())
-        || '';
+    // Objeto = composição em cascata (ver montarObjeto acima)
+    const objeto = montarObjeto(row);
     // Descrição da Despesa = descrição da indicação, com fallback para a especificação da despesa
     const descricaoDespesa = (row.descricao_indicacao && row.descricao_indicacao.trim())
         || (row.especificacao_descricao && row.especificacao_descricao.trim())
@@ -1540,9 +1575,10 @@ async function carregarTodosDados() {
 
     setLoading(true, 'Processando dados...');
 
-    // Base principal: só indicações com status_indicacao = APROVADO
-    let indicacoes = linhasIndicacoes.map(mapIndicacao)
-        .filter(d => (d.numero_indicacao_status || '').toUpperCase() === 'APROVADO');
+    // Base principal: todas as indicações, com qualquer status_indicacao (Aprovado, Cancelado,
+    // Em Análise, etc. — conforme vier na planilha). O status de cada indicação fica disponível
+    // no campo numero_indicacao_status e pode ser filtrado/visualizado nas abas.
+    let indicacoes = linhasIndicacoes.map(mapIndicacao);
 
     // Mapa numero_indicacao → indicação (para enriquecer a Execução)
     indicacaoPorNumero = {};
@@ -1554,9 +1590,10 @@ async function carregarTodosDados() {
     // (VW_SG_V2_EP_INDIC_RECURSOS_TW) — valores empenhado/liquidado/pago no ano de exercício.
     const grupos = {};
     indicacoes.forEach(d => {
-        const chave = `${d._ano}|${(d.responsavel || '').trim().toUpperCase()}|${d.tipo_emenda}`;
+        const status = d.numero_indicacao_status || 'NÃO INFORMADO';
+        const chave = `${d._ano}|${(d.responsavel || '').trim().toUpperCase()}|${d.tipo_emenda}|${status}`;
         if (!grupos[chave]) {
-            grupos[chave] = { _ano: d._ano, responsavel: d.responsavel, tipo_emenda: d.tipo_emenda, esfera: 'Estadual', valor_indicacao: 0, valor_utilizado: 0, valor_empenhado: 0, valor_liquidado: 0, valor_pago: 0, qtd_indicacoes: 0 };
+            grupos[chave] = { _ano: d._ano, responsavel: d.responsavel, tipo_emenda: d.tipo_emenda, esfera: 'Estadual', status_indicacao: status, valor_indicacao: 0, valor_utilizado: 0, valor_empenhado: 0, valor_liquidado: 0, valor_pago: 0, qtd_indicacoes: 0 };
         }
         const g = grupos[chave];
         g.valor_indicacao += d.valor_indicado;
@@ -1612,9 +1649,11 @@ function populaFiltros() {
         el.innerHTML = '<option value="">Todos</option>' + vals.map(v=>`<option value="${v}">${v}</option>`).join('');
     };
     populaSelect('tipoEmendaDG', dadosGerais, 'tipo_emenda');
+    populaSelect('statusIndicacaoDG', dadosGerais, 'status_indicacao');
     populaSelect('tipoEmendaVI', dadosIndicacoesUnificados, 'tipo_emenda');
     populaSelect('tipoIndicacaoVI', dadosIndicacoesUnificados, 'tipo_de_indicacao');
     populaSelect('funcaoVI', dadosIndicacoesUnificados, 'funcao');
+    populaSelect('statusIndicacaoVI', dadosIndicacoesUnificados, 'numero_indicacao_status');
 }
 
 // ============================================================
@@ -1676,18 +1715,20 @@ function aplicarFiltros(dash) {
     const gv = id => document.getElementById(id)?.value || '';
 
     if (dash === 'dg') {
-        const ano = gv('anoDG'), resp = g('responsavelDG'), tipoEmenda = gv('tipoEmendaDG');
+        const ano = gv('anoDG'), resp = g('responsavelDG'), tipoEmenda = gv('tipoEmendaDG'), status = gv('statusIndicacaoDG');
         filteredDG = dadosGerais.filter(d => {
             if (ano && d._ano != ano) return false;
             if (resp && !d.responsavel.toLowerCase().includes(resp)) return false;
             if (tipoEmenda && d.tipo_emenda !== tipoEmenda) return false;
+            if (status && d.status_indicacao !== status) return false;
             return true;
         });
     } else if (dash === 'vi') {
         const ano = gv('anoVI'), ni = g('numIndicacaoVI'), resp = g('responsavelVI'), siafi = g('numSiafiVI'),
               tipoEmenda = gv('tipoEmendaVI'), tipo = gv('tipoIndicacaoVI'), funcao = gv('funcaoVI'), uo = g('uoVI'),
               objeto = g('objetoVI'), desc = g('descricaoVI'),
-              credor = g('credorVI'), cnpj = g('cnpjVI'), mun = g('municipioVI'), situacao = gv('situacaoVI');
+              credor = g('credorVI'), cnpj = g('cnpjVI'), mun = g('municipioVI'), situacao = gv('situacaoVI'),
+              statusInd = gv('statusIndicacaoVI');
         filteredVI = dadosIndicacoesUnificados.filter(d => {
             if (ano && d._ano != ano) return false;
             if (ni && !d.numero_indicacao.toLowerCase().includes(ni)) return false;
@@ -1703,6 +1744,7 @@ function aplicarFiltros(dash) {
             if (cnpj && !(d.cnpj_convenente||'').toLowerCase().includes(cnpj)) return false;
             if (mun && !(d.municipio||'').toLowerCase().includes(mun)) return false;
             if (situacao && d.situacao !== situacao) return false;
+            if (statusInd && d.numero_indicacao_status !== statusInd) return false;
             return true;
         });
     }
@@ -1714,8 +1756,8 @@ function aplicarFiltros(dash) {
 
 function limparFiltros(dash) {
     const ids = {
-        dg:   ['anoDG','responsavelDG','tipoEmendaDG','searchDG'],
-        vi:   ['anoVI','numIndicacaoVI','responsavelVI','numSiafiVI','tipoEmendaVI','tipoIndicacaoVI','funcaoVI','uoVI','objetoVI','descricaoVI','credorVI','cnpjVI','municipioVI','situacaoVI','searchVI']
+        dg:   ['anoDG','responsavelDG','tipoEmendaDG','statusIndicacaoDG','searchDG'],
+        vi:   ['anoVI','numIndicacaoVI','responsavelVI','numSiafiVI','tipoEmendaVI','tipoIndicacaoVI','funcaoVI','uoVI','objetoVI','descricaoVI','credorVI','cnpjVI','municipioVI','situacaoVI','statusIndicacaoVI','searchVI']
     };
     ids[dash].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
     currentSearch[dash] = '';
@@ -1743,8 +1785,8 @@ function filtrarTabela(dash) {
 // ORDENAÇÃO
 // ============================================================
 const COLS = {
-    dg:   ['_ano','responsavel','esfera','tipo_emenda','qtd_indicacoes','valor_indicacao','valor_utilizado','valor_empenhado','valor_liquidado','valor_pago'],
-    vi:   ['_ano','numero_indicacao','responsavel','numero_siafi','numero_empenho','data_empenho','tipo_emenda','tipo_de_indicacao','funcao','uo_descricao','objeto','descricao_despesa','convenente','cnpj_convenente','municipio','data_inicio','data_fim','valor_indicado','valor_empenhado','valor_liquidado','valor_pago','situacao']
+    dg:   ['_ano','responsavel','esfera','tipo_emenda','status_indicacao','qtd_indicacoes','valor_indicacao','valor_utilizado','valor_empenhado','valor_liquidado','valor_pago'],
+    vi:   ['_ano','numero_indicacao','responsavel','numero_siafi','numero_empenho','data_empenho','tipo_emenda','tipo_de_indicacao','funcao','uo_descricao','objeto','descricao_despesa','convenente','cnpj_convenente','municipio','data_inicio','data_fim','valor_indicado','valor_empenhado','valor_liquidado','valor_pago','situacao','numero_indicacao_status']
 };
 
 function ordenarTabela(dash, col) {
@@ -1802,7 +1844,7 @@ function updateCards(dash) {
         const taxa = totalEmp ? ((totalPago/totalEmp)*100).toFixed(1) : 0;
         html = `
             <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Responsáveis <i class="material-icons" data-bs-toggle="tooltip" title="Qtd de responsáveis distintos">info_outline</i></div><div class="metric-body"><div class="metric-value">${new Set(data.map(d=>d.responsavel)).size.toLocaleString('pt-BR')}</div><div class="metric-sublabel">${totalEmendas.toLocaleString('pt-BR')} emendas no total</div></div></div></div>
-            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Indicação <i class="material-icons" data-bs-toggle="tooltip" title="Soma do valor das indicações aprovadas">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalLOA)}</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Indicação <i class="material-icons" data-bs-toggle="tooltip" title="Soma do valor das indicações, em todos os status">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalLOA)}</div></div></div></div>
             <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Empenhado <i class="material-icons" data-bs-toggle="tooltip" title="Total empenhado">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalEmp)}</div></div></div></div>
             <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Pago <i class="material-icons" data-bs-toggle="tooltip" title="Total pago">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalPago)}</div><div class="metric-sublabel">Taxa execução: ${taxa}%</div></div></div></div>`;
     } else if (dash === 'vi') {
@@ -1811,7 +1853,7 @@ function updateCards(dash) {
         const totalPago = data.reduce((s,i) => s+i.valor_pago, 0);
         const taxa = totalEmp ? ((totalPago/totalEmp)*100).toFixed(1) : 0;
         html = `
-            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Total de Emendas <i class="material-icons" data-bs-toggle="tooltip" title="Qtd de indicações aprovadas">info_outline</i></div><div class="metric-body"><div class="metric-value">${data.length.toLocaleString('pt-BR')}</div><div class="metric-sublabel">Somente status Aprovado</div></div></div></div>
+            <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Total de Emendas <i class="material-icons" data-bs-toggle="tooltip" title="Qtd de indicações, em todos os status">info_outline</i></div><div class="metric-body"><div class="metric-value">${data.length.toLocaleString('pt-BR')}</div><div class="metric-sublabel">Todos os status</div></div></div></div>
             <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Previsto <i class="material-icons" data-bs-toggle="tooltip" title="Total previsto (indicado)">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalInd)}</div></div></div></div>
             <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Empenhado <i class="material-icons" data-bs-toggle="tooltip" title="Total empenhado">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalEmp)}</div></div></div></div>
             <div class="col-md-3 col-6"><div class="metric-card"><div class="metric-header">Valor Pago <i class="material-icons" data-bs-toggle="tooltip" title="Total pago aos credores">info_outline</i></div><div class="metric-body"><div class="metric-value" style="font-size:14px;">${fmt(totalPago)}</div><div class="metric-sublabel">Taxa: ${taxa}%</div></div></div></div>`;
@@ -1876,7 +1918,7 @@ function renderTabela(dash) {
     const tbody   = document.getElementById(bodyIds[dash]);
     const countEl = document.getElementById(countIds[dash]);
     const data    = dash==='dg' ? filteredDG : filteredVI;
-    const colCount = dash==='dg' ? 10 : 23;
+    const colCount = dash==='dg' ? 11 : 24;
 
     if (!data.length) {
         if (tbody) tbody.innerHTML = `<tr><td colspan="${colCount}" class="text-center text-muted">Nenhum registro encontrado.</td></tr>`;
@@ -1895,6 +1937,7 @@ function renderTabela(dash) {
                 <td class="td-link">${trunc(d.responsavel,45)}</td>
                 <td>${d.esfera||'Estadual'}</td>
                 <td><span class="badge-status badge-default">${d.tipo_emenda||'-'}</span></td>
+                <td>${badgeStatus(d.status_indicacao)}</td>
                 <td style="text-align:center;">${d.qtd_indicacoes.toLocaleString('pt-BR')}</td>
                 <td class="valor-monetario">${fmt(d.valor_indicacao)}</td>
                 <td class="valor-monetario">${fmt(d.valor_utilizado)}</td>
@@ -1930,6 +1973,7 @@ function renderTabela(dash) {
             <td class="valor-monetario">${fmt(d.valor_liquidado)}</td>
             <td class="valor-monetario">${fmt(d.valor_pago)}</td>
             <td>${badgeSituacao(d.situacao)}</td>
+            <td>${badgeStatus(d.numero_indicacao_status)}</td>
             <td style="text-align:center;white-space:nowrap;">
                 <button class="btn-action" onclick='mostrarDetalhesUnificado(${JSON.stringify(d.numero_indicacao)},${d._ano})' title="Ver Detalhes"><i class="material-icons">visibility</i></button>
                 ${linkPlano ? `<a href="${linkPlano}" target="_blank" rel="noopener" class="btn-action" style="margin-left:4px;" title="PDF do Plano de Trabalho (Convênio ${d.no_convenio})"><i class="material-icons">description</i></a>` : ''}
@@ -1999,7 +2043,8 @@ window.mostrarDetalhesUnificado = function(numeroIndicacao, ano) {
                 <div class="info-card"><div class="info-label">Tipo de Emenda</div><div class="info-value">${main.tipo_emenda||'-'}</div></div>
                 <div class="info-card"><div class="info-label">Forma de Repasse</div><div class="info-value">${main.tipo_de_indicacao||'-'}</div></div>
                 <div class="info-card"><div class="info-label">Função de Governo</div><div class="info-value">${main.funcao||'-'}</div></div>
-                <div class="info-card"><div class="info-label">Situação</div><div class="info-value">${badgeSituacao(main.situacao)}</div></div>
+                <div class="info-card"><div class="info-label">Situação (Execução)</div><div class="info-value">${badgeSituacao(main.situacao)}</div></div>
+                <div class="info-card"><div class="info-label">Status da Indicação</div><div class="info-value">${badgeStatus(main.numero_indicacao_status)}</div></div>
                 <div class="info-card"><div class="info-label">Valor da Emenda</div><div class="info-value" style="color:var(--primary-dark);font-size:15px;">${fmt(main.valor_indicado)}</div></div>
                 <div class="info-card">
                     <div class="info-label">Inteiro Teor</div>
@@ -2184,11 +2229,11 @@ window.alterarItensPorPagina = function(dash, v) {
 function exportarCSV(dash) {
     let cabs, linhas;
     if (dash === 'dg') {
-        cabs = ['Ano','Autoria','Origem','Tipo de Emenda','Nº de Emendas','Valor Indicação','Valor Utilizado','Valor Empenhado','Valor Liquidado','Valor Pago'];
-        linhas = filteredDG.map(d => [d._ano,d.responsavel,d.esfera||'Estadual',d.tipo_emenda,d.qtd_indicacoes,fmt(d.valor_indicacao),fmt(d.valor_utilizado),fmt(d.valor_empenhado),fmt(d.valor_liquidado),fmt(d.valor_pago)].map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`).join(';'));
+        cabs = ['Ano','Autoria','Origem','Tipo de Emenda','Status','Nº de Emendas','Valor Indicação','Valor Utilizado','Valor Empenhado','Valor Liquidado','Valor Pago'];
+        linhas = filteredDG.map(d => [d._ano,d.responsavel,d.esfera||'Estadual',d.tipo_emenda,d.status_indicacao,d.qtd_indicacoes,fmt(d.valor_indicacao),fmt(d.valor_utilizado),fmt(d.valor_empenhado),fmt(d.valor_liquidado),fmt(d.valor_pago)].map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`).join(';'));
     } else {
-        cabs = ['Ano','Nº Emenda','Autoria','Código SIAFI','Nº do Empenho','Data do Empenho','Tipo de Emenda','Forma de Repasse','Função de Governo','Órgão','Objeto','Descrição da Despesa','Credor','CNPJ/CPF','Município Beneficiado','Data Início','Data Fim','Valor Indicado','Valor Empenhado','Valor Liquidado','Valor Pago','Situação'];
-        linhas = filteredVI.map(d => [d._ano,d.numero_indicacao,d.responsavel,fmtSiafi(d.numero_siafi),d.numero_empenho,d.data_empenho,d.tipo_emenda,d.tipo_de_indicacao,d.funcao,d.uo_descricao,d.objeto,d.descricao_despesa,d.convenente,d.cnpj_convenente,d.municipio,fmtData(d.data_inicio),fmtData(d.data_fim),fmt(d.valor_indicado),fmt(d.valor_empenhado),fmt(d.valor_liquidado),fmt(d.valor_pago),d.situacao].map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`).join(';'));
+        cabs = ['Ano','Nº Emenda','Autoria','Código SIAFI','Nº do Empenho','Data do Empenho','Tipo de Emenda','Forma de Repasse','Função de Governo','Órgão','Objeto','Descrição da Despesa','Credor','CNPJ/CPF','Município Beneficiado','Data Início','Data Fim','Valor Indicado','Valor Empenhado','Valor Liquidado','Valor Pago','Situação (Execução)','Status da Indicação'];
+        linhas = filteredVI.map(d => [d._ano,d.numero_indicacao,d.responsavel,fmtSiafi(d.numero_siafi),d.numero_empenho,d.data_empenho,d.tipo_emenda,d.tipo_de_indicacao,d.funcao,d.uo_descricao,d.objeto,d.descricao_despesa,d.convenente,d.cnpj_convenente,d.municipio,fmtData(d.data_inicio),fmtData(d.data_fim),fmt(d.valor_indicado),fmt(d.valor_empenhado),fmt(d.valor_liquidado),fmt(d.valor_pago),d.situacao,d.numero_indicacao_status].map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`).join(';'));
     }
     const csv = [cabs.join(';'), ...linhas].join('\n');
     const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8;'});
@@ -2207,12 +2252,12 @@ function exportarPDF(dash) {
     let head, body, titulo;
     if (dash === 'dg') {
         titulo = 'Emendas Estaduais — Visão Geral';
-        head = [['Ano','Autoria','Origem','Tipo de Emenda','Nº Emendas','Vl. Indicação','Vl. Utilizado','Vl. Empenhado','Vl. Liquidado','Vl. Pago']];
-        body = filteredDG.slice(0,500).map(d => [d._ano,trunc(d.responsavel,30),d.esfera||'Estadual',d.tipo_emenda,d.qtd_indicacoes,fmt(d.valor_indicacao),fmt(d.valor_utilizado),fmt(d.valor_empenhado),fmt(d.valor_liquidado),fmt(d.valor_pago)]);
+        head = [['Ano','Autoria','Origem','Tipo de Emenda','Status','Nº Emendas','Vl. Indicação','Vl. Utilizado','Vl. Empenhado','Vl. Liquidado','Vl. Pago']];
+        body = filteredDG.slice(0,500).map(d => [d._ano,trunc(d.responsavel,30),d.esfera||'Estadual',d.tipo_emenda,d.status_indicacao,d.qtd_indicacoes,fmt(d.valor_indicacao),fmt(d.valor_utilizado),fmt(d.valor_empenhado),fmt(d.valor_liquidado),fmt(d.valor_pago)]);
     } else {
         titulo = 'Emendas Estaduais — Consulta por Emendas';
-        head = [['Ano','Nº Emenda','Autoria','SIAFI','Nº Empenho','Tipo Emenda','Forma Repasse','Função Gov.','Órgão','Objeto','Desc. Despesa','Credor','Município','Vl. Indicado','Vl. Pago','Situação']];
-        body = filteredVI.slice(0,500).map(d => [d._ano,d.numero_indicacao,trunc(d.responsavel,22),fmtSiafi(d.numero_siafi),trunc(d.numero_empenho,15),d.tipo_emenda,trunc(d.tipo_de_indicacao,15),trunc(d.funcao,18),trunc(d.uo_descricao,18),trunc(d.objeto,20),trunc(d.descricao_despesa,20),trunc(d.convenente,18),d.municipio,fmt(d.valor_indicado),fmt(d.valor_pago),d.situacao]);
+        head = [['Ano','Nº Emenda','Autoria','SIAFI','Nº Empenho','Tipo Emenda','Forma Repasse','Função Gov.','Órgão','Objeto','Desc. Despesa','Credor','Município','Vl. Indicado','Vl. Pago','Situação','Status Indic.']];
+        body = filteredVI.slice(0,500).map(d => [d._ano,d.numero_indicacao,trunc(d.responsavel,22),fmtSiafi(d.numero_siafi),trunc(d.numero_empenho,15),d.tipo_emenda,trunc(d.tipo_de_indicacao,15),trunc(d.funcao,18),trunc(d.uo_descricao,18),trunc(d.objeto,20),trunc(d.descricao_despesa,20),trunc(d.convenente,18),d.municipio,fmt(d.valor_indicado),fmt(d.valor_pago),d.situacao,d.numero_indicacao_status]);
     }
     doc.autoTable({
         head, body,
