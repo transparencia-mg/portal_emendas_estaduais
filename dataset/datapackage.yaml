@@ -107,7 +107,7 @@ resources:
         - name: valor_pago_armazem
           type: any
     scheme: file
-    title: Emendas Estaduais Indicação
+    title: Emendas Estaduais - Execução
   - dialect:
       delimiter: ;
     encoding: utf-8-sig
@@ -273,7 +273,7 @@ resources:
         - name: numero_convenio
           type: string
     scheme: file
-    title: Emendas Estaduais Recursos
+    title: Emendas Estaduais - Indicações
   - dialect:
       delimiter: ;
     encoding: utf-8-sig
