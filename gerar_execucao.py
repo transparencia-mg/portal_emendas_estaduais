@@ -41,7 +41,7 @@ except ImportError:
 # CONFIGURAÇÃO — ajuste aqui se necessário
 # ---------------------------------------------------------------------------
 PASTA_UPLOAD = Path(r"G:\Meu Drive\CGE\bi_atualizacao\portal_emendas_estaduais\upload")
-ARQUIVO_REFERENCIA_NOME = "VW_SG_V2_EP_INDIC_RECURSOS_TW_202608041638.xlsx"
+ARQUIVO_REFERENCIA_NOME = "VW_SG_V2_EP_INDIC_RECURSOS_TW.xlsx"
 COLUNA_REFERENCIA = "NUMERO_SIAFI"
 PADRAO_ENTRADA = "EMENDASESTADUAIS*.xlsx"
 PREFIXO_SAIDA = "execucao"
