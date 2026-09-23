@@ -1,9 +1,8 @@
 name: portal_emendas_estaduais
-owner_org: ''
+owner_org: secretaria-estado-governo-segov
 profile: data-package
 resources:
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -108,9 +107,8 @@ resources:
         - name: valor_pago_armazem
           type: any
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Emendas Estaduais Indicação
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -275,9 +273,8 @@ resources:
         - name: numero_convenio
           type: string
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Emendas Estaduais Recursos
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -330,9 +327,8 @@ resources:
         - name: valor_pago_em_rp
           type: any
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Execução 2022
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -385,9 +381,8 @@ resources:
         - name: valor_pago_em_rp
           type: any
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Execução 2023
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -440,9 +435,8 @@ resources:
         - name: valor_pago_em_rp
           type: any
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Execução 2024
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -495,9 +489,8 @@ resources:
         - name: valor_pago_em_rp
           type: any
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-  - description: Insira a descrição/explicação detalhada deste recurso.
-    dialect:
+    title: Execução 2025
+  - dialect:
       delimiter: ;
     encoding: utf-8-sig
     format: csv
@@ -550,5 +543,5 @@ resources:
         - name: valor_pago_em_rp
           type: any
     scheme: file
-    title: Insira um título humanamente legível para este recurso.
-title: Portal_emendas_estaduais
+    title: Execução 2026
+title: Emendas Estaduais
