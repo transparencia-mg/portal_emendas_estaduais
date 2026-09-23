@@ -2,7 +2,7 @@ name: portal_emendas_estaduais
 owner_org: secretaria-estado-governo-segov
 profile: data-package
 resources:
-dialect:
+  - dialect:
     delimiter: ;
     encoding: utf-8-sig
     format: csv
