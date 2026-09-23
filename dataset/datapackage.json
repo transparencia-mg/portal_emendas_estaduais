@@ -206,7 +206,7 @@
         ]
       },
       "scheme": "file",
-      "title": "Emendas Estaduais Indicação"
+      "title": "Emendas Estaduais - Execução"
     },
     {
       "dialect": {
@@ -531,7 +531,7 @@
         ]
       },
       "scheme": "file",
-      "title": "Emendas Estaduais Recursos"
+      "title": "Emendas Estaduais - Indicações"
     },
     {
       "dialect": {
