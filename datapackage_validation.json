@@ -1,6 +1,6 @@
 {
   "version": "4.16.6",
-  "time": 1.226,
+  "time": 1.87,
   "errors": [],
   "tasks": [
     {
@@ -207,7 +207,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Emendas Estaduais Indicação",
+        "title": "Emendas Estaduais - Execução",
         "stats": {
           "hash": "",
           "bytes": 0,
@@ -215,7 +215,7 @@
           "rows": 0
         }
       },
-      "time": 0.084,
+      "time": 0.128,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -67568,7 +67568,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Emendas Estaduais Recursos",
+        "title": "Emendas Estaduais - Indicações",
         "stats": {
           "hash": "",
           "bytes": 0,
@@ -67576,7 +67576,7 @@
           "rows": 0
         }
       },
-      "time": 0.088,
+      "time": 0.134,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164713,7 +164713,7 @@
           "rows": 7
         }
       },
-      "time": 0.03,
+      "time": 0.046,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164849,7 +164849,7 @@
           "rows": 6232
         }
       },
-      "time": 0.207,
+      "time": 0.321,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164985,7 +164985,7 @@
           "rows": 7343
         }
       },
-      "time": 0.238,
+      "time": 0.364,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -165121,7 +165121,7 @@
           "rows": 9417
         }
       },
-      "time": 0.306,
+      "time": 0.464,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -165257,7 +165257,7 @@
           "rows": 0
         }
       },
-      "time": 0.142,
+      "time": 0.23,
       "scope": [
         "hash-count-error",
         "byte-count-error",
