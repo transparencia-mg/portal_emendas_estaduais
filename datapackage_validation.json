@@ -1,11 +1,10 @@
 {
   "version": "4.16.6",
-  "time": 1.859,
+  "time": 1.636,
   "errors": [],
   "tasks": [
     {
       "resource": {
-        "description": "Insira a descrição/explicação detalhada deste recurso.",
         "dialect": {
           "delimiter": ";"
         },
@@ -208,7 +207,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Insira um título humanamente legível para este recurso.",
+        "title": "Emendas Estaduais Indicação",
         "stats": {
           "hash": "",
           "bytes": 0,
@@ -216,7 +215,7 @@
           "rows": 0
         }
       },
-      "time": 0.128,
+      "time": 0.11,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -67247,7 +67246,6 @@
     },
     {
       "resource": {
-        "description": "Insira a descrição/explicação detalhada deste recurso.",
         "dialect": {
           "delimiter": ";"
         },
@@ -67570,7 +67568,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Insira um título humanamente legível para este recurso.",
+        "title": "Emendas Estaduais Recursos",
         "stats": {
           "hash": "",
           "bytes": 0,
@@ -67578,7 +67576,7 @@
           "rows": 0
         }
       },
-      "time": 0.132,
+      "time": 0.113,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164609,7 +164607,6 @@
     },
     {
       "resource": {
-        "description": "Insira a descrição/explicação detalhada deste recurso.",
         "dialect": {
           "delimiter": ";"
         },
@@ -164708,7 +164705,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Insira um título humanamente legível para este recurso.",
+        "title": "Execução 2022",
         "stats": {
           "hash": "e1a75c66cc9e2c25cc4ccdd0f5e43604",
           "bytes": 2176,
@@ -164716,7 +164713,7 @@
           "rows": 7
         }
       },
-      "time": 0.043,
+      "time": 0.037,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164746,7 +164743,6 @@
     },
     {
       "resource": {
-        "description": "Insira a descrição/explicação detalhada deste recurso.",
         "dialect": {
           "delimiter": ";"
         },
@@ -164845,7 +164841,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Insira um título humanamente legível para este recurso.",
+        "title": "Execução 2023",
         "stats": {
           "hash": "4b540c82a0132f769d158fb03e1f2ff8",
           "bytes": 1660690,
@@ -164853,7 +164849,7 @@
           "rows": 6232
         }
       },
-      "time": 0.316,
+      "time": 0.282,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164883,7 +164879,6 @@
     },
     {
       "resource": {
-        "description": "Insira a descrição/explicação detalhada deste recurso.",
         "dialect": {
           "delimiter": ";"
         },
@@ -164982,7 +164977,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Insira um título humanamente legível para este recurso.",
+        "title": "Execução 2024",
         "stats": {
           "hash": "84bd88f2afa507443a3ab6acba174885",
           "bytes": 1960203,
@@ -164990,7 +164985,7 @@
           "rows": 7343
         }
       },
-      "time": 0.367,
+      "time": 0.326,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -165020,7 +165015,6 @@
     },
     {
       "resource": {
-        "description": "Insira a descrição/explicação detalhada deste recurso.",
         "dialect": {
           "delimiter": ";"
         },
@@ -165119,7 +165113,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Insira um título humanamente legível para este recurso.",
+        "title": "Execução 2025",
         "stats": {
           "hash": "ae2e5d7296e6d67650e90aacbb7221fc",
           "bytes": 2527453,
@@ -165127,7 +165121,7 @@
           "rows": 9417
         }
       },
-      "time": 0.462,
+      "time": 0.412,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -165157,7 +165151,6 @@
     },
     {
       "resource": {
-        "description": "Insira a descrição/explicação detalhada deste recurso.",
         "dialect": {
           "delimiter": ";"
         },
@@ -165256,7 +165249,7 @@
           ]
         },
         "scheme": "file",
-        "title": "Insira um título humanamente legível para este recurso.",
+        "title": "Execução 2026",
         "stats": {
           "hash": "",
           "bytes": 0,
@@ -165264,7 +165257,7 @@
           "rows": 0
         }
       },
-      "time": 0.233,
+      "time": 0.198,
       "scope": [
         "hash-count-error",
         "byte-count-error",
