@@ -3,7 +3,7 @@ owner_org: secretaria-estado-governo-segov
 profile: data-package
 resources:
   - dialect:
-    delimiter: ;
+      delimiter: ;
     encoding: utf-8-sig
     format: csv
     hashing: md5
