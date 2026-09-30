@@ -1,6 +1,6 @@
 {
   "version": "4.16.6",
-  "time": 1.853,
+  "time": 1.888,
   "errors": [],
   "tasks": [
     {
@@ -215,7 +215,7 @@
           "rows": 0
         }
       },
-      "time": 0.127,
+      "time": 0.129,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -59587,8 +59587,8 @@
             "",
             ""
           ],
-          "rowNumber": 514,
-          "rowPosition": 515,
+          "rowNumber": 515,
+          "rowPosition": 516,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -59597,7 +59597,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"100000,0\" in row \"515\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"100000,0\" in row \"516\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -59654,8 +59654,8 @@
             "",
             ""
           ],
-          "rowNumber": 514,
-          "rowPosition": 515,
+          "rowNumber": 515,
+          "rowPosition": 516,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -59664,7 +59664,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"100000,0\" in row \"515\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"100000,0\" in row \"516\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -59721,8 +59721,8 @@
             "",
             ""
           ],
-          "rowNumber": 515,
-          "rowPosition": 516,
+          "rowNumber": 516,
+          "rowPosition": 517,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -59731,7 +59731,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"60000,0\" in row \"516\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"60000,0\" in row \"517\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -59788,8 +59788,8 @@
             "",
             ""
           ],
-          "rowNumber": 516,
-          "rowPosition": 517,
+          "rowNumber": 517,
+          "rowPosition": 518,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -59798,7 +59798,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"54000,0\" in row \"517\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"54000,0\" in row \"518\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -59855,8 +59855,8 @@
             "",
             ""
           ],
-          "rowNumber": 516,
-          "rowPosition": 517,
+          "rowNumber": 517,
+          "rowPosition": 518,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -59865,7 +59865,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"54000,0\" in row \"517\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"54000,0\" in row \"518\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -59922,8 +59922,8 @@
             "",
             ""
           ],
-          "rowNumber": 517,
-          "rowPosition": 518,
+          "rowNumber": 518,
+          "rowPosition": 519,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -59932,7 +59932,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"450000,0\" in row \"518\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"450000,0\" in row \"519\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -59989,8 +59989,8 @@
             "",
             ""
           ],
-          "rowNumber": 518,
-          "rowPosition": 519,
+          "rowNumber": 519,
+          "rowPosition": 520,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -59999,7 +59999,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"50000,0\" in row \"519\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"50000,0\" in row \"520\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -60056,8 +60056,8 @@
             "",
             ""
           ],
-          "rowNumber": 521,
-          "rowPosition": 522,
+          "rowNumber": 522,
+          "rowPosition": 523,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -60066,7 +60066,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"300000,0\" in row \"522\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"300000,0\" in row \"523\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -60123,8 +60123,8 @@
             "",
             ""
           ],
-          "rowNumber": 521,
-          "rowPosition": 522,
+          "rowNumber": 522,
+          "rowPosition": 523,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -60133,7 +60133,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"300000,0\" in row \"522\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"300000,0\" in row \"523\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -60149,140 +60149,6 @@
             "2023",
             "S",
             "453",
-            "4291",
-            "FUNDO ESTADUAL DE SAÚDE",
-            "FES",
-            "4",
-            "RESOLUÇÃO SES",
-            "6",
-            "APROVADO",
-            "S",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "27",
-            "CONTROLE CADASTRADO",
-            "160000,0",
-            "160000,0",
-            "160000,0",
-            "160000,0",
-            "160000,0",
-            "0,0",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-          ],
-          "rowNumber": 522,
-          "rowPosition": 523,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"160000,0\" in row \"523\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "160000,0",
-          "fieldName": "valor_pago",
-          "fieldNumber": 36,
-          "fieldPosition": 36,
-          "cells": [
-            "6468",
-            "116473",
-            "117",
-            "TADEU MARTINS LEITE",
-            "2023",
-            "S",
-            "453",
-            "4291",
-            "FUNDO ESTADUAL DE SAÚDE",
-            "FES",
-            "4",
-            "RESOLUÇÃO SES",
-            "6",
-            "APROVADO",
-            "S",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "27",
-            "CONTROLE CADASTRADO",
-            "160000,0",
-            "160000,0",
-            "160000,0",
-            "160000,0",
-            "160000,0",
-            "0,0",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-          ],
-          "rowNumber": 522,
-          "rowPosition": 523,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"160000,0\" in row \"523\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "160000,0",
-          "fieldName": "valor_liquidado",
-          "fieldNumber": 35,
-          "fieldPosition": 35,
-          "cells": [
-            "6482",
-            "113841",
-            "482",
-            "ANDREIA DE JESUS",
-            "2023",
-            "S",
-            "431",
             "4291",
             "FUNDO ESTADUAL DE SAÚDE",
             "FES",
@@ -60343,13 +60209,13 @@
           "fieldNumber": 36,
           "fieldPosition": 36,
           "cells": [
-            "6482",
-            "113841",
-            "482",
-            "ANDREIA DE JESUS",
+            "6468",
+            "116473",
+            "117",
+            "TADEU MARTINS LEITE",
             "2023",
             "S",
-            "431",
+            "453",
             "4291",
             "FUNDO ESTADUAL DE SAÚDE",
             "FES",
@@ -60405,286 +60271,286 @@
           "description": "The value does not match the schema type and format for this field."
         },
         {
-          "cell": "200000,0",
+          "cell": "160000,0",
           "fieldName": "valor_liquidado",
           "fieldNumber": 35,
           "fieldPosition": 35,
           "cells": [
-            "6515",
-            "120189",
-            "504",
-            "BLOCO DEMOCRACIA E LUTA",
-            "2023",
-            "S",
-            "576",
-            "4291",
-            "FUNDO ESTADUAL DE SAÚDE",
-            "FES",
-            "4",
-            "RESOLUÇÃO SES",
-            "6",
-            "APROVADO",
-            "S",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "27",
-            "CONTROLE CADASTRADO",
-            "200000,0",
-            "200000,0",
-            "200000,0",
-            "200000,0",
-            "200000,0",
-            "0,0",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-          ],
-          "rowNumber": 524,
-          "rowPosition": 525,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"200000,0\" in row \"525\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "200000,0",
-          "fieldName": "valor_pago",
-          "fieldNumber": 36,
-          "fieldPosition": 36,
-          "cells": [
-            "6515",
-            "120189",
-            "504",
-            "BLOCO DEMOCRACIA E LUTA",
-            "2023",
-            "S",
-            "576",
-            "4291",
-            "FUNDO ESTADUAL DE SAÚDE",
-            "FES",
-            "4",
-            "RESOLUÇÃO SES",
-            "6",
-            "APROVADO",
-            "S",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "27",
-            "CONTROLE CADASTRADO",
-            "200000,0",
-            "200000,0",
-            "200000,0",
-            "200000,0",
-            "200000,0",
-            "0,0",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-          ],
-          "rowNumber": 524,
-          "rowPosition": 525,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"200000,0\" in row \"525\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "180000,0",
-          "fieldName": "valor_liquidado",
-          "fieldNumber": 35,
-          "fieldPosition": 35,
-          "cells": [
-            "6680",
-            "113837",
-            "99",
-            "ROSANGELA REIS",
-            "2023",
-            "S",
-            "456",
-            "4291",
-            "FUNDO ESTADUAL DE SAÚDE",
-            "FES",
-            "4",
-            "RESOLUÇÃO SES",
-            "6",
-            "APROVADO",
-            "S",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "27",
-            "CONTROLE CADASTRADO",
-            "180000,0",
-            "180000,0",
-            "180000,0",
-            "180000,0",
-            "180000,0",
-            "0,0",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-          ],
-          "rowNumber": 525,
-          "rowPosition": 526,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"180000,0\" in row \"526\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "180000,0",
-          "fieldName": "valor_pago",
-          "fieldNumber": 36,
-          "fieldPosition": 36,
-          "cells": [
-            "6680",
-            "113837",
-            "99",
-            "ROSANGELA REIS",
-            "2023",
-            "S",
-            "456",
-            "4291",
-            "FUNDO ESTADUAL DE SAÚDE",
-            "FES",
-            "4",
-            "RESOLUÇÃO SES",
-            "6",
-            "APROVADO",
-            "S",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "27",
-            "CONTROLE CADASTRADO",
-            "180000,0",
-            "180000,0",
-            "180000,0",
-            "180000,0",
-            "180000,0",
-            "0,0",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-          ],
-          "rowNumber": 525,
-          "rowPosition": 526,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"180000,0\" in row \"526\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "180000,0",
-          "fieldName": "valor_liquidado",
-          "fieldNumber": 35,
-          "fieldPosition": 35,
-          "cells": [
-            "6687",
-            "113855",
+            "6482",
+            "113841",
             "482",
             "ANDREIA DE JESUS",
             "2023",
-            "R",
-            "893",
+            "S",
+            "431",
+            "4291",
+            "FUNDO ESTADUAL DE SAÚDE",
+            "FES",
+            "4",
+            "RESOLUÇÃO SES",
+            "6",
+            "APROVADO",
+            "S",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "27",
+            "CONTROLE CADASTRADO",
+            "160000,0",
+            "160000,0",
+            "160000,0",
+            "160000,0",
+            "160000,0",
+            "0,0",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "rowNumber": 524,
+          "rowPosition": 525,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"geopoint/default\"",
+          "message": "Type error in the cell \"160000,0\" in row \"525\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "160000,0",
+          "fieldName": "valor_pago",
+          "fieldNumber": 36,
+          "fieldPosition": 36,
+          "cells": [
+            "6482",
+            "113841",
+            "482",
+            "ANDREIA DE JESUS",
+            "2023",
+            "S",
+            "431",
+            "4291",
+            "FUNDO ESTADUAL DE SAÚDE",
+            "FES",
+            "4",
+            "RESOLUÇÃO SES",
+            "6",
+            "APROVADO",
+            "S",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "27",
+            "CONTROLE CADASTRADO",
+            "160000,0",
+            "160000,0",
+            "160000,0",
+            "160000,0",
+            "160000,0",
+            "0,0",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "rowNumber": 524,
+          "rowPosition": 525,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"geopoint/default\"",
+          "message": "Type error in the cell \"160000,0\" in row \"525\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "200000,0",
+          "fieldName": "valor_liquidado",
+          "fieldNumber": 35,
+          "fieldPosition": 35,
+          "cells": [
+            "6515",
+            "120189",
+            "504",
+            "BLOCO DEMOCRACIA E LUTA",
+            "2023",
+            "S",
+            "576",
+            "4291",
+            "FUNDO ESTADUAL DE SAÚDE",
+            "FES",
+            "4",
+            "RESOLUÇÃO SES",
+            "6",
+            "APROVADO",
+            "S",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "27",
+            "CONTROLE CADASTRADO",
+            "200000,0",
+            "200000,0",
+            "200000,0",
+            "200000,0",
+            "200000,0",
+            "0,0",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "rowNumber": 525,
+          "rowPosition": 526,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"geopoint/default\"",
+          "message": "Type error in the cell \"200000,0\" in row \"526\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "200000,0",
+          "fieldName": "valor_pago",
+          "fieldNumber": 36,
+          "fieldPosition": 36,
+          "cells": [
+            "6515",
+            "120189",
+            "504",
+            "BLOCO DEMOCRACIA E LUTA",
+            "2023",
+            "S",
+            "576",
+            "4291",
+            "FUNDO ESTADUAL DE SAÚDE",
+            "FES",
+            "4",
+            "RESOLUÇÃO SES",
+            "6",
+            "APROVADO",
+            "S",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "27",
+            "CONTROLE CADASTRADO",
+            "200000,0",
+            "200000,0",
+            "200000,0",
+            "200000,0",
+            "200000,0",
+            "0,0",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "rowNumber": 525,
+          "rowPosition": 526,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"geopoint/default\"",
+          "message": "Type error in the cell \"200000,0\" in row \"526\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "180000,0",
+          "fieldName": "valor_liquidado",
+          "fieldNumber": 35,
+          "fieldPosition": 35,
+          "cells": [
+            "6680",
+            "113837",
+            "99",
+            "ROSANGELA REIS",
+            "2023",
+            "S",
+            "456",
             "4291",
             "FUNDO ESTADUAL DE SAÚDE",
             "FES",
@@ -60745,13 +60611,13 @@
           "fieldNumber": 36,
           "fieldPosition": 36,
           "cells": [
-            "6687",
-            "113855",
-            "482",
-            "ANDREIA DE JESUS",
+            "6680",
+            "113837",
+            "99",
+            "ROSANGELA REIS",
             "2023",
-            "R",
-            "893",
+            "S",
+            "456",
             "4291",
             "FUNDO ESTADUAL DE SAÚDE",
             "FES",
@@ -60807,6 +60673,140 @@
           "description": "The value does not match the schema type and format for this field."
         },
         {
+          "cell": "180000,0",
+          "fieldName": "valor_liquidado",
+          "fieldNumber": 35,
+          "fieldPosition": 35,
+          "cells": [
+            "6687",
+            "113855",
+            "482",
+            "ANDREIA DE JESUS",
+            "2023",
+            "R",
+            "893",
+            "4291",
+            "FUNDO ESTADUAL DE SAÚDE",
+            "FES",
+            "4",
+            "RESOLUÇÃO SES",
+            "6",
+            "APROVADO",
+            "S",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "27",
+            "CONTROLE CADASTRADO",
+            "180000,0",
+            "180000,0",
+            "180000,0",
+            "180000,0",
+            "180000,0",
+            "0,0",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "rowNumber": 527,
+          "rowPosition": 528,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"geopoint/default\"",
+          "message": "Type error in the cell \"180000,0\" in row \"528\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "180000,0",
+          "fieldName": "valor_pago",
+          "fieldNumber": 36,
+          "fieldPosition": 36,
+          "cells": [
+            "6687",
+            "113855",
+            "482",
+            "ANDREIA DE JESUS",
+            "2023",
+            "R",
+            "893",
+            "4291",
+            "FUNDO ESTADUAL DE SAÚDE",
+            "FES",
+            "4",
+            "RESOLUÇÃO SES",
+            "6",
+            "APROVADO",
+            "S",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "27",
+            "CONTROLE CADASTRADO",
+            "180000,0",
+            "180000,0",
+            "180000,0",
+            "180000,0",
+            "180000,0",
+            "0,0",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "rowNumber": 527,
+          "rowPosition": 528,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"geopoint/default\"",
+          "message": "Type error in the cell \"180000,0\" in row \"528\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
           "cell": "47768,0",
           "fieldName": "valor_liquidado",
           "fieldNumber": 35,
@@ -60860,8 +60860,8 @@
             "",
             ""
           ],
-          "rowNumber": 527,
-          "rowPosition": 528,
+          "rowNumber": 528,
+          "rowPosition": 529,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -60870,7 +60870,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"47768,0\" in row \"528\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"47768,0\" in row \"529\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -60927,73 +60927,6 @@
             "",
             ""
           ],
-          "rowNumber": 527,
-          "rowPosition": 528,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"47768,0\" in row \"528\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "83953,0",
-          "fieldName": "valor_liquidado",
-          "fieldNumber": 35,
-          "fieldPosition": 35,
-          "cells": [
-            "6787",
-            "118121",
-            "487",
-            "CORONEL SANDRO",
-            "2023",
-            "R",
-            "825",
-            "4291",
-            "FUNDO ESTADUAL DE SAÚDE",
-            "FES",
-            "4",
-            "RESOLUÇÃO SES",
-            "6",
-            "APROVADO",
-            "S",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "27",
-            "CONTROLE CADASTRADO",
-            "83953,0",
-            "83953,0",
-            "83953,0",
-            "83953,0",
-            "83953,0",
-            "0,0",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-          ],
           "rowNumber": 528,
           "rowPosition": 529,
           "code": "type-error",
@@ -61004,74 +60937,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"83953,0\" in row \"529\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "83953,0",
-          "fieldName": "valor_pago",
-          "fieldNumber": 36,
-          "fieldPosition": 36,
-          "cells": [
-            "6787",
-            "118121",
-            "487",
-            "CORONEL SANDRO",
-            "2023",
-            "R",
-            "825",
-            "4291",
-            "FUNDO ESTADUAL DE SAÚDE",
-            "FES",
-            "4",
-            "RESOLUÇÃO SES",
-            "6",
-            "APROVADO",
-            "S",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "27",
-            "CONTROLE CADASTRADO",
-            "83953,0",
-            "83953,0",
-            "83953,0",
-            "83953,0",
-            "83953,0",
-            "0,0",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-          ],
-          "rowNumber": 528,
-          "rowPosition": 529,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"83953,0\" in row \"529\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"47768,0\" in row \"529\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -61080,8 +60946,8 @@
           "fieldNumber": 35,
           "fieldPosition": 35,
           "cells": [
-            "6972",
-            "112902",
+            "6787",
+            "118121",
             "487",
             "CORONEL SANDRO",
             "2023",
@@ -61147,8 +61013,8 @@
           "fieldNumber": 36,
           "fieldPosition": 36,
           "cells": [
-            "6972",
-            "112902",
+            "6787",
+            "118121",
             "487",
             "CORONEL SANDRO",
             "2023",
@@ -61209,6 +61075,140 @@
           "description": "The value does not match the schema type and format for this field."
         },
         {
+          "cell": "83953,0",
+          "fieldName": "valor_liquidado",
+          "fieldNumber": 35,
+          "fieldPosition": 35,
+          "cells": [
+            "6972",
+            "112902",
+            "487",
+            "CORONEL SANDRO",
+            "2023",
+            "R",
+            "825",
+            "4291",
+            "FUNDO ESTADUAL DE SAÚDE",
+            "FES",
+            "4",
+            "RESOLUÇÃO SES",
+            "6",
+            "APROVADO",
+            "S",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "27",
+            "CONTROLE CADASTRADO",
+            "83953,0",
+            "83953,0",
+            "83953,0",
+            "83953,0",
+            "83953,0",
+            "0,0",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "rowNumber": 530,
+          "rowPosition": 531,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"geopoint/default\"",
+          "message": "Type error in the cell \"83953,0\" in row \"531\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "83953,0",
+          "fieldName": "valor_pago",
+          "fieldNumber": 36,
+          "fieldPosition": 36,
+          "cells": [
+            "6972",
+            "112902",
+            "487",
+            "CORONEL SANDRO",
+            "2023",
+            "R",
+            "825",
+            "4291",
+            "FUNDO ESTADUAL DE SAÚDE",
+            "FES",
+            "4",
+            "RESOLUÇÃO SES",
+            "6",
+            "APROVADO",
+            "S",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "27",
+            "CONTROLE CADASTRADO",
+            "83953,0",
+            "83953,0",
+            "83953,0",
+            "83953,0",
+            "83953,0",
+            "0,0",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "rowNumber": 530,
+          "rowPosition": 531,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"geopoint/default\"",
+          "message": "Type error in the cell \"83953,0\" in row \"531\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
           "cell": "344515,0",
           "fieldName": "valor_liquidado",
           "fieldNumber": 35,
@@ -61262,8 +61262,8 @@
             "",
             ""
           ],
-          "rowNumber": 530,
-          "rowPosition": 531,
+          "rowNumber": 531,
+          "rowPosition": 532,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -61272,7 +61272,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"344515,0\" in row \"531\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"344515,0\" in row \"532\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -61329,8 +61329,8 @@
             "",
             ""
           ],
-          "rowNumber": 530,
-          "rowPosition": 531,
+          "rowNumber": 531,
+          "rowPosition": 532,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -61339,7 +61339,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"344515,0\" in row \"531\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"344515,0\" in row \"532\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -61396,8 +61396,8 @@
             "",
             ""
           ],
-          "rowNumber": 531,
-          "rowPosition": 532,
+          "rowNumber": 532,
+          "rowPosition": 533,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -61406,7 +61406,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"260022,0\" in row \"532\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"260022,0\" in row \"533\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -61463,8 +61463,8 @@
             "",
             ""
           ],
-          "rowNumber": 531,
-          "rowPosition": 532,
+          "rowNumber": 532,
+          "rowPosition": 533,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -61473,7 +61473,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"260022,0\" in row \"532\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"260022,0\" in row \"533\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -61530,8 +61530,8 @@
             "",
             ""
           ],
-          "rowNumber": 532,
-          "rowPosition": 533,
+          "rowNumber": 533,
+          "rowPosition": 534,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -61540,7 +61540,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"300000,0\" in row \"533\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"300000,0\" in row \"534\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -61597,8 +61597,8 @@
             "",
             ""
           ],
-          "rowNumber": 532,
-          "rowPosition": 533,
+          "rowNumber": 533,
+          "rowPosition": 534,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -61607,7 +61607,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"300000,0\" in row \"533\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"300000,0\" in row \"534\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -61664,8 +61664,8 @@
             "",
             ""
           ],
-          "rowNumber": 533,
-          "rowPosition": 534,
+          "rowNumber": 534,
+          "rowPosition": 535,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -61674,7 +61674,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"160000,0\" in row \"534\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"160000,0\" in row \"535\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -61731,8 +61731,8 @@
             "",
             ""
           ],
-          "rowNumber": 533,
-          "rowPosition": 534,
+          "rowNumber": 534,
+          "rowPosition": 535,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -61741,7 +61741,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"160000,0\" in row \"534\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"160000,0\" in row \"535\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -61798,8 +61798,8 @@
             "",
             ""
           ],
-          "rowNumber": 534,
-          "rowPosition": 535,
+          "rowNumber": 535,
+          "rowPosition": 536,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -61808,7 +61808,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"3998,99\" in row \"535\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"3998,99\" in row \"536\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -61865,8 +61865,8 @@
             "",
             ""
           ],
-          "rowNumber": 534,
-          "rowPosition": 535,
+          "rowNumber": 535,
+          "rowPosition": 536,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -61875,7 +61875,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"3998,99\" in row \"535\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"3998,99\" in row \"536\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -61932,8 +61932,8 @@
             "",
             ""
           ],
-          "rowNumber": 535,
-          "rowPosition": 536,
+          "rowNumber": 536,
+          "rowPosition": 537,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -61942,7 +61942,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"152000,0\" in row \"536\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"152000,0\" in row \"537\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -61999,8 +61999,8 @@
             "",
             ""
           ],
-          "rowNumber": 535,
-          "rowPosition": 536,
+          "rowNumber": 536,
+          "rowPosition": 537,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -62009,7 +62009,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"152000,0\" in row \"536\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"152000,0\" in row \"537\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -62066,8 +62066,8 @@
             "",
             ""
           ],
-          "rowNumber": 537,
-          "rowPosition": 538,
+          "rowNumber": 538,
+          "rowPosition": 539,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -62076,7 +62076,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"80000,0\" in row \"538\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"80000,0\" in row \"539\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -62133,8 +62133,8 @@
             "",
             ""
           ],
-          "rowNumber": 537,
-          "rowPosition": 538,
+          "rowNumber": 538,
+          "rowPosition": 539,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -62143,7 +62143,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"80000,0\" in row \"538\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"80000,0\" in row \"539\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -62159,140 +62159,6 @@
             "2023",
             "S",
             "560",
-            "1261",
-            "SECRETARIA DE ESTADO DE EDUCAÇÃO",
-            "SEE",
-            "3",
-            "EXECUÇÃO DIRETA - CAIXA ESCOLAR",
-            "8",
-            "ENVIADA PARA SEE",
-            "S",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "27",
-            "CONTROLE CADASTRADO",
-            "100000,0",
-            "100000,0",
-            "100000,0",
-            "100000,0",
-            "100000,0",
-            "0,0",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-          ],
-          "rowNumber": 538,
-          "rowPosition": 539,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"100000,0\" in row \"539\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "100000,0",
-          "fieldName": "valor_pago",
-          "fieldNumber": 36,
-          "fieldPosition": 36,
-          "cells": [
-            "8522",
-            "114160",
-            "584",
-            "BLOCO MINAS SAO MUITAS",
-            "2023",
-            "S",
-            "560",
-            "1261",
-            "SECRETARIA DE ESTADO DE EDUCAÇÃO",
-            "SEE",
-            "3",
-            "EXECUÇÃO DIRETA - CAIXA ESCOLAR",
-            "8",
-            "ENVIADA PARA SEE",
-            "S",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "27",
-            "CONTROLE CADASTRADO",
-            "100000,0",
-            "100000,0",
-            "100000,0",
-            "100000,0",
-            "100000,0",
-            "0,0",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-          ],
-          "rowNumber": 538,
-          "rowPosition": 539,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"100000,0\" in row \"539\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "100000,0",
-          "fieldName": "valor_liquidado",
-          "fieldNumber": 35,
-          "fieldPosition": 35,
-          "cells": [
-            "8558",
-            "116707",
-            "468",
-            "BRUNO ENGLER",
-            "2023",
-            "R",
-            "1518",
             "1261",
             "SECRETARIA DE ESTADO DE EDUCAÇÃO",
             "SEE",
@@ -62353,13 +62219,13 @@
           "fieldNumber": 36,
           "fieldPosition": 36,
           "cells": [
-            "8558",
-            "116707",
-            "468",
-            "BRUNO ENGLER",
+            "8522",
+            "114160",
+            "584",
+            "BLOCO MINAS SAO MUITAS",
             "2023",
-            "R",
-            "1518",
+            "S",
+            "560",
             "1261",
             "SECRETARIA DE ESTADO DE EDUCAÇÃO",
             "SEE",
@@ -62420,13 +62286,13 @@
           "fieldNumber": 35,
           "fieldPosition": 35,
           "cells": [
-            "8599",
-            "114912",
-            "583",
-            "BLOCO DEPUTADO LUIZ HUMBERTO CARNEIRO",
+            "8558",
+            "116707",
+            "468",
+            "BRUNO ENGLER",
             "2023",
             "R",
-            "803",
+            "1518",
             "1261",
             "SECRETARIA DE ESTADO DE EDUCAÇÃO",
             "SEE",
@@ -62487,13 +62353,13 @@
           "fieldNumber": 36,
           "fieldPosition": 36,
           "cells": [
-            "8599",
-            "114912",
-            "583",
-            "BLOCO DEPUTADO LUIZ HUMBERTO CARNEIRO",
+            "8558",
+            "116707",
+            "468",
+            "BRUNO ENGLER",
             "2023",
             "R",
-            "803",
+            "1518",
             "1261",
             "SECRETARIA DE ESTADO DE EDUCAÇÃO",
             "SEE",
@@ -62549,6 +62415,140 @@
           "description": "The value does not match the schema type and format for this field."
         },
         {
+          "cell": "100000,0",
+          "fieldName": "valor_liquidado",
+          "fieldNumber": 35,
+          "fieldPosition": 35,
+          "cells": [
+            "8599",
+            "114912",
+            "583",
+            "BLOCO DEPUTADO LUIZ HUMBERTO CARNEIRO",
+            "2023",
+            "R",
+            "803",
+            "1261",
+            "SECRETARIA DE ESTADO DE EDUCAÇÃO",
+            "SEE",
+            "3",
+            "EXECUÇÃO DIRETA - CAIXA ESCOLAR",
+            "8",
+            "ENVIADA PARA SEE",
+            "S",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "27",
+            "CONTROLE CADASTRADO",
+            "100000,0",
+            "100000,0",
+            "100000,0",
+            "100000,0",
+            "100000,0",
+            "0,0",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "rowNumber": 541,
+          "rowPosition": 542,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"geopoint/default\"",
+          "message": "Type error in the cell \"100000,0\" in row \"542\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "100000,0",
+          "fieldName": "valor_pago",
+          "fieldNumber": 36,
+          "fieldPosition": 36,
+          "cells": [
+            "8599",
+            "114912",
+            "583",
+            "BLOCO DEPUTADO LUIZ HUMBERTO CARNEIRO",
+            "2023",
+            "R",
+            "803",
+            "1261",
+            "SECRETARIA DE ESTADO DE EDUCAÇÃO",
+            "SEE",
+            "3",
+            "EXECUÇÃO DIRETA - CAIXA ESCOLAR",
+            "8",
+            "ENVIADA PARA SEE",
+            "S",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "27",
+            "CONTROLE CADASTRADO",
+            "100000,0",
+            "100000,0",
+            "100000,0",
+            "100000,0",
+            "100000,0",
+            "0,0",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "rowNumber": 541,
+          "rowPosition": 542,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"geopoint/default\"",
+          "message": "Type error in the cell \"100000,0\" in row \"542\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
           "cell": "80000,0",
           "fieldName": "valor_liquidado",
           "fieldNumber": 35,
@@ -62602,8 +62602,8 @@
             "",
             ""
           ],
-          "rowNumber": 541,
-          "rowPosition": 542,
+          "rowNumber": 542,
+          "rowPosition": 543,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -62612,7 +62612,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"80000,0\" in row \"542\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"80000,0\" in row \"543\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -62669,8 +62669,8 @@
             "",
             ""
           ],
-          "rowNumber": 541,
-          "rowPosition": 542,
+          "rowNumber": 542,
+          "rowPosition": 543,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -62679,7 +62679,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"80000,0\" in row \"542\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"80000,0\" in row \"543\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -62736,8 +62736,8 @@
             "",
             ""
           ],
-          "rowNumber": 542,
-          "rowPosition": 543,
+          "rowNumber": 543,
+          "rowPosition": 544,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -62746,7 +62746,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"100000,0\" in row \"543\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"100000,0\" in row \"544\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -62803,8 +62803,8 @@
             "",
             ""
           ],
-          "rowNumber": 542,
-          "rowPosition": 543,
+          "rowNumber": 543,
+          "rowPosition": 544,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -62813,7 +62813,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"100000,0\" in row \"543\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"100000,0\" in row \"544\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -62870,8 +62870,8 @@
             "",
             ""
           ],
-          "rowNumber": 543,
-          "rowPosition": 544,
+          "rowNumber": 544,
+          "rowPosition": 545,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -62880,7 +62880,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"4797,22\" in row \"544\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"4797,22\" in row \"545\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -62937,8 +62937,8 @@
             "",
             ""
           ],
-          "rowNumber": 543,
-          "rowPosition": 544,
+          "rowNumber": 544,
+          "rowPosition": 545,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -62947,7 +62947,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"4797,22\" in row \"544\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"4797,22\" in row \"545\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -63004,8 +63004,8 @@
             "",
             ""
           ],
-          "rowNumber": 544,
-          "rowPosition": 545,
+          "rowNumber": 545,
+          "rowPosition": 546,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -63014,7 +63014,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"300000,0\" in row \"545\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"300000,0\" in row \"546\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -63071,8 +63071,8 @@
             "",
             ""
           ],
-          "rowNumber": 544,
-          "rowPosition": 545,
+          "rowNumber": 545,
+          "rowPosition": 546,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -63081,7 +63081,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"300000,0\" in row \"545\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"300000,0\" in row \"546\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -63138,8 +63138,8 @@
             "",
             ""
           ],
-          "rowNumber": 545,
-          "rowPosition": 546,
+          "rowNumber": 546,
+          "rowPosition": 547,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -63148,7 +63148,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"160000,0\" in row \"546\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"160000,0\" in row \"547\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -63205,8 +63205,8 @@
             "",
             ""
           ],
-          "rowNumber": 545,
-          "rowPosition": 546,
+          "rowNumber": 546,
+          "rowPosition": 547,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -63215,7 +63215,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"160000,0\" in row \"546\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"160000,0\" in row \"547\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -63272,8 +63272,8 @@
             "",
             ""
           ],
-          "rowNumber": 546,
-          "rowPosition": 547,
+          "rowNumber": 547,
+          "rowPosition": 548,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -63282,7 +63282,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"59988,21\" in row \"547\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"59988,21\" in row \"548\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -63339,8 +63339,8 @@
             "",
             ""
           ],
-          "rowNumber": 546,
-          "rowPosition": 547,
+          "rowNumber": 547,
+          "rowPosition": 548,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -63349,7 +63349,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"59988,21\" in row \"547\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"59988,21\" in row \"548\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -63406,8 +63406,8 @@
             "",
             ""
           ],
-          "rowNumber": 547,
-          "rowPosition": 548,
+          "rowNumber": 548,
+          "rowPosition": 549,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -63416,7 +63416,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"115544,65\" in row \"548\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"115544,65\" in row \"549\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -63473,8 +63473,8 @@
             "",
             ""
           ],
-          "rowNumber": 547,
-          "rowPosition": 548,
+          "rowNumber": 548,
+          "rowPosition": 549,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -63483,7 +63483,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"115544,65\" in row \"548\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"115544,65\" in row \"549\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -63540,8 +63540,8 @@
             "",
             ""
           ],
-          "rowNumber": 548,
-          "rowPosition": 549,
+          "rowNumber": 549,
+          "rowPosition": 550,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -63550,7 +63550,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"100000,0\" in row \"549\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"100000,0\" in row \"550\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -63607,8 +63607,8 @@
             "",
             ""
           ],
-          "rowNumber": 548,
-          "rowPosition": 549,
+          "rowNumber": 549,
+          "rowPosition": 550,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -63617,7 +63617,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"100000,0\" in row \"549\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"100000,0\" in row \"550\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -63674,8 +63674,8 @@
             "",
             ""
           ],
-          "rowNumber": 550,
-          "rowPosition": 551,
+          "rowNumber": 551,
+          "rowPosition": 552,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -63684,7 +63684,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"50000,0\" in row \"551\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"50000,0\" in row \"552\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -63741,8 +63741,8 @@
             "",
             ""
           ],
-          "rowNumber": 550,
-          "rowPosition": 551,
+          "rowNumber": 551,
+          "rowPosition": 552,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -63751,7 +63751,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"50000,0\" in row \"551\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"50000,0\" in row \"552\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -63808,8 +63808,8 @@
             "",
             ""
           ],
-          "rowNumber": 551,
-          "rowPosition": 552,
+          "rowNumber": 552,
+          "rowPosition": 553,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -63818,7 +63818,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"300000,0\" in row \"552\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"300000,0\" in row \"553\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -63875,8 +63875,8 @@
             "",
             ""
           ],
-          "rowNumber": 551,
-          "rowPosition": 552,
+          "rowNumber": 552,
+          "rowPosition": 553,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -63885,7 +63885,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"300000,0\" in row \"552\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"300000,0\" in row \"553\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -63942,8 +63942,8 @@
             "",
             ""
           ],
-          "rowNumber": 552,
-          "rowPosition": 553,
+          "rowNumber": 553,
+          "rowPosition": 554,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -63952,7 +63952,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"180000,0\" in row \"553\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"180000,0\" in row \"554\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -64009,8 +64009,8 @@
             "",
             ""
           ],
-          "rowNumber": 552,
-          "rowPosition": 553,
+          "rowNumber": 553,
+          "rowPosition": 554,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -64019,7 +64019,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"180000,0\" in row \"553\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"180000,0\" in row \"554\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -64076,8 +64076,8 @@
             "",
             ""
           ],
-          "rowNumber": 553,
-          "rowPosition": 554,
+          "rowNumber": 554,
+          "rowPosition": 555,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -64086,7 +64086,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"400000,0\" in row \"554\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"400000,0\" in row \"555\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -64143,8 +64143,8 @@
             "",
             ""
           ],
-          "rowNumber": 553,
-          "rowPosition": 554,
+          "rowNumber": 554,
+          "rowPosition": 555,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -64153,7 +64153,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"400000,0\" in row \"554\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"400000,0\" in row \"555\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -64210,8 +64210,8 @@
             "",
             ""
           ],
-          "rowNumber": 554,
-          "rowPosition": 555,
+          "rowNumber": 555,
+          "rowPosition": 556,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -64220,7 +64220,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"50000,0\" in row \"555\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"50000,0\" in row \"556\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -64277,8 +64277,8 @@
             "",
             ""
           ],
-          "rowNumber": 554,
-          "rowPosition": 555,
+          "rowNumber": 555,
+          "rowPosition": 556,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -64287,7 +64287,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"50000,0\" in row \"555\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"50000,0\" in row \"556\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -64344,8 +64344,8 @@
             "",
             ""
           ],
-          "rowNumber": 555,
-          "rowPosition": 556,
+          "rowNumber": 556,
+          "rowPosition": 557,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -64354,7 +64354,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"140000,0\" in row \"556\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"140000,0\" in row \"557\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -64411,8 +64411,8 @@
             "",
             ""
           ],
-          "rowNumber": 555,
-          "rowPosition": 556,
+          "rowNumber": 556,
+          "rowPosition": 557,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -64421,7 +64421,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"140000,0\" in row \"556\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"140000,0\" in row \"557\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -64478,8 +64478,8 @@
             "",
             ""
           ],
-          "rowNumber": 556,
-          "rowPosition": 557,
+          "rowNumber": 557,
+          "rowPosition": 558,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -64488,7 +64488,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"70000,0\" in row \"557\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"70000,0\" in row \"558\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -64545,8 +64545,8 @@
             "",
             ""
           ],
-          "rowNumber": 556,
-          "rowPosition": 557,
+          "rowNumber": 557,
+          "rowPosition": 558,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -64555,7 +64555,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"70000,0\" in row \"557\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"70000,0\" in row \"558\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -64612,8 +64612,8 @@
             "",
             ""
           ],
-          "rowNumber": 557,
-          "rowPosition": 558,
+          "rowNumber": 558,
+          "rowPosition": 559,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -64622,7 +64622,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"200000,0\" in row \"558\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"200000,0\" in row \"559\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -64679,8 +64679,8 @@
             "",
             ""
           ],
-          "rowNumber": 557,
-          "rowPosition": 558,
+          "rowNumber": 558,
+          "rowPosition": 559,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -64689,7 +64689,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"200000,0\" in row \"558\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"200000,0\" in row \"559\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -64746,8 +64746,8 @@
             "",
             ""
           ],
-          "rowNumber": 558,
-          "rowPosition": 559,
+          "rowNumber": 559,
+          "rowPosition": 560,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -64756,7 +64756,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"70000,0\" in row \"559\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"70000,0\" in row \"560\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -64813,8 +64813,8 @@
             "",
             ""
           ],
-          "rowNumber": 558,
-          "rowPosition": 559,
+          "rowNumber": 559,
+          "rowPosition": 560,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -64823,7 +64823,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"70000,0\" in row \"559\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"70000,0\" in row \"560\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -64880,8 +64880,8 @@
             "",
             ""
           ],
-          "rowNumber": 559,
-          "rowPosition": 560,
+          "rowNumber": 560,
+          "rowPosition": 561,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -64890,7 +64890,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"200000,0\" in row \"560\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"200000,0\" in row \"561\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -64947,8 +64947,8 @@
             "",
             ""
           ],
-          "rowNumber": 559,
-          "rowPosition": 560,
+          "rowNumber": 560,
+          "rowPosition": 561,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -64957,7 +64957,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"200000,0\" in row \"560\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"200000,0\" in row \"561\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -65014,8 +65014,8 @@
             "",
             ""
           ],
-          "rowNumber": 560,
-          "rowPosition": 561,
+          "rowNumber": 561,
+          "rowPosition": 562,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -65024,7 +65024,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"522355,0\" in row \"561\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"522355,0\" in row \"562\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -65081,8 +65081,8 @@
             "",
             ""
           ],
-          "rowNumber": 560,
-          "rowPosition": 561,
+          "rowNumber": 561,
+          "rowPosition": 562,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -65091,7 +65091,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"522355,0\" in row \"561\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"522355,0\" in row \"562\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -65131,140 +65131,6 @@
             "",
             "29",
             "A VALIDAR",
-            "100000,0",
-            "100000,0",
-            "100000,0",
-            "100000,0",
-            "100000,0",
-            "0,0",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-          ],
-          "rowNumber": 561,
-          "rowPosition": 562,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"100000,0\" in row \"562\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "100000,0",
-          "fieldName": "valor_pago",
-          "fieldNumber": 36,
-          "fieldPosition": 36,
-          "cells": [
-            "18046",
-            "137576",
-            "732",
-            "ZÉ LAVIOLA",
-            "2024",
-            "R",
-            "759",
-            "1231",
-            "SECRETARIA DE ESTADO DE AGRICULTURA, PECUÁRIA E ABASTECIMENTO",
-            "SEAPA",
-            "1",
-            "CELEBRAÇÃO DE CONVÊNIO",
-            "6",
-            "APROVADO",
-            "S",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "29",
-            "A VALIDAR",
-            "100000,0",
-            "100000,0",
-            "100000,0",
-            "100000,0",
-            "100000,0",
-            "0,0",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-          ],
-          "rowNumber": 561,
-          "rowPosition": 562,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"100000,0\" in row \"562\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "100000,0",
-          "fieldName": "valor_liquidado",
-          "fieldNumber": 35,
-          "fieldPosition": 35,
-          "cells": [
-            "18751",
-            "147447",
-            "782",
-            "BLOCO MINAS EM FRENTE",
-            "2024",
-            "R",
-            "2405",
-            "1261",
-            "SECRETARIA DE ESTADO DE EDUCAÇÃO",
-            "SEE",
-            "3",
-            "EXECUÇÃO DIRETA - CAIXA ESCOLAR",
-            "8",
-            "ENVIADA PARA SEE",
-            "S",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "N",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "27",
-            "CONTROLE CADASTRADO",
             "100000,0",
             "100000,0",
             "100000,0",
@@ -65301,20 +65167,20 @@
           "fieldNumber": 36,
           "fieldPosition": 36,
           "cells": [
-            "18751",
-            "147447",
-            "782",
-            "BLOCO MINAS EM FRENTE",
+            "18046",
+            "137576",
+            "732",
+            "ZÉ LAVIOLA",
             "2024",
             "R",
-            "2405",
-            "1261",
-            "SECRETARIA DE ESTADO DE EDUCAÇÃO",
-            "SEE",
-            "3",
-            "EXECUÇÃO DIRETA - CAIXA ESCOLAR",
-            "8",
-            "ENVIADA PARA SEE",
+            "759",
+            "1231",
+            "SECRETARIA DE ESTADO DE AGRICULTURA, PECUÁRIA E ABASTECIMENTO",
+            "SEAPA",
+            "1",
+            "CELEBRAÇÃO DE CONVÊNIO",
+            "6",
+            "APROVADO",
             "S",
             "N",
             "",
@@ -65330,8 +65196,8 @@
             "",
             "",
             "",
-            "27",
-            "CONTROLE CADASTRADO",
+            "29",
+            "A VALIDAR",
             "100000,0",
             "100000,0",
             "100000,0",
@@ -65368,13 +65234,13 @@
           "fieldNumber": 35,
           "fieldPosition": 35,
           "cells": [
-            "19195",
-            "145169",
-            "145",
-            "CRISTIANO SILVEIRA",
+            "18751",
+            "147447",
+            "782",
+            "BLOCO MINAS EM FRENTE",
             "2024",
             "R",
-            "1906",
+            "2405",
             "1261",
             "SECRETARIA DE ESTADO DE EDUCAÇÃO",
             "SEE",
@@ -65435,13 +65301,13 @@
           "fieldNumber": 36,
           "fieldPosition": 36,
           "cells": [
-            "19195",
-            "145169",
-            "145",
-            "CRISTIANO SILVEIRA",
+            "18751",
+            "147447",
+            "782",
+            "BLOCO MINAS EM FRENTE",
             "2024",
             "R",
-            "1906",
+            "2405",
             "1261",
             "SECRETARIA DE ESTADO DE EDUCAÇÃO",
             "SEE",
@@ -65502,13 +65368,13 @@
           "fieldNumber": 35,
           "fieldPosition": 35,
           "cells": [
-            "19228",
-            "144078",
-            "736",
-            "BLOCO AVANCA MINAS",
+            "19195",
+            "145169",
+            "145",
+            "CRISTIANO SILVEIRA",
             "2024",
-            "S",
-            "67",
+            "R",
+            "1906",
             "1261",
             "SECRETARIA DE ESTADO DE EDUCAÇÃO",
             "SEE",
@@ -65569,13 +65435,13 @@
           "fieldNumber": 36,
           "fieldPosition": 36,
           "cells": [
-            "19228",
-            "144078",
-            "736",
-            "BLOCO AVANCA MINAS",
+            "19195",
+            "145169",
+            "145",
+            "CRISTIANO SILVEIRA",
             "2024",
-            "S",
-            "67",
+            "R",
+            "1906",
             "1261",
             "SECRETARIA DE ESTADO DE EDUCAÇÃO",
             "SEE",
@@ -65636,6 +65502,140 @@
           "fieldNumber": 35,
           "fieldPosition": 35,
           "cells": [
+            "19228",
+            "144078",
+            "736",
+            "BLOCO AVANCA MINAS",
+            "2024",
+            "S",
+            "67",
+            "1261",
+            "SECRETARIA DE ESTADO DE EDUCAÇÃO",
+            "SEE",
+            "3",
+            "EXECUÇÃO DIRETA - CAIXA ESCOLAR",
+            "8",
+            "ENVIADA PARA SEE",
+            "S",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "27",
+            "CONTROLE CADASTRADO",
+            "100000,0",
+            "100000,0",
+            "100000,0",
+            "100000,0",
+            "100000,0",
+            "0,0",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "rowNumber": 565,
+          "rowPosition": 566,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"geopoint/default\"",
+          "message": "Type error in the cell \"100000,0\" in row \"566\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "100000,0",
+          "fieldName": "valor_pago",
+          "fieldNumber": 36,
+          "fieldPosition": 36,
+          "cells": [
+            "19228",
+            "144078",
+            "736",
+            "BLOCO AVANCA MINAS",
+            "2024",
+            "S",
+            "67",
+            "1261",
+            "SECRETARIA DE ESTADO DE EDUCAÇÃO",
+            "SEE",
+            "3",
+            "EXECUÇÃO DIRETA - CAIXA ESCOLAR",
+            "8",
+            "ENVIADA PARA SEE",
+            "S",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "N",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "27",
+            "CONTROLE CADASTRADO",
+            "100000,0",
+            "100000,0",
+            "100000,0",
+            "100000,0",
+            "100000,0",
+            "0,0",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "rowNumber": 565,
+          "rowPosition": 566,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"geopoint/default\"",
+          "message": "Type error in the cell \"100000,0\" in row \"566\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "100000,0",
+          "fieldName": "valor_liquidado",
+          "fieldNumber": 35,
+          "fieldPosition": 35,
+          "cells": [
             "19346",
             "141829",
             "91",
@@ -65684,8 +65684,8 @@
             "",
             ""
           ],
-          "rowNumber": 565,
-          "rowPosition": 566,
+          "rowNumber": 566,
+          "rowPosition": 567,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -65694,7 +65694,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"100000,0\" in row \"566\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"100000,0\" in row \"567\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -65751,8 +65751,8 @@
             "",
             ""
           ],
-          "rowNumber": 565,
-          "rowPosition": 566,
+          "rowNumber": 566,
+          "rowPosition": 567,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -65761,7 +65761,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"100000,0\" in row \"566\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"100000,0\" in row \"567\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -65818,8 +65818,8 @@
             "",
             ""
           ],
-          "rowNumber": 566,
-          "rowPosition": 567,
+          "rowNumber": 567,
+          "rowPosition": 568,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -65828,7 +65828,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"50000,0\" in row \"567\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"50000,0\" in row \"568\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -65885,8 +65885,8 @@
             "",
             ""
           ],
-          "rowNumber": 566,
-          "rowPosition": 567,
+          "rowNumber": 567,
+          "rowPosition": 568,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -65895,7 +65895,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"50000,0\" in row \"567\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"50000,0\" in row \"568\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -65952,8 +65952,8 @@
             "",
             ""
           ],
-          "rowNumber": 567,
-          "rowPosition": 568,
+          "rowNumber": 568,
+          "rowPosition": 569,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -65962,7 +65962,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"70000,0\" in row \"568\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"70000,0\" in row \"569\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -66019,8 +66019,8 @@
             "",
             ""
           ],
-          "rowNumber": 567,
-          "rowPosition": 568,
+          "rowNumber": 568,
+          "rowPosition": 569,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -66029,7 +66029,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"70000,0\" in row \"568\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"70000,0\" in row \"569\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -66086,8 +66086,8 @@
             "",
             ""
           ],
-          "rowNumber": 568,
-          "rowPosition": 569,
+          "rowNumber": 569,
+          "rowPosition": 570,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -66096,7 +66096,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"350000,0\" in row \"569\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"350000,0\" in row \"570\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -66153,8 +66153,8 @@
             "",
             ""
           ],
-          "rowNumber": 568,
-          "rowPosition": 569,
+          "rowNumber": 569,
+          "rowPosition": 570,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -66163,7 +66163,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"350000,0\" in row \"569\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"350000,0\" in row \"570\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -66220,8 +66220,8 @@
             "",
             ""
           ],
-          "rowNumber": 569,
-          "rowPosition": 570,
+          "rowNumber": 570,
+          "rowPosition": 571,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -66230,7 +66230,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"150000,0\" in row \"570\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"150000,0\" in row \"571\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -66287,8 +66287,8 @@
             "",
             ""
           ],
-          "rowNumber": 569,
-          "rowPosition": 570,
+          "rowNumber": 570,
+          "rowPosition": 571,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -66297,7 +66297,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"150000,0\" in row \"570\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"150000,0\" in row \"571\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -66354,8 +66354,8 @@
             "",
             ""
           ],
-          "rowNumber": 570,
-          "rowPosition": 571,
+          "rowNumber": 571,
+          "rowPosition": 572,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -66364,7 +66364,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"60000,0\" in row \"571\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"60000,0\" in row \"572\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -66421,8 +66421,8 @@
             "",
             ""
           ],
-          "rowNumber": 570,
-          "rowPosition": 571,
+          "rowNumber": 571,
+          "rowPosition": 572,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -66431,7 +66431,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"60000,0\" in row \"571\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"60000,0\" in row \"572\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -66488,8 +66488,8 @@
             "",
             ""
           ],
-          "rowNumber": 571,
-          "rowPosition": 572,
+          "rowNumber": 572,
+          "rowPosition": 573,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -66498,7 +66498,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"40000,0\" in row \"572\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"40000,0\" in row \"573\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -66555,8 +66555,8 @@
             "",
             ""
           ],
-          "rowNumber": 571,
-          "rowPosition": 572,
+          "rowNumber": 572,
+          "rowPosition": 573,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -66565,7 +66565,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"40000,0\" in row \"572\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"40000,0\" in row \"573\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -66622,8 +66622,8 @@
             "",
             ""
           ],
-          "rowNumber": 572,
-          "rowPosition": 573,
+          "rowNumber": 573,
+          "rowPosition": 574,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -66632,7 +66632,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"150000,0\" in row \"573\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"150000,0\" in row \"574\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -66689,8 +66689,8 @@
             "",
             ""
           ],
-          "rowNumber": 572,
-          "rowPosition": 573,
+          "rowNumber": 573,
+          "rowPosition": 574,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -66699,7 +66699,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"150000,0\" in row \"573\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"150000,0\" in row \"574\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -66756,8 +66756,8 @@
             "",
             ""
           ],
-          "rowNumber": 573,
-          "rowPosition": 574,
+          "rowNumber": 574,
+          "rowPosition": 575,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -66766,7 +66766,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"35000,0\" in row \"574\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"35000,0\" in row \"575\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -66823,8 +66823,8 @@
             "",
             ""
           ],
-          "rowNumber": 573,
-          "rowPosition": 574,
+          "rowNumber": 574,
+          "rowPosition": 575,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -66833,7 +66833,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"35000,0\" in row \"574\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"35000,0\" in row \"575\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -66890,8 +66890,8 @@
             "",
             ""
           ],
-          "rowNumber": 574,
-          "rowPosition": 575,
+          "rowNumber": 575,
+          "rowPosition": 576,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -66900,7 +66900,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"300000,0\" in row \"575\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"300000,0\" in row \"576\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -66957,8 +66957,8 @@
             "",
             ""
           ],
-          "rowNumber": 574,
-          "rowPosition": 575,
+          "rowNumber": 575,
+          "rowPosition": 576,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -66967,7 +66967,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"300000,0\" in row \"575\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"300000,0\" in row \"576\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -67024,8 +67024,8 @@
             "",
             ""
           ],
-          "rowNumber": 575,
-          "rowPosition": 576,
+          "rowNumber": 576,
+          "rowPosition": 577,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -67034,7 +67034,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"70000,0\" in row \"576\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"70000,0\" in row \"577\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -67091,8 +67091,8 @@
             "",
             ""
           ],
-          "rowNumber": 575,
-          "rowPosition": 576,
+          "rowNumber": 576,
+          "rowPosition": 577,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -67101,7 +67101,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"70000,0\" in row \"576\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"70000,0\" in row \"577\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -67158,8 +67158,8 @@
             "",
             ""
           ],
-          "rowNumber": 576,
-          "rowPosition": 577,
+          "rowNumber": 577,
+          "rowPosition": 578,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -67168,7 +67168,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"202094,0\" in row \"577\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"202094,0\" in row \"578\" and field \"valor_liquidado\" at position \"35\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -67225,8 +67225,8 @@
             "",
             ""
           ],
-          "rowNumber": 576,
-          "rowPosition": 577,
+          "rowNumber": 577,
+          "rowPosition": 578,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -67235,7 +67235,7 @@
             "#cell"
           ],
           "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"202094,0\" in row \"577\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
+          "message": "Type error in the cell \"202094,0\" in row \"578\" and field \"valor_pago\" at position \"36\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         }
       ],
@@ -67576,7 +67576,7 @@
           "rows": 0
         }
       },
-      "time": 0.134,
+      "time": 0.136,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164713,7 +164713,7 @@
           "rows": 7
         }
       },
-      "time": 0.044,
+      "time": 0.046,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164849,7 +164849,7 @@
           "rows": 6232
         }
       },
-      "time": 0.312,
+      "time": 0.318,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164985,7 +164985,7 @@
           "rows": 7343
         }
       },
-      "time": 0.365,
+      "time": 0.37,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -165121,7 +165121,7 @@
           "rows": 9417
         }
       },
-      "time": 0.465,
+      "time": 0.461,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -165257,7 +165257,7 @@
           "rows": 0
         }
       },
-      "time": 0.228,
+      "time": 0.236,
       "scope": [
         "hash-count-error",
         "byte-count-error",
