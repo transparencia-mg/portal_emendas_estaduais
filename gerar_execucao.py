@@ -1,211 +1,134 @@
 """
 gerar_execucao.py
 ------------------
-Cruza os arquivos EMENDASESTADUAIS<sufixo>.xlsx com a planilha de referência
+Cruza os arquivos EMENDAS_ESTADUAIS<sufixo>.xlsx com a planilha de referência
 VW_SG_V2_EP_INDIC_RECURSOS_TW.xlsx (coluna NUMERO_SIAFI) e gera, para cada um,
 um arquivo execucao<sufixo>.xlsx contendo apenas as linhas cujo número SIAFI
-também aparece na referência.
+também aparece na referência. No final, envia tudo para o GitHub.
 
-Funciona em qualquer computador (Windows, Mac ou Linux) com Python 3.8+.
-As dependências (pandas e openpyxl) são instaladas automaticamente se faltarem.
+FUNCIONA EM QUALQUER COMPUTADOR — não há caminho fixo no código.
+    Coloque este arquivo na RAIZ do repositório portal_emendas_estaduais
+    (ao lado da pasta "upload") ou dentro da própria pasta "upload".
+    O script descobre sozinho onde está a pasta upload.
+
+REQUISITOS:
+    - Python 3.
+    - pandas e openpyxl (se faltarem, o script tenta instalar sozinho).
+    - Para enviar ao GitHub: Git instalado, o repositório clonado com
+      "git clone" e login do GitHub feito nesse computador.
 
 Como usar:
-    python gerar_execucao.py                      -> encontra a pasta sozinho
-    python gerar_execucao.py "C:\\caminho\\upload"  -> usa a pasta informada
-
-Como o script encontra a pasta de trabalho (nesta ordem):
-    1. Caminho passado na linha de comando.
-    2. A própria pasta onde o script está salvo (se o arquivo de referência
-       estiver lá).
-    3. A pasta "CGE/bi_atualizacao/portal_emendas_estaduais/upload" dentro do
-       Google Drive, em qualquer letra de unidade ("Meu Drive" ou "My Drive"),
-       inclusive no Mac.
-    4. Se nada der certo, abre uma janela para você escolher a pasta
-       (ou pede para digitar o caminho).
+    python gerar_execucao.py
+    python gerar_execucao.py "C:/outra/pasta/upload"   (opcional: força a pasta)
 
 O que o script faz, em ordem:
-    1. Localiza todos os arquivos "EMENDASESTADUAIS*.xlsx" na pasta.
+    1. git pull — sincroniza com o GitHub antes de mexer em qualquer arquivo.
     2. Lê "VW_SG_V2_EP_INDIC_RECURSOS_TW.xlsx" e monta o conjunto de números
        válidos a partir da coluna NUMERO_SIAFI.
-    3. Para cada EMENDASESTADUAIS<sufixo>.xlsx:
+    3. Para cada EMENDAS_ESTADUAIS<sufixo>.xlsx da pasta upload:
        a. Remove a primeira linha e a primeira coluna.
        b. Remove linhas e colunas totalmente vazias.
        c. Usa a linha seguinte como cabeçalho.
        d. Filtra mantendo apenas as linhas cujo número SIAFI está na referência.
        e. Salva como execucao<sufixo>.xlsx na mesma pasta.
-    4. Apaga o arquivo EMENDASESTADUAIS<sufixo>.xlsx original (somente os que
-       foram processados com sucesso).
+    4. Apaga os EMENDAS_ESTADUAIS<sufixo>.xlsx originais.
     5. Imprime um relatório com a quantidade de linhas que coincidiram.
+    6. git add / commit / push.
+
+Se algum arquivo der erro, NADA é apagado e NADA é enviado ao GitHub
+(os execucao*.xlsx gerados ficam na pasta para conferência).
 """
 
-import os
 import re
-import string
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 
-# Garante acentos corretos no console do Windows
-for _stream in (sys.stdout, sys.stderr):
-    try:
-        _stream.reconfigure(encoding="utf-8")
-    except Exception:
-        pass
-
-
-# ---------------------------------------------------------------------------
-# DEPENDÊNCIAS — instala automaticamente se faltar
-# ---------------------------------------------------------------------------
 def garantir_dependencias():
+    """Instala pandas/openpyxl automaticamente se faltarem neste computador."""
     faltando = []
     for modulo in ("pandas", "openpyxl"):
         try:
             __import__(modulo)
         except ImportError:
             faltando.append(modulo)
-
     if not faltando:
         return
-
-    print(f"Instalando dependências que faltam: {', '.join(faltando)} ...")
-    try:
-        subprocess.check_call(
-            [sys.executable, "-m", "pip", "install", "--user", *faltando]
-        )
-    except Exception as e:
-        print(f"\nNão consegui instalar automaticamente ({e}).")
-        print(f"Rode manualmente:  {sys.executable} -m pip install {' '.join(faltando)}")
-        pausar_e_sair(1)
-
-    # recarrega o caminho de pacotes do usuário recém-instalados
-    import site
-    import importlib
-    try:
-        site.addsitedir(site.getusersitepackages())
-    except Exception:
-        pass
-    importlib.invalidate_caches()
-
-
-def pausar_e_sair(codigo=0):
-    """Mantém a janela aberta quando o script é aberto com duplo clique."""
-    if "--sem-pausa" not in sys.argv:
-        try:
-            input("\nPressione Enter para fechar...")
-        except EOFError:
-            pass
-    sys.exit(codigo)
+    print(f"Instalando dependências que faltam: {', '.join(faltando)}...")
+    r = subprocess.run([sys.executable, "-m", "pip", "install", *faltando])
+    if r.returncode != 0:
+        sys.exit(f"Não consegui instalar. Rode manualmente: "
+                 f"{sys.executable} -m pip install {' '.join(faltando)}")
 
 
 garantir_dependencias()
 import pandas as pd  # noqa: E402
 
-
 # ---------------------------------------------------------------------------
 # CONFIGURAÇÃO — ajuste aqui se necessário
 # ---------------------------------------------------------------------------
-SUBPASTA_NO_DRIVE = Path("CGE") / "bi_atualizacao" / "portal_emendas_estaduais" / "upload"
-NOMES_RAIZ_DRIVE = ("Meu Drive", "My Drive")
 ARQUIVO_REFERENCIA_NOME = "VW_SG_V2_EP_INDIC_RECURSOS_TW.xlsx"
 COLUNA_REFERENCIA = "NUMERO_SIAFI"
-PADRAO_ENTRADA = "EMENDASESTADUAIS*.xlsx"
+PADRAO_ENTRADA = "EMENDAS_ESTADUAIS*.xlsx"
 PREFIXO_SAIDA = "execucao"
 
-
-# ---------------------------------------------------------------------------
-# LOCALIZAÇÃO DA PASTA DE TRABALHO
-# ---------------------------------------------------------------------------
-def pasta_valida(pasta):
-    return pasta is not None and (Path(pasta) / ARQUIVO_REFERENCIA_NOME).exists()
+APAGAR_ORIGINAIS = True     # etapa 4
+ATUALIZAR_GITHUB = True     # etapas 1 e 6
+MENSAGEM_COMMIT = "Atualização da execução das emendas estaduais"
+NOME_PASTA_UPLOAD = "upload"
 
 
-def candidatas_google_drive():
-    """Lista possíveis locais da pasta de upload dentro do Google Drive."""
-    raizes = []
+def localizar_pasta_upload():
+    """
+    Descobre a pasta upload sem caminho fixo, na seguinte ordem:
+      1. pasta passada na linha de comando;
+      2. <pasta do script>/upload;
+      3. a própria pasta do script (se o script estiver dentro de upload).
+    Aceita a pasta que tiver a planilha de referência ou arquivos EMENDAS_ESTADUAIS.
+    """
+    if len(sys.argv) > 1:
+        return Path(sys.argv[1]).expanduser().resolve()
 
-    # Windows: Google Drive para computador monta como unidade (G:, H:, ...)
-    if os.name == "nt":
-        for letra in string.ascii_uppercase:
-            for nome in NOMES_RAIZ_DRIVE:
-                raizes.append(Path(f"{letra}:\\") / nome)
-
-    home = Path.home()
-    # Mac: ~/Library/CloudStorage/GoogleDrive-<email>/Meu Drive
-    cloud = home / "Library" / "CloudStorage"
-    if cloud.exists():
-        for conta in cloud.glob("GoogleDrive-*"):
-            for nome in NOMES_RAIZ_DRIVE:
-                raizes.append(conta / nome)
-
-    # Instalações antigas / outros sistemas
-    for nome in NOMES_RAIZ_DRIVE:
-        raizes.append(home / "Google Drive" / nome)
-    raizes.append(home / "Google Drive")
-
-    for raiz in raizes:
-        try:
-            if raiz.exists():
-                yield raiz / SUBPASTA_NO_DRIVE
-        except OSError:
-            # unidades vazias (ex.: leitor de cartão) podem gerar erro
-            continue
-
-
-def escolher_pasta_manualmente():
-    """Abre uma janela para escolher a pasta; se não houver interface, pede no console."""
-    try:
-        import tkinter as tk
-        from tkinter import filedialog
-
-        root = tk.Tk()
-        root.withdraw()
-        root.attributes("-topmost", True)
-        escolhida = filedialog.askdirectory(
-            title=f"Selecione a pasta que contém {ARQUIVO_REFERENCIA_NOME}"
-        )
-        root.destroy()
-        if escolhida:
-            return Path(escolhida)
-    except Exception:
-        pass
-
-    try:
-        texto = input("Digite o caminho da pasta de upload: ").strip().strip('"')
-        return Path(texto) if texto else None
-    except EOFError:
-        return None
-
-
-def localizar_pasta_trabalho():
-    # 1. argumento na linha de comando
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    if args:
-        pasta = Path(args[0]).expanduser()
-        if pasta_valida(pasta):
-            return pasta
-        print(f"AVISO: '{ARQUIVO_REFERENCIA_NOME}' não está em {pasta}")
-
-    # 2. pasta do próprio script
     pasta_script = Path(__file__).resolve().parent
-    if pasta_valida(pasta_script):
-        return pasta_script
-
-    # 3. Google Drive
-    for pasta in candidatas_google_drive():
-        if pasta_valida(pasta):
+    candidatas = [pasta_script / NOME_PASTA_UPLOAD, pasta_script]
+    for pasta in candidatas:
+        if pasta.is_dir() and ((pasta / ARQUIVO_REFERENCIA_NOME).exists()
+                               or any(pasta.glob(PADRAO_ENTRADA))):
             return pasta
+    # nenhuma tem os arquivos ainda: usa a pasta upload se existir
+    return candidatas[0] if candidatas[0].is_dir() else pasta_script
 
-    # 4. escolha manual
-    print("Não encontrei a pasta de upload automaticamente.")
-    pasta = escolher_pasta_manualmente()
-    if pasta_valida(pasta):
-        return pasta
 
-    return None
+PASTA_UPLOAD = localizar_pasta_upload()
 
 
 # ---------------------------------------------------------------------------
-# PROCESSAMENTO
+# GIT
+# ---------------------------------------------------------------------------
+def git(*args, mostrar=True):
+    """Roda um comando git dentro da pasta do repositório."""
+    try:
+        r = subprocess.run(["git", *args], cwd=PASTA_UPLOAD, capture_output=True,
+                           text=True, encoding="utf-8", errors="replace")
+    except FileNotFoundError:
+        # git não está instalado neste computador
+        return subprocess.CompletedProcess(args, 1, "", "git não encontrado")
+    if mostrar and r.stdout.strip():
+        print("    " + r.stdout.strip().replace("\n", "\n    "))
+    if r.returncode != 0 and r.stderr.strip():
+        print("    " + r.stderr.strip().replace("\n", "\n    "))
+    return r
+
+
+def parar(msg):
+    print(f"\nERRO: {msg}")
+    sys.exit("Processo interrompido. Os arquivos de origem NÃO foram apagados "
+             "e nada foi enviado ao GitHub.")
+
+
+# ---------------------------------------------------------------------------
+# PROCESSAMENTO DAS PLANILHAS
 # ---------------------------------------------------------------------------
 def normalizar_siafi(valor):
     """Normaliza um número SIAFI para comparação (só dígitos, sem .0 de float)."""
@@ -231,7 +154,7 @@ def encontrar_coluna_siafi(df):
 
 def limpar_planilha(caminho_arquivo):
     """Lê a planilha bruta, remove 1ª linha/coluna e linhas/colunas vazias."""
-    bruto = pd.read_excel(caminho_arquivo, header=None, engine="openpyxl")
+    bruto = pd.read_excel(caminho_arquivo, header=None)
 
     # remove a primeira linha e a primeira coluna
     bruto = bruto.iloc[1:, 1:]
@@ -239,9 +162,6 @@ def limpar_planilha(caminho_arquivo):
     # remove linhas e colunas totalmente vazias
     bruto = bruto.dropna(how="all", axis=0)
     bruto = bruto.dropna(how="all", axis=1)
-
-    if bruto.empty:
-        raise ValueError("a planilha ficou vazia após a limpeza")
 
     # a próxima linha restante vira o cabeçalho
     bruto.columns = bruto.iloc[0]
@@ -256,8 +176,7 @@ def carregar_siafi_referencia(pasta):
     if not caminho_ref.exists():
         raise FileNotFoundError(f"Arquivo de referência não encontrado: {caminho_ref}")
 
-    df_ref = pd.read_excel(caminho_ref, engine="openpyxl")
-    df_ref.columns = [str(c).strip() for c in df_ref.columns]
+    df_ref = pd.read_excel(caminho_ref)
     if COLUNA_REFERENCIA not in df_ref.columns:
         raise ValueError(
             f"A coluna '{COLUNA_REFERENCIA}' não foi encontrada em "
@@ -270,8 +189,8 @@ def carregar_siafi_referencia(pasta):
 
 
 def extrair_sufixo(nome_arquivo):
-    """Extrai o sufixo (ex.: ano) do nome EMENDASESTADUAIS<sufixo>.xlsx"""
-    m = re.match(r"EMENDASESTADUAIS(.*)\.xlsx$", nome_arquivo, re.IGNORECASE)
+    """Extrai o sufixo (ex.: ano) do nome EMENDAS_ESTADUAIS<sufixo>.xlsx"""
+    m = re.match(r"EMENDAS_ESTADUAIS(.*)\.xlsx$", nome_arquivo, re.IGNORECASE)
     return m.group(1) if m else Path(nome_arquivo).stem
 
 
@@ -287,7 +206,7 @@ def processar_arquivo(caminho_arquivo, siafi_validos, pasta_saida):
 
     sufixo = extrair_sufixo(caminho_arquivo.name)
     caminho_saida = pasta_saida / f"{PREFIXO_SAIDA}{sufixo}.xlsx"
-    df_filtrado.to_excel(caminho_saida, index=False, engine="openpyxl")
+    df_filtrado.to_excel(caminho_saida, index=False)
 
     return {
         "arquivo_origem": caminho_arquivo.name,
@@ -298,60 +217,8 @@ def processar_arquivo(caminho_arquivo, siafi_validos, pasta_saida):
     }
 
 
-def main():
-    pasta = localizar_pasta_trabalho()
-    if pasta is None:
-        print(f"ERRO: não encontrei nenhuma pasta com o arquivo {ARQUIVO_REFERENCIA_NOME}.")
-        print('Dica: rode  python gerar_execucao.py "caminho\\da\\pasta"')
-        pausar_e_sair(1)
-
-    print(f"Pasta de trabalho: {pasta}\n")
-
-    try:
-        siafi_validos = carregar_siafi_referencia(pasta)
-    except PermissionError:
-        print(f"ERRO: não consegui abrir {ARQUIVO_REFERENCIA_NOME}. "
-              "Feche o arquivo no Excel e tente de novo.")
-        pausar_e_sair(1)
-    except (FileNotFoundError, ValueError) as e:
-        print(f"ERRO: {e}")
-        pausar_e_sair(1)
-
-    print(f"Referência carregada: {len(siafi_validos)} números SIAFI únicos "
-          f"em {ARQUIVO_REFERENCIA_NOME}\n")
-
-    # ignora arquivos temporários do Excel (~$EMENDAS...)
-    arquivos = sorted(
-        a for a in pasta.glob(PADRAO_ENTRADA) if not a.name.startswith("~$")
-    )
-    if not arquivos:
-        print(f"Nenhum arquivo encontrado com o padrão '{PADRAO_ENTRADA}' em {pasta}")
-        pausar_e_sair(0)
-
-    relatorios = []
-    for arquivo in arquivos:
-        try:
-            resultado = processar_arquivo(arquivo, siafi_validos, pasta)
-            relatorios.append(resultado)
-        except PermissionError:
-            print(f"ERRO ao processar {arquivo.name}: arquivo aberto em outro programa "
-                  "(feche o Excel e rode de novo).")
-        except Exception as e:
-            print(f"ERRO ao processar {arquivo.name}: {e}")
-
-    # apaga os arquivos originais EMENDASESTADUAIS* processados com sucesso
-    nomes_processados = {r["arquivo_origem"] for r in relatorios}
-    for arquivo in arquivos:
-        if arquivo.name in nomes_processados:
-            try:
-                arquivo.unlink()
-            except OSError as e:
-                print(f"AVISO: não consegui apagar {arquivo.name}: {e}")
-
-    # ------------------------------------------------------------------
-    # RELATÓRIO
-    # ------------------------------------------------------------------
-    print("=" * 70)
+def imprimir_relatorio(relatorios):
+    print("\n" + "=" * 70)
     print("RELATÓRIO DE EXECUÇÃO")
     print("=" * 70)
     for r in relatorios:
@@ -368,7 +235,117 @@ def main():
     print(f"TOTAL GERAL DE LINHAS COINCIDENTES: {total_geral}")
     print("=" * 70)
 
-    pausar_e_sair(0)
+
+# ---------------------------------------------------------------------------
+# EXECUÇÃO
+# ---------------------------------------------------------------------------
+def main():
+    if not PASTA_UPLOAD.exists():
+        print(f"ERRO: pasta não encontrada -> {PASTA_UPLOAD}")
+        print("Coloque o script na raiz do repositório (ao lado da pasta 'upload') "
+              "ou informe a pasta: python gerar_execucao.py \"caminho\\da\\upload\"")
+        sys.exit(1)
+
+    print(f"Pasta de trabalho: {PASTA_UPLOAD}")
+
+    usar_git = ATUALIZAR_GITHUB and git(
+        "rev-parse", "--is-inside-work-tree", mostrar=False).returncode == 0
+    if ATUALIZAR_GITHUB and not usar_git:
+        print("  AVISO: esta pasta não está num repositório git (ou o git não está "
+              "instalado); os arquivos serão gerados, mas não enviados ao GitHub.")
+
+    # 1) Sincroniza antes de alterar qualquer arquivo
+    if usar_git:
+        print("\n[1/6] Sincronizando com o GitHub (git pull)...")
+        if git("pull", "--rebase", "--autostash").returncode != 0:
+            sys.exit("Falha no git pull. Resolva (ex.: conflito ou sem internet) e "
+                     "rode de novo. Nenhum arquivo foi alterado.")
+
+    # 2) Referência
+    print("\n[2/6] Carregando a referência...")
+    try:
+        siafi_validos = carregar_siafi_referencia(PASTA_UPLOAD)
+    except (FileNotFoundError, ValueError) as e:
+        parar(e)
+    print(f"  {len(siafi_validos)} números SIAFI únicos em {ARQUIVO_REFERENCIA_NOME}")
+
+    # 3) Processa os arquivos
+    print("\n[3/6] Gerando os arquivos de execução...")
+    arquivos = sorted(PASTA_UPLOAD.glob(PADRAO_ENTRADA))
+    relatorios = []
+    erros = []
+    if not arquivos:
+        print(f"  Nenhum arquivo '{PADRAO_ENTRADA}' na pasta; "
+              "os arquivos de execução atuais serão mantidos.")
+    for arquivo in arquivos:
+        try:
+            relatorios.append(processar_arquivo(arquivo, siafi_validos, PASTA_UPLOAD))
+            print(f"  ok: {arquivo.name} -> {relatorios[-1]['arquivo_saida']}")
+        except Exception as e:
+            print(f"  ERRO ao processar {arquivo.name}: {e}")
+            erros.append(arquivo.name)
+
+    if erros:
+        if relatorios:
+            imprimir_relatorio(relatorios)
+        parar(f"falha em {len(erros)} arquivo(s): {', '.join(erros)}. "
+              "Corrija e rode de novo.")
+
+    # 4) Apaga os originais
+    if APAGAR_ORIGINAIS and arquivos:
+        print("\n[4/6] Apagando os arquivos de origem...")
+        nao_apagados = []
+        for arquivo in arquivos:
+            try:
+                arquivo.unlink()
+                print(f"  apagado: {arquivo.name}")
+            except PermissionError:
+                print(f"  AVISO: não foi possível apagar {arquivo.name} "
+                      "(está aberto no Excel?).")
+                nao_apagados.append(arquivo.name)
+        if nao_apagados and usar_git:
+            sys.exit("Feche o arquivo no Excel, apague-o da pasta upload e rode de novo "
+                     "(ele não pode ir para o GitHub). Nada foi enviado.")
+
+    # 5) Relatório
+    if relatorios:
+        print("\n[5/6] Relatório")
+        imprimir_relatorio(relatorios)
+
+    # 6) Commit e push
+    if not usar_git:
+        print("\nConcluído (sem envio ao GitHub).")
+        return
+
+    print("\n[6/6] Enviando alterações para o GitHub...")
+    git("add", "-A")
+    status = git("status", "--porcelain", mostrar=False).stdout.strip()
+    if not status:
+        print("  Nenhuma alteração para enviar (tudo já estava igual ao GitHub).")
+        print("\nConcluído.")
+        return
+    print("  Alterações:")
+    print("    " + status.replace("\n", "\n    "))
+
+    if not (git("config", "user.name", mostrar=False).stdout.strip()
+            and git("config", "user.email", mostrar=False).stdout.strip()):
+        git("reset", mostrar=False)
+        sys.exit("O Git deste computador não tem nome/e-mail configurados. Rode uma vez:\n"
+                 '  git config --global user.name "Seu Nome"\n'
+                 '  git config --global user.email "seu@email"\n'
+                 "e depois rode o script de novo (os arquivos já gerados serão enviados).")
+    if git("commit", "-m", f"{MENSAGEM_COMMIT} ({datetime.now():%d/%m/%Y %H:%M})").returncode != 0:
+        sys.exit("Falha no commit.")
+    if git("push").returncode != 0:
+        # O GitHub pode ter commits novos (ex.: automação): sincroniza e tenta de novo
+        print("  Push recusado; sincronizando e tentando de novo...")
+        if git("pull", "--rebase").returncode != 0 or git("push").returncode != 0:
+            sys.exit("Falha no git push. O commit foi feito localmente.\n"
+                     "Se for o primeiro uso neste computador, confira se o login do "
+                     "GitHub está feito (ex.: rode 'git push' na pasta do repositório "
+                     "e entre com sua conta). Depois rode 'git push'.")
+    print("  GitHub atualizado.")
+    print("\nConcluído.")
 
 
 if __name__ == "__main__":
