@@ -1,6 +1,6 @@
 {
   "version": "4.16.6",
-  "time": 1.873,
+  "time": 1.87,
   "errors": [],
   "tasks": [
     {
@@ -215,7 +215,7 @@
           "rows": 0
         }
       },
-      "time": 0.128,
+      "time": 0.129,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -67576,7 +67576,7 @@
           "rows": 0
         }
       },
-      "time": 0.134,
+      "time": 0.133,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -162277,200 +162277,6 @@
           "fieldNumber": 40,
           "fieldPosition": 40,
           "cells": [
-            "162130",
-            "R",
-            "1813",
-            "2025",
-            "S",
-            "2351",
-            "UEMG",
-            "UNIVERSIDADE DO ESTADO DE MINAS GERAIS",
-            "BEATRIZ CERQUEIRA",
-            "2",
-            "EXECUÇÃO DIRETA",
-            "42,0",
-            "6",
-            "APROVADO",
-            "IBIRITE",
-            "3129806,0",
-            "",
-            "UNIDADE DE IBIRITÉ - INSTITUTO SUPERIOR DE EDUCAÇÃO ANÍSIO TEIXEIRA",
-            "65172579000115,0",
-            "ÓRGÃOS OU ENTIDADES PÚBLICAS",
-            "4089",
-            "AÇÃO DE EXTENSÃO UNIVERSITÁRIA",
-            "4",
-            "INVESTIMENTOS",
-            "12",
-            "EDUCAÇÃO",
-            "EDUCAÇÃO",
-            "",
-            "",
-            "",
-            "",
-            "INVESTIMENTO",
-            "AQUISIÇÃO DE EQUIPAMENTOS PARA APOIAR AS AÇÕES DO LABORATÓRIO DE ESTUDOS BIOCULTURAIS KAIAPORA",
-            "2351 12 364 026 4089 0001 4 4 99 99 0 10 8",
-            "4",
-            "30000,0",
-            "30000,0",
-            "19685,0",
-            "19685,0",
-            "0,0",
-            "0,0",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "EMPENHADO",
-            "475",
-            "1",
-            "PARLAMENTAR ESTADUAL",
-            "19685,0",
-            "0,0",
-            "0,0",
-            "19685,0",
-            "0",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "0,0",
-            "0,0",
-            "0,0",
-            "6",
-            "",
-            "",
-            "",
-            ""
-          ],
-          "rowNumber": 283,
-          "rowPosition": 284,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"284\" and field \"valor_executado\" at position \"40\": type is \"integer/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "19685,0",
-          "fieldName": "valor_restos_pagar",
-          "fieldNumber": 62,
-          "fieldPosition": 62,
-          "cells": [
-            "162130",
-            "R",
-            "1813",
-            "2025",
-            "S",
-            "2351",
-            "UEMG",
-            "UNIVERSIDADE DO ESTADO DE MINAS GERAIS",
-            "BEATRIZ CERQUEIRA",
-            "2",
-            "EXECUÇÃO DIRETA",
-            "42,0",
-            "6",
-            "APROVADO",
-            "IBIRITE",
-            "3129806,0",
-            "",
-            "UNIDADE DE IBIRITÉ - INSTITUTO SUPERIOR DE EDUCAÇÃO ANÍSIO TEIXEIRA",
-            "65172579000115,0",
-            "ÓRGÃOS OU ENTIDADES PÚBLICAS",
-            "4089",
-            "AÇÃO DE EXTENSÃO UNIVERSITÁRIA",
-            "4",
-            "INVESTIMENTOS",
-            "12",
-            "EDUCAÇÃO",
-            "EDUCAÇÃO",
-            "",
-            "",
-            "",
-            "",
-            "INVESTIMENTO",
-            "AQUISIÇÃO DE EQUIPAMENTOS PARA APOIAR AS AÇÕES DO LABORATÓRIO DE ESTUDOS BIOCULTURAIS KAIAPORA",
-            "2351 12 364 026 4089 0001 4 4 99 99 0 10 8",
-            "4",
-            "30000,0",
-            "30000,0",
-            "19685,0",
-            "19685,0",
-            "0,0",
-            "0,0",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "EMPENHADO",
-            "475",
-            "1",
-            "PARLAMENTAR ESTADUAL",
-            "19685,0",
-            "0,0",
-            "0,0",
-            "19685,0",
-            "0",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "0,0",
-            "0,0",
-            "0,0",
-            "6",
-            "",
-            "",
-            "",
-            ""
-          ],
-          "rowNumber": 283,
-          "rowPosition": 284,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"19685,0\" in row \"284\" and field \"valor_restos_pagar\" at position \"62\": type is \"geopoint/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "0,0",
-          "fieldName": "valor_executado",
-          "fieldNumber": 40,
-          "fieldPosition": 40,
-          "cells": [
             "162141",
             "S",
             "206",
@@ -162549,8 +162355,8 @@
             "",
             "1481000465/2025"
           ],
-          "rowNumber": 284,
-          "rowPosition": 285,
+          "rowNumber": 283,
+          "rowPosition": 284,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -162559,7 +162365,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"285\" and field \"valor_executado\" at position \"40\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"284\" and field \"valor_executado\" at position \"40\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -162646,8 +162452,8 @@
             "",
             "1481000465/2025"
           ],
-          "rowNumber": 284,
-          "rowPosition": 285,
+          "rowNumber": 283,
+          "rowPosition": 284,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -162656,7 +162462,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9472489,0\" in row \"285\" and field \"numero_siafi\" at position \"52\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9472489,0\" in row \"284\" and field \"numero_siafi\" at position \"52\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -162743,8 +162549,8 @@
             "",
             "1481000465/2025"
           ],
-          "rowNumber": 284,
-          "rowPosition": 285,
+          "rowNumber": 283,
+          "rowPosition": 284,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -162753,7 +162559,7 @@
             "#cell"
           ],
           "note": "type is \"date/default\"",
-          "message": "Type error in the cell \"17/07/2025\" in row \"285\" and field \"data_publicacao\" at position \"53\": type is \"date/default\"",
+          "message": "Type error in the cell \"17/07/2025\" in row \"284\" and field \"data_publicacao\" at position \"53\": type is \"date/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -162840,8 +162646,8 @@
             "",
             "1481000465/2025"
           ],
-          "rowNumber": 284,
-          "rowPosition": 285,
+          "rowNumber": 283,
+          "rowPosition": 284,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -162850,7 +162656,7 @@
             "#cell"
           ],
           "note": "type is \"date/default\"",
-          "message": "Type error in the cell \"16/07/2026\" in row \"285\" and field \"data_validade\" at position \"54\": type is \"date/default\"",
+          "message": "Type error in the cell \"16/07/2026\" in row \"284\" and field \"data_validade\" at position \"54\": type is \"date/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -162937,8 +162743,8 @@
             "",
             "1491000142/2025"
           ],
-          "rowNumber": 285,
-          "rowPosition": 286,
+          "rowNumber": 284,
+          "rowPosition": 285,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -162947,7 +162753,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"286\" and field \"valor_executado\" at position \"40\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"285\" and field \"valor_executado\" at position \"40\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -163034,8 +162840,8 @@
             "",
             "1491000142/2025"
           ],
-          "rowNumber": 285,
-          "rowPosition": 286,
+          "rowNumber": 284,
+          "rowPosition": 285,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -163044,7 +162850,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9470321,0\" in row \"286\" and field \"numero_siafi\" at position \"52\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9470321,0\" in row \"285\" and field \"numero_siafi\" at position \"52\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -163131,8 +162937,8 @@
             "",
             "1491000142/2025"
           ],
-          "rowNumber": 285,
-          "rowPosition": 286,
+          "rowNumber": 284,
+          "rowPosition": 285,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -163141,7 +162947,7 @@
             "#cell"
           ],
           "note": "type is \"date/default\"",
-          "message": "Type error in the cell \"10/06/2025\" in row \"286\" and field \"data_publicacao\" at position \"53\": type is \"date/default\"",
+          "message": "Type error in the cell \"10/06/2025\" in row \"285\" and field \"data_publicacao\" at position \"53\": type is \"date/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -163228,8 +163034,8 @@
             "",
             "1491000142/2025"
           ],
-          "rowNumber": 285,
-          "rowPosition": 286,
+          "rowNumber": 284,
+          "rowPosition": 285,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -163238,7 +163044,7 @@
             "#cell"
           ],
           "note": "type is \"date/default\"",
-          "message": "Type error in the cell \"09/06/2026\" in row \"286\" and field \"data_validade\" at position \"54\": type is \"date/default\"",
+          "message": "Type error in the cell \"09/06/2026\" in row \"285\" and field \"data_validade\" at position \"54\": type is \"date/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -163325,8 +163131,8 @@
             "",
             ""
           ],
-          "rowNumber": 286,
-          "rowPosition": 287,
+          "rowNumber": 285,
+          "rowPosition": 286,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -163335,7 +163141,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"287\" and field \"valor_executado\" at position \"40\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"286\" and field \"valor_executado\" at position \"40\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -163422,8 +163228,8 @@
             "",
             ""
           ],
-          "rowNumber": 286,
-          "rowPosition": 287,
+          "rowNumber": 285,
+          "rowPosition": 286,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -163432,7 +163238,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9462420,0\" in row \"287\" and field \"numero_siafi\" at position \"52\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9462420,0\" in row \"286\" and field \"numero_siafi\" at position \"52\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -163519,8 +163325,8 @@
             "",
             ""
           ],
-          "rowNumber": 286,
-          "rowPosition": 287,
+          "rowNumber": 285,
+          "rowPosition": 286,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -163529,7 +163335,7 @@
             "#cell"
           ],
           "note": "type is \"date/default\"",
-          "message": "Type error in the cell \"29/04/2025\" in row \"287\" and field \"data_publicacao\" at position \"53\": type is \"date/default\"",
+          "message": "Type error in the cell \"29/04/2025\" in row \"286\" and field \"data_publicacao\" at position \"53\": type is \"date/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -163616,8 +163422,8 @@
             "",
             ""
           ],
-          "rowNumber": 286,
-          "rowPosition": 287,
+          "rowNumber": 285,
+          "rowPosition": 286,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -163626,7 +163432,7 @@
             "#cell"
           ],
           "note": "type is \"date/default\"",
-          "message": "Type error in the cell \"29/04/2028\" in row \"287\" and field \"data_validade\" at position \"54\": type is \"date/default\"",
+          "message": "Type error in the cell \"29/04/2028\" in row \"286\" and field \"data_validade\" at position \"54\": type is \"date/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -163713,8 +163519,8 @@
             "",
             "1231000454/2025"
           ],
-          "rowNumber": 287,
-          "rowPosition": 288,
+          "rowNumber": 286,
+          "rowPosition": 287,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -163723,7 +163529,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"288\" and field \"valor_executado\" at position \"40\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"287\" and field \"valor_executado\" at position \"40\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -163810,8 +163616,8 @@
             "",
             "1231000454/2025"
           ],
-          "rowNumber": 287,
-          "rowPosition": 288,
+          "rowNumber": 286,
+          "rowPosition": 287,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -163820,7 +163626,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9475175,0\" in row \"288\" and field \"numero_siafi\" at position \"52\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9475175,0\" in row \"287\" and field \"numero_siafi\" at position \"52\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -163907,8 +163713,8 @@
             "",
             "1231000454/2025"
           ],
-          "rowNumber": 287,
-          "rowPosition": 288,
+          "rowNumber": 286,
+          "rowPosition": 287,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -163917,7 +163723,7 @@
             "#cell"
           ],
           "note": "type is \"date/default\"",
-          "message": "Type error in the cell \"19/08/2025\" in row \"288\" and field \"data_publicacao\" at position \"53\": type is \"date/default\"",
+          "message": "Type error in the cell \"19/08/2025\" in row \"287\" and field \"data_publicacao\" at position \"53\": type is \"date/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -164004,8 +163810,8 @@
             "",
             "1231000454/2025"
           ],
-          "rowNumber": 287,
-          "rowPosition": 288,
+          "rowNumber": 286,
+          "rowPosition": 287,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -164014,7 +163820,7 @@
             "#cell"
           ],
           "note": "type is \"date/default\"",
-          "message": "Type error in the cell \"18/08/2026\" in row \"288\" and field \"data_validade\" at position \"54\": type is \"date/default\"",
+          "message": "Type error in the cell \"18/08/2026\" in row \"287\" and field \"data_validade\" at position \"54\": type is \"date/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -164101,8 +163907,8 @@
             "",
             ""
           ],
-          "rowNumber": 288,
-          "rowPosition": 289,
+          "rowNumber": 287,
+          "rowPosition": 288,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -164111,7 +163917,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"289\" and field \"valor_executado\" at position \"40\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"288\" and field \"valor_executado\" at position \"40\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -164198,8 +164004,8 @@
             "",
             ""
           ],
-          "rowNumber": 288,
-          "rowPosition": 289,
+          "rowNumber": 287,
+          "rowPosition": 288,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -164208,7 +164014,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9464200,0\" in row \"289\" and field \"numero_siafi\" at position \"52\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9464200,0\" in row \"288\" and field \"numero_siafi\" at position \"52\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -164295,8 +164101,8 @@
             "",
             ""
           ],
-          "rowNumber": 288,
-          "rowPosition": 289,
+          "rowNumber": 287,
+          "rowPosition": 288,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -164305,7 +164111,7 @@
             "#cell"
           ],
           "note": "type is \"date/default\"",
-          "message": "Type error in the cell \"01/05/2025\" in row \"289\" and field \"data_publicacao\" at position \"53\": type is \"date/default\"",
+          "message": "Type error in the cell \"01/05/2025\" in row \"288\" and field \"data_publicacao\" at position \"53\": type is \"date/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -164392,8 +164198,8 @@
             "",
             ""
           ],
-          "rowNumber": 288,
-          "rowPosition": 289,
+          "rowNumber": 287,
+          "rowPosition": 288,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -164402,7 +164208,7 @@
             "#cell"
           ],
           "note": "type is \"date/default\"",
-          "message": "Type error in the cell \"01/05/2055\" in row \"289\" and field \"data_validade\" at position \"54\": type is \"date/default\"",
+          "message": "Type error in the cell \"01/05/2055\" in row \"288\" and field \"data_validade\" at position \"54\": type is \"date/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -164489,8 +164295,8 @@
             "",
             ""
           ],
-          "rowNumber": 289,
-          "rowPosition": 290,
+          "rowNumber": 288,
+          "rowPosition": 289,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -164499,7 +164305,7 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"0,0\" in row \"290\" and field \"valor_executado\" at position \"40\": type is \"integer/default\"",
+          "message": "Type error in the cell \"0,0\" in row \"289\" and field \"valor_executado\" at position \"40\": type is \"integer/default\"",
           "description": "The value does not match the schema type and format for this field."
         },
         {
@@ -164586,8 +164392,8 @@
             "",
             ""
           ],
-          "rowNumber": 289,
-          "rowPosition": 290,
+          "rowNumber": 288,
+          "rowPosition": 289,
           "code": "type-error",
           "name": "Type Error",
           "tags": [
@@ -164596,7 +164402,201 @@
             "#cell"
           ],
           "note": "type is \"integer/default\"",
-          "message": "Type error in the cell \"9465741,0\" in row \"290\" and field \"numero_siafi\" at position \"52\": type is \"integer/default\"",
+          "message": "Type error in the cell \"9465741,0\" in row \"289\" and field \"numero_siafi\" at position \"52\": type is \"integer/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "01/05/2025",
+          "fieldName": "data_publicacao",
+          "fieldNumber": 53,
+          "fieldPosition": 53,
+          "cells": [
+            "162886",
+            "S",
+            "357",
+            "2025",
+            "S",
+            "1491",
+            "SEGOV",
+            "SECRETARIA DE ESTADO DE GOVERNO",
+            "JOÃO JÚNIOR",
+            "7",
+            "TRANSFERÊNCIA ESPECIAL",
+            "30,0",
+            "6",
+            "APROVADO",
+            "SAO JOAO EVANGELISTA",
+            "3162807,0",
+            "",
+            "MUNICIPIO DE SAO JOAO EVANGELISTA",
+            "18307488000160,0",
+            "MUNICÍPIO",
+            "2048",
+            "TRANSFERÊNCIAS ESPECIAIS",
+            "4",
+            "INVESTIMENTOS",
+            "4",
+            "ADMINISTRAÇÃO",
+            "OUTRAS FINALIDADES",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "1491 04 122 119 2048 0001 4 4 40 41 08 1 10 8",
+            "6",
+            "400000,0",
+            "400000,0",
+            "400000,0",
+            "400000,0",
+            "0,0",
+            "400000,0",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "0016/2025",
+            "TRANSFERÊNCIA ESPECIAL: JOÃO JÚNIOR - INDICAÇÃO: 162886",
+            "",
+            "REGISTRADO NO SIAFI",
+            "9465741,0",
+            "01/05/2025",
+            "01/05/2055",
+            "PAGO TOTAL",
+            "737",
+            "1",
+            "PARLAMENTAR ESTADUAL",
+            "400000,0",
+            "400000,0",
+            "400000,0",
+            "0,0",
+            "0",
+            "",
+            "397,0",
+            "2",
+            "59137,0",
+            "8",
+            "",
+            "400000,0",
+            "400000,0",
+            "400000,0",
+            "1",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "rowNumber": 288,
+          "rowPosition": 289,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"date/default\"",
+          "message": "Type error in the cell \"01/05/2025\" in row \"289\" and field \"data_publicacao\" at position \"53\": type is \"date/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
+          "cell": "01/05/2055",
+          "fieldName": "data_validade",
+          "fieldNumber": 54,
+          "fieldPosition": 54,
+          "cells": [
+            "162886",
+            "S",
+            "357",
+            "2025",
+            "S",
+            "1491",
+            "SEGOV",
+            "SECRETARIA DE ESTADO DE GOVERNO",
+            "JOÃO JÚNIOR",
+            "7",
+            "TRANSFERÊNCIA ESPECIAL",
+            "30,0",
+            "6",
+            "APROVADO",
+            "SAO JOAO EVANGELISTA",
+            "3162807,0",
+            "",
+            "MUNICIPIO DE SAO JOAO EVANGELISTA",
+            "18307488000160,0",
+            "MUNICÍPIO",
+            "2048",
+            "TRANSFERÊNCIAS ESPECIAIS",
+            "4",
+            "INVESTIMENTOS",
+            "4",
+            "ADMINISTRAÇÃO",
+            "OUTRAS FINALIDADES",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "1491 04 122 119 2048 0001 4 4 40 41 08 1 10 8",
+            "6",
+            "400000,0",
+            "400000,0",
+            "400000,0",
+            "400000,0",
+            "0,0",
+            "400000,0",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "0016/2025",
+            "TRANSFERÊNCIA ESPECIAL: JOÃO JÚNIOR - INDICAÇÃO: 162886",
+            "",
+            "REGISTRADO NO SIAFI",
+            "9465741,0",
+            "01/05/2025",
+            "01/05/2055",
+            "PAGO TOTAL",
+            "737",
+            "1",
+            "PARLAMENTAR ESTADUAL",
+            "400000,0",
+            "400000,0",
+            "400000,0",
+            "0,0",
+            "0",
+            "",
+            "397,0",
+            "2",
+            "59137,0",
+            "8",
+            "",
+            "400000,0",
+            "400000,0",
+            "400000,0",
+            "1",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "rowNumber": 288,
+          "rowPosition": 289,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"date/default\"",
+          "message": "Type error in the cell \"01/05/2055\" in row \"289\" and field \"data_validade\" at position \"54\": type is \"date/default\"",
           "description": "The value does not match the schema type and format for this field."
         }
       ],
@@ -164849,7 +164849,7 @@
           "rows": 6232
         }
       },
-      "time": 0.321,
+      "time": 0.313,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164985,7 +164985,7 @@
           "rows": 7343
         }
       },
-      "time": 0.367,
+      "time": 0.369,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -165121,7 +165121,7 @@
           "rows": 9417
         }
       },
-      "time": 0.467,
+      "time": 0.469,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -165257,7 +165257,7 @@
           "rows": 0
         }
       },
-      "time": 0.232,
+      "time": 0.23,
       "scope": [
         "hash-count-error",
         "byte-count-error",
