@@ -1,6 +1,6 @@
 {
   "version": "4.16.6",
-  "time": 0.786,
+  "time": 1.756,
   "errors": [],
   "tasks": [
     {
@@ -215,7 +215,7 @@
           "rows": 0
         }
       },
-      "time": 0.056,
+      "time": 0.137,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -67576,7 +67576,7 @@
           "rows": 0
         }
       },
-      "time": 0.059,
+      "time": 0.141,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -125902,9 +125902,9 @@
           "fieldNumber": 40,
           "fieldPosition": 40,
           "cells": [
-            "203019",
+            "203164",
             "R",
-            "2090",
+            "2641",
             "2026",
             "S",
             "3041",
@@ -125913,14 +125913,14 @@
             "LELECO PIMENTEL",
             "5",
             "APLICAÇÃO DIRETA - DOAÇÃO DE BENS",
-            "168,0",
+            "202,0",
             "6",
             "APROVADO",
-            "NATALANDIA",
-            "3144375,0",
+            "VARZELANDIA",
+            "3170909,0",
             "",
-            "MUNICIPIO DE NATALANDIA",
-            "1593752000176,0",
+            "MUNICIPIO DE VARZELANDIA",
+            "18017467000100,0",
             "MUNICÍPIO",
             "4236",
             "FOMENTO PARA O DESENVOLVIMENTO DO SETOR AGROPECUÁRIO",
@@ -125936,13 +125936,13 @@
             "KIT SEMENETES DE CEREAIS",
             "SEMENTES MILHO E FEIJÃO",
             "3041 20 608 097 4236 0001 3 3 99 99 0 10 8",
-            "2",
+            "4",
             "14000,0",
+            "14000,0",
+            "13861,0",
             "0,0",
             "0,0",
             "0,0",
-            "0,0",
-            "0,0",
             "",
             "",
             "",
@@ -125956,11 +125956,11 @@
             "",
             "",
             "",
-            "APROVADO",
+            "EMPENHADO",
             "727",
             "1",
             "PARLAMENTAR ESTADUAL",
-            "0,0",
+            "13861,0",
             "0,0",
             "0,0",
             "0,0",
@@ -164713,7 +164713,7 @@
           "rows": 7
         }
       },
-      "time": 0.02,
+      "time": 0.044,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164849,7 +164849,7 @@
           "rows": 6232
         }
       },
-      "time": 0.14,
+      "time": 0.315,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164985,7 +164985,7 @@
           "rows": 7343
         }
       },
-      "time": 0.167,
+      "time": 0.363,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -165121,7 +165121,7 @@
           "rows": 9417
         }
       },
-      "time": 0.209,
+      "time": 0.46,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -165257,7 +165257,7 @@
           "rows": 0
         }
       },
-      "time": 0.049,
+      "time": 0.119,
       "scope": [
         "hash-count-error",
         "byte-count-error",
