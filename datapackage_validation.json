@@ -1,6 +1,6 @@
 {
   "version": "4.16.6",
-  "time": 1.544,
+  "time": 1.76,
   "errors": [],
   "tasks": [
     {
@@ -215,7 +215,7 @@
           "rows": 0
         }
       },
-      "time": 0.112,
+      "time": 0.13,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -67576,7 +67576,7 @@
           "rows": 0
         }
       },
-      "time": 0.115,
+      "time": 0.134,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164713,7 +164713,7 @@
           "rows": 7
         }
       },
-      "time": 0.039,
+      "time": 0.052,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164849,7 +164849,7 @@
           "rows": 6232
         }
       },
-      "time": 0.28,
+      "time": 0.316,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164985,7 +164985,7 @@
           "rows": 7343
         }
       },
-      "time": 0.327,
+      "time": 0.363,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -165121,7 +165121,7 @@
           "rows": 9417
         }
       },
-      "time": 0.409,
+      "time": 0.463,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -165257,7 +165257,7 @@
           "rows": 0
         }
       },
-      "time": 0.101,
+      "time": 0.118,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -189471,6 +189471,47 @@
           "description": "The value does not match the schema type and format for this field."
         },
         {
+          "cell": "100000,0",
+          "fieldName": "valor_pago_financeiro",
+          "fieldNumber": 19,
+          "fieldPosition": 19,
+          "cells": [
+            "751339",
+            "328",
+            "2026-08-13",
+            "0000000 000000/0000",
+            "1261",
+            "SEE",
+            "SECRETARIA DE ESTADO DE EDUCACAO",
+            "CE PROFA IRIS PINTO MORCEF",
+            "19.028.828/0001-86",
+            "42",
+            "AUXILIOS",
+            "1",
+            "AUXILIOS",
+            "10",
+            "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
+            "100000,0",
+            "100000,0",
+            "",
+            "100000,0",
+            "",
+            ""
+          ],
+          "rowNumber": 600,
+          "rowPosition": 601,
+          "code": "type-error",
+          "name": "Type Error",
+          "tags": [
+            "#table",
+            "#row",
+            "#cell"
+          ],
+          "note": "type is \"geopoint/default\"",
+          "message": "Type error in the cell \"100000,0\" in row \"601\" and field \"valor_pago_financeiro\" at position \"19\": type is \"geopoint/default\"",
+          "description": "The value does not match the schema type and format for this field."
+        },
+        {
           "cell": "200000,0",
           "fieldName": "valor_pago_financeiro",
           "fieldNumber": 19,
@@ -206237,47 +206278,6 @@
           ],
           "note": "type is \"geopoint/default\"",
           "message": "Type error in the cell \"50000,0\" in row \"1013\" and field \"valor_pago_financeiro\" at position \"19\": type is \"geopoint/default\"",
-          "description": "The value does not match the schema type and format for this field."
-        },
-        {
-          "cell": "50000,0",
-          "fieldName": "valor_pago_financeiro",
-          "fieldNumber": 19,
-          "fieldPosition": 19,
-          "cells": [
-            "751753",
-            "1139",
-            "2026-08-13",
-            "0000000 000000/0000",
-            "1261",
-            "SEE",
-            "SECRETARIA DE ESTADO DE EDUCACAO",
-            "CX. ESC JOSE MODESTO DE AVILA",
-            "19.290.360/0001-01",
-            "43",
-            "SUBVENCOES SOCIAIS",
-            "1",
-            "SUBVENCOES SOCIAIS",
-            "10",
-            "RECURSOS ORDINARIOS - RECURSOS NAO VINCULADOS DE IMPOSTOS",
-            "50000,0",
-            "50000,0",
-            "",
-            "50000,0",
-            "",
-            ""
-          ],
-          "rowNumber": 1014,
-          "rowPosition": 1015,
-          "code": "type-error",
-          "name": "Type Error",
-          "tags": [
-            "#table",
-            "#row",
-            "#cell"
-          ],
-          "note": "type is \"geopoint/default\"",
-          "message": "Type error in the cell \"50000,0\" in row \"1015\" and field \"valor_pago_financeiro\" at position \"19\": type is \"geopoint/default\"",
           "description": "The value does not match the schema type and format for this field."
         }
       ],
