@@ -1,6 +1,6 @@
 {
   "version": "4.16.6",
-  "time": 1.797,
+  "time": 1.913,
   "errors": [],
   "tasks": [
     {
@@ -215,7 +215,7 @@
           "rows": 0
         }
       },
-      "time": 0.137,
+      "time": 0.13,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -67576,7 +67576,7 @@
           "rows": 0
         }
       },
-      "time": 0.147,
+      "time": 0.14,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164707,13 +164707,13 @@
         "scheme": "file",
         "title": "Execução 2022",
         "stats": {
-          "hash": "e1a75c66cc9e2c25cc4ccdd0f5e43604",
-          "bytes": 2176,
+          "hash": "958187107fe47012408b44efc6de83c8",
+          "bytes": 1502277,
           "fields": 21,
-          "rows": 7
+          "rows": 6561
         }
       },
-      "time": 0.044,
+      "time": 0.23,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164843,13 +164843,13 @@
         "scheme": "file",
         "title": "Execução 2023",
         "stats": {
-          "hash": "4b540c82a0132f769d158fb03e1f2ff8",
-          "bytes": 1660690,
+          "hash": "a19686ae18ba25446016df7410a3aeea",
+          "bytes": 1665920,
           "fields": 21,
-          "rows": 6232
+          "rows": 6255
         }
       },
-      "time": 0.319,
+      "time": 0.308,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164979,13 +164979,13 @@
         "scheme": "file",
         "title": "Execução 2024",
         "stats": {
-          "hash": "84bd88f2afa507443a3ab6acba174885",
-          "bytes": 1960203,
+          "hash": "22e03f79a303a7c46961fdca2a789e0f",
+          "bytes": 1960586,
           "fields": 21,
-          "rows": 7343
+          "rows": 7345
         }
       },
-      "time": 0.371,
+      "time": 0.357,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -165115,13 +165115,13 @@
         "scheme": "file",
         "title": "Execução 2025",
         "stats": {
-          "hash": "ae2e5d7296e6d67650e90aacbb7221fc",
-          "bytes": 2527453,
+          "hash": "8065f6fe82cd56c032ce7a3e27029c9a",
+          "bytes": 2527655,
           "fields": 21,
-          "rows": 9417
+          "rows": 9418
         }
       },
-      "time": 0.466,
+      "time": 0.451,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -165257,7 +165257,7 @@
           "rows": 0
         }
       },
-      "time": 0.12,
+      "time": 0.115,
       "scope": [
         "hash-count-error",
         "byte-count-error",
