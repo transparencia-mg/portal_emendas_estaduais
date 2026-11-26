@@ -1,6 +1,6 @@
 {
   "version": "4.16.6",
-  "time": 0.91,
+  "time": 1.319,
   "errors": [],
   "tasks": [
     {
@@ -215,7 +215,7 @@
           "rows": 0
         }
       },
-      "time": 0.061,
+      "time": 0.089,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -67576,7 +67576,7 @@
           "rows": 0
         }
       },
-      "time": 0.067,
+      "time": 0.096,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164713,7 +164713,7 @@
           "rows": 6561
         }
       },
-      "time": 0.121,
+      "time": 0.176,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164843,13 +164843,13 @@
         "scheme": "file",
         "title": "Execução 2023",
         "stats": {
-          "hash": "a19686ae18ba25446016df7410a3aeea",
-          "bytes": 1665920,
+          "hash": "dec74cc7ca2713cec29ed2d199bb490b",
+          "bytes": 1665915,
           "fields": 21,
           "rows": 6255
         }
       },
-      "time": 0.146,
+      "time": 0.207,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -164979,13 +164979,13 @@
         "scheme": "file",
         "title": "Execução 2024",
         "stats": {
-          "hash": "22e03f79a303a7c46961fdca2a789e0f",
-          "bytes": 1960586,
+          "hash": "c32ded5f6f7feff80de396de89b83096",
+          "bytes": 1960581,
           "fields": 21,
           "rows": 7345
         }
       },
-      "time": 0.163,
+      "time": 0.241,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -165121,7 +165121,7 @@
           "rows": 9418
         }
       },
-      "time": 0.206,
+      "time": 0.306,
       "scope": [
         "hash-count-error",
         "byte-count-error",
@@ -165257,7 +165257,7 @@
           "rows": 0
         }
       },
-      "time": 0.052,
+      "time": 0.071,
       "scope": [
         "hash-count-error",
         "byte-count-error",
